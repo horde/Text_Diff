@@ -17,7 +17,7 @@
   <email>jan@horde.org</email>
   <active>yes</active>
  </lead>
- <date>2017-03-20</date>
+ <date>2017-10-17</date>
  <version>
   <release>2.2.1</release>
   <api>1.2.0</api>
@@ -41,7 +41,6 @@
         <file name="2.txt" role="doc" />
         <file name="diff.php" role="doc" />
        </dir> <!-- /doc/Horde/Text/Diff/examples -->
-       <file name="COPYING" role="doc" />
        <file name="UPGRADING" role="doc" />
       </dir> <!-- /doc/Horde/Text/Diff -->
      </dir> <!-- /doc/Horde/Text -->
@@ -115,6 +114,7 @@
      </dir> <!-- /test/Horde/Text -->
     </dir> <!-- /test/Horde -->
    </dir> <!-- /test -->
+   <file name="LICENSE" role="doc" />
   </dir> <!-- / -->
  </contents>
  <dependencies>
@@ -166,38 +166,35 @@
  </dependencies>
  <phprelease>
   <filelist>
-   <install as="COPYING" name="doc/Horde/Text/Diff/COPYING" />
-   <install as="UPGRADING" name="doc/Horde/Text/Diff/UPGRADING" />
    <install as="examples/1.txt" name="doc/Horde/Text/Diff/examples/1.txt" />
    <install as="examples/2.txt" name="doc/Horde/Text/Diff/examples/2.txt" />
    <install as="examples/diff.php" name="doc/Horde/Text/Diff/examples/diff.php" />
+   <install as="UPGRADING" name="doc/Horde/Text/Diff/UPGRADING" />
    <install as="Horde/Text/Diff.php" name="lib/Horde/Text/Diff.php" />
-   <install as="Horde/Text/Diff/Exception.php" name="lib/Horde/Text/Diff/Exception.php" />
-   <install as="Horde/Text/Diff/Mapped.php" name="lib/Horde/Text/Diff/Mapped.php" />
-   <install as="Horde/Text/Diff/Renderer.php" name="lib/Horde/Text/Diff/Renderer.php" />
-   <install as="Horde/Text/Diff/ThreeWay.php" name="lib/Horde/Text/Diff/ThreeWay.php" />
    <install as="Horde/Text/Diff/Engine/Native.php" name="lib/Horde/Text/Diff/Engine/Native.php" />
    <install as="Horde/Text/Diff/Engine/Shell.php" name="lib/Horde/Text/Diff/Engine/Shell.php" />
    <install as="Horde/Text/Diff/Engine/String.php" name="lib/Horde/Text/Diff/Engine/String.php" />
    <install as="Horde/Text/Diff/Engine/Xdiff.php" name="lib/Horde/Text/Diff/Engine/Xdiff.php" />
+   <install as="Horde/Text/Diff/Exception.php" name="lib/Horde/Text/Diff/Exception.php" />
+   <install as="Horde/Text/Diff/Mapped.php" name="lib/Horde/Text/Diff/Mapped.php" />
    <install as="Horde/Text/Diff/Op/Add.php" name="lib/Horde/Text/Diff/Op/Add.php" />
    <install as="Horde/Text/Diff/Op/Base.php" name="lib/Horde/Text/Diff/Op/Base.php" />
    <install as="Horde/Text/Diff/Op/Change.php" name="lib/Horde/Text/Diff/Op/Change.php" />
    <install as="Horde/Text/Diff/Op/Copy.php" name="lib/Horde/Text/Diff/Op/Copy.php" />
    <install as="Horde/Text/Diff/Op/Delete.php" name="lib/Horde/Text/Diff/Op/Delete.php" />
+   <install as="Horde/Text/Diff/Renderer.php" name="lib/Horde/Text/Diff/Renderer.php" />
    <install as="Horde/Text/Diff/Renderer/Context.php" name="lib/Horde/Text/Diff/Renderer/Context.php" />
    <install as="Horde/Text/Diff/Renderer/Inline.php" name="lib/Horde/Text/Diff/Renderer/Inline.php" />
    <install as="Horde/Text/Diff/Renderer/Unified.php" name="lib/Horde/Text/Diff/Renderer/Unified.php" />
    <install as="Horde/Text/Diff/Renderer/Unified/Colored.php" name="lib/Horde/Text/Diff/Renderer/Unified/Colored.php" />
+   <install as="Horde/Text/Diff/ThreeWay.php" name="lib/Horde/Text/Diff/ThreeWay.php" />
    <install as="Horde/Text/Diff/ThreeWay/BlockBuilder.php" name="lib/Horde/Text/Diff/ThreeWay/BlockBuilder.php" />
    <install as="Horde/Text/Diff/ThreeWay/Op/Base.php" name="lib/Horde/Text/Diff/ThreeWay/Op/Base.php" />
    <install as="Horde/Text/Diff/ThreeWay/Op/Copy.php" name="lib/Horde/Text/Diff/ThreeWay/Op/Copy.php" />
+   <install as="LICENSE" name="LICENSE" />
    <install as="Horde/Text/Diff/AllTests.php" name="test/Horde/Text/Diff/AllTests.php" />
    <install as="Horde/Text/Diff/bootstrap.php" name="test/Horde/Text/Diff/bootstrap.php" />
    <install as="Horde/Text/Diff/EngineTest.php" name="test/Horde/Text/Diff/EngineTest.php" />
-   <install as="Horde/Text/Diff/phpunit.xml" name="test/Horde/Text/Diff/phpunit.xml" />
-   <install as="Horde/Text/Diff/RendererTest.php" name="test/Horde/Text/Diff/RendererTest.php" />
-   <install as="Horde/Text/Diff/ThreeWayTest.php" name="test/Horde/Text/Diff/ThreeWayTest.php" />
    <install as="Horde/Text/Diff/fixtures/1.txt" name="test/Horde/Text/Diff/fixtures/1.txt" />
    <install as="Horde/Text/Diff/fixtures/2.txt" name="test/Horde/Text/Diff/fixtures/2.txt" />
    <install as="Horde/Text/Diff/fixtures/3.txt" name="test/Horde/Text/Diff/fixtures/3.txt" />
@@ -209,6 +206,9 @@
    <install as="Horde/Text/Diff/fixtures/context.patch" name="test/Horde/Text/Diff/fixtures/context.patch" />
    <install as="Horde/Text/Diff/fixtures/unified.patch" name="test/Horde/Text/Diff/fixtures/unified.patch" />
    <install as="Horde/Text/Diff/fixtures/unified2.patch" name="test/Horde/Text/Diff/fixtures/unified2.patch" />
+   <install as="Horde/Text/Diff/phpunit.xml" name="test/Horde/Text/Diff/phpunit.xml" />
+   <install as="Horde/Text/Diff/RendererTest.php" name="test/Horde/Text/Diff/RendererTest.php" />
+   <install as="Horde/Text/Diff/ThreeWayTest.php" name="test/Horde/Text/Diff/ThreeWayTest.php" />
   </filelist>
  </phprelease>
  <changelog>
@@ -454,7 +454,7 @@
    <stability>
     <release>stable</release>
     <api>stable</api></stability>
-   <date>2017-03-20</date>
+   <date>2017-10-17</date>
    <license uri="http://www.horde.org/licenses/lgpl21">LGPL-2.1</license>
    <notes>
 * 
