@@ -41,7 +41,7 @@
         <file name="2.txt" role="doc" />
         <file name="diff.php" role="doc" />
        </dir> <!-- /doc/Horde/Text/Diff/examples -->
-       <file name="UPGRADING" role="doc" />
+       <file name="UPGRADING.rst" role="doc" />
       </dir> <!-- /doc/Horde/Text/Diff -->
      </dir> <!-- /doc/Horde/Text -->
     </dir> <!-- /doc/Horde -->
@@ -169,7 +169,7 @@
    <install as="examples/1.txt" name="doc/Horde/Text/Diff/examples/1.txt" />
    <install as="examples/2.txt" name="doc/Horde/Text/Diff/examples/2.txt" />
    <install as="examples/diff.php" name="doc/Horde/Text/Diff/examples/diff.php" />
-   <install as="UPGRADING" name="doc/Horde/Text/Diff/UPGRADING" />
+   <install as="UPGRADING.rst" name="doc/Horde/Text/Diff/UPGRADING.rst" />
    <install as="Horde/Text/Diff.php" name="lib/Horde/Text/Diff.php" />
    <install as="Horde/Text/Diff/Engine/Native.php" name="lib/Horde/Text/Diff/Engine/Native.php" />
    <install as="Horde/Text/Diff/Engine/Shell.php" name="lib/Horde/Text/Diff/Engine/Shell.php" />
