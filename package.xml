@@ -17,7 +17,7 @@
   <email>jan@horde.org</email>
   <active>yes</active>
  </lead>
- <date>2017-10-17</date>
+ <date>2017-10-20</date>
  <version>
   <release>2.2.1</release>
   <api>1.2.0</api>
@@ -107,7 +107,6 @@
        <file name="AllTests.php" role="test" />
        <file name="bootstrap.php" role="test" />
        <file name="EngineTest.php" role="test" />
-       <file name="phpunit.xml" role="test" />
        <file name="RendererTest.php" role="test" />
        <file name="ThreeWayTest.php" role="test" />
       </dir> <!-- /test/Horde/Text/Diff -->
@@ -206,7 +205,6 @@
    <install as="Horde/Text/Diff/fixtures/context.patch" name="test/Horde/Text/Diff/fixtures/context.patch" />
    <install as="Horde/Text/Diff/fixtures/unified.patch" name="test/Horde/Text/Diff/fixtures/unified.patch" />
    <install as="Horde/Text/Diff/fixtures/unified2.patch" name="test/Horde/Text/Diff/fixtures/unified2.patch" />
-   <install as="Horde/Text/Diff/phpunit.xml" name="test/Horde/Text/Diff/phpunit.xml" />
    <install as="Horde/Text/Diff/RendererTest.php" name="test/Horde/Text/Diff/RendererTest.php" />
    <install as="Horde/Text/Diff/ThreeWayTest.php" name="test/Horde/Text/Diff/ThreeWayTest.php" />
   </filelist>
@@ -454,7 +452,7 @@
    <stability>
     <release>stable</release>
     <api>stable</api></stability>
-   <date>2017-10-17</date>
+   <date>2017-10-20</date>
    <license uri="http://www.horde.org/licenses/lgpl21">LGPL-2.1</license>
    <notes>
 * 
