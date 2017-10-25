@@ -1,5 +1,5 @@
 {
-    "name": "horde/horde-text-diff",
+    "name": "horde/text-diff",
     "description": "Engine for performing and rendering text diffs",
     "type": "library",
     "homepage": "https://pear.horde.org",
@@ -17,7 +17,7 @@
         }
     ],
     "version": "2.2.1",
-    "time": "2017-03-20",
+    "time": "2017-10-20",
     "repositories": [
         {
             "type": "pear",
@@ -26,12 +26,12 @@
     ],
     "require": {
         "php": "^5.3 || ^7",
-        "pear-pear.horde.org/Horde_Exception": "^2@stable",
-        "pear-pear.horde.org/Horde_Util": "^2@stable"
+        "pear-pear.horde.org/Horde_Exception": "^2",
+        "pear-pear.horde.org/Horde_Util": "^2"
     },
     "suggest": {
-        "pear-pear.horde.org/Horde_Cli": "^2.1@stable",
-        "pear-pear.horde.org/Horde_Test": "^2.1@stable",
+        "pear-pear.horde.org/Horde_Cli": "^2.1",
+        "pear-pear.horde.org/Horde_Test": "^2.1",
         "pear-pecl.php.net/xdiff": "*"
     },
     "replace": {
