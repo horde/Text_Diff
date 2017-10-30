@@ -1,0 +1,128 @@
+----------
+v2.2.1-git
+----------
+
+
+------
+v2.2.0
+------
+
+[jan] Add Horde_Text_Diff_Renderer_Unified_Colored as a renderer with color
+      highlighting.
+
+
+------
+v2.1.2
+------
+
+[jan] Mark PHP 7 as supported.
+
+
+------
+v2.1.1
+------
+
+[jan] Improve PSR-2 compatibility.
+
+
+------
+v2.1.0
+------
+
+[jan] Fixed inline renderer breaking line breaks. (Petr Kalivoda
+      <petr.kalivoda@gmail.com>).
+[jan] Assume Unicode input when splitting on character level (Petr Kalivoda
+      <petr.kalivoda@gmail.com>).
+[jan] Fix signature of Horde_Text_Diff_Mapped constructor (BC break!) (Bug
+      #13253).
+
+
+------
+v2.0.2
+------
+
+[jan] Improve performance.
+
+
+------
+v2.0.1
+------
+
+[mms] Use new Horde_Test layout.
+
+
+------
+v2.0.0
+------
+
+First stable release for Horde 5.
+
+
+-----------
+v2.0.0beta1
+-----------
+
+First beta release for Horde 5.
+
+
+------------
+v2.0.0alpha1
+------------
+
+First alpha release for Horde 5.
+
+
+------
+v1.0.2
+------
+
+[jan] Fix class names in Horde_Text_Diff_ThreeWay merger (Bug #10548).
+
+
+------
+v1.0.1
+------
+
+[jan] Fix creating temporary files with open_basedir restrictions.
+
+
+------
+v1.0.0
+------
+
+First stable release for Horde 4.
+
+
+---------
+v1.0.0RC2
+---------
+
+Second release candidate for Horde 4.
+
+
+---------
+v1.0.0RC1
+---------
+
+First release candidate for Horde 4.
+
+
+-----------
+v1.0.0beta1
+-----------
+
+Convert to PHP 5 and Horde 4 package layout.
+
+
+------------
+v1.0.0alpha2
+------------
+
+Fix package layout.
+
+
+------------
+v1.0.0alpha1
+------------
+
+First alpha release for Horde 4.

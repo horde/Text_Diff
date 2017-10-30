@@ -17,7 +17,7 @@
   <email>jan@horde.org</email>
   <active>yes</active>
  </lead>
- <date>2017-03-20</date>
+ <date>2017-10-30</date>
  <version>
   <release>2.2.1</release>
   <api>1.2.0</api>
@@ -41,6 +41,7 @@
         <file name="2.txt" role="doc" />
         <file name="diff.php" role="doc" />
        </dir> <!-- /doc/Horde/Text/Diff/examples -->
+       <file name="CHANGES" role="doc" />
        <file name="COPYING" role="doc" />
        <file name="UPGRADING" role="doc" />
       </dir> <!-- /doc/Horde/Text/Diff -->
@@ -166,6 +167,7 @@
  </dependencies>
  <phprelease>
   <filelist>
+   <install as="CHANGES" name="doc/Horde/Text/Diff/CHANGES" />
    <install as="COPYING" name="doc/Horde/Text/Diff/COPYING" />
    <install as="UPGRADING" name="doc/Horde/Text/Diff/UPGRADING" />
    <install as="examples/1.txt" name="doc/Horde/Text/Diff/examples/1.txt" />
@@ -454,7 +456,7 @@
    <stability>
     <release>stable</release>
     <api>stable</api></stability>
-   <date>2017-03-20</date>
+   <date>2017-10-30</date>
    <license uri="http://www.horde.org/licenses/lgpl21">LGPL-2.1</license>
    <notes>
 * 
