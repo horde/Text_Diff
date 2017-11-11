@@ -38,4 +38,6 @@ dependencies:
     pear:
       pear.horde.org/Horde_Cli: ^2.1
       pear.horde.org/Horde_Test: ^2.1
-      pecl.php.net/xdiff: '*'
+      pecl.php.net/xdiff:
+        version: '*'
+        providesextension: xdiff
