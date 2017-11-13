@@ -8,16 +8,16 @@ type: library
 homepage: https://www.horde.org/libraries/Horde_Text_Diff
 authors:
   -
-    name: Chuck Hagenbuch
-    user: chuck
-    email: chuck@horde.org
-    active: true
-    role: lead
-  -
     name: Jan Schneider
     user: jan
     email: jan@horde.org
     active: true
+    role: lead
+  -
+    name: Chuck Hagenbuch
+    user: chuck
+    email: chuck@horde.org
+    active: false
     role: lead
 version:
   release: 2.2.1
