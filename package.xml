@@ -3,7 +3,7 @@
  <name>Horde_Text_Diff</name>
  <channel>pear.horde.org</channel>
  <extends>Text_Diff</extends>
- <summary>Engine for performing and rendering text diffs</summary>
+ <summary>Text diff generation and rendering library</summary>
  <description>A text-based diff engine and renderers for multiple diff output formats.</description>
  <lead>
   <name>Chuck Hagenbuch</name>
@@ -17,7 +17,7 @@
   <email>jan@horde.org</email>
   <active>yes</active>
  </lead>
- <date>2017-10-27</date>
+ <date>2017-11-11</date>
  <version>
   <release>2.2.1</release>
   <api>1.2.0</api>
@@ -454,7 +454,7 @@
    <stability>
     <release>stable</release>
     <api>stable</api></stability>
-   <date>2017-10-27</date>
+   <date>2017-11-11</date>
    <license uri="http://www.horde.org/licenses/lgpl21">LGPL-2.1</license>
    <notes>
 * 
