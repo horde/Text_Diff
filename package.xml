@@ -109,7 +109,6 @@
        <file name="AllTests.php" role="test" />
        <file name="bootstrap.php" role="test" />
        <file name="EngineTest.php" role="test" />
-       <file name="phpunit.xml" role="test" />
        <file name="RendererTest.php" role="test" />
        <file name="ThreeWayTest.php" role="test" />
       </dir> <!-- /test/Horde/Text/Diff -->
@@ -197,7 +196,6 @@
    <install as="Horde/Text/Diff/AllTests.php" name="test/Horde/Text/Diff/AllTests.php" />
    <install as="Horde/Text/Diff/bootstrap.php" name="test/Horde/Text/Diff/bootstrap.php" />
    <install as="Horde/Text/Diff/EngineTest.php" name="test/Horde/Text/Diff/EngineTest.php" />
-   <install as="Horde/Text/Diff/phpunit.xml" name="test/Horde/Text/Diff/phpunit.xml" />
    <install as="Horde/Text/Diff/RendererTest.php" name="test/Horde/Text/Diff/RendererTest.php" />
    <install as="Horde/Text/Diff/ThreeWayTest.php" name="test/Horde/Text/Diff/ThreeWayTest.php" />
    <install as="Horde/Text/Diff/fixtures/1.txt" name="test/Horde/Text/Diff/fixtures/1.txt" />
