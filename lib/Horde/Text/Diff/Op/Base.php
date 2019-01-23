@@ -1,4 +1,7 @@
 <?php
+
+namespace Horde\Text\Diff\Op;
+
 /**
  * The original PHP version of this code was written by Geoffrey T. Dairiki
  * <dairiki@dairiki.org>, and is used/adapted with his permission.
@@ -12,7 +15,7 @@
  * @package Text_Diff
  * @author  Geoffrey T. Dairiki <dairiki@dairiki.org>
  */
-abstract class Horde_Text_Diff_Op_Base
+abstract class Base
 {
     public $orig;
     public $final;

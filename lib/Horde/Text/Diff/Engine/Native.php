@@ -1,4 +1,7 @@
 <?php
+
+namespace Horde\Text\Diff\Engine;
+
 /**
  * Class used internally by Horde_Text_Diff to actually compute the diffs.
  *
@@ -26,7 +29,7 @@
  * @author  Geoffrey T. Dairiki <dairiki@dairiki.org>
  * @package Text_Diff
  */
-class Horde_Text_Diff_Engine_Native
+class Native
 {
     public function diff($from_lines, $to_lines)
     {

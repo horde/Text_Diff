@@ -1,4 +1,7 @@
 <?php
+
+namespace Horde\Text\Diff\Engine;
+
 /**
  * Class used internally by Diff to actually compute the diffs.
  *
@@ -13,7 +16,7 @@
  * @author  Milian Wolff <mail@milianw.de>
  * @package Text_Diff
  */
-class Horde_Text_Diff_Engine_Shell
+class Shell
 {
     /**
      * Path to the diff executable

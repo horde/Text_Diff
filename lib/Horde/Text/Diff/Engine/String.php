@@ -1,4 +1,7 @@
 <?php
+
+namespace Horde\Text\Diff\Engine;
+
 /**
  * Parses unified or context diffs output from eg. the diff utility.
  *
@@ -19,7 +22,7 @@
  * @author  Örjan Persson <o@42mm.org>
  * @package Text_Diff
  */
-class Horde_Text_Diff_Engine_String
+class String
 {
     /**
      * Parses a unified or context diff.

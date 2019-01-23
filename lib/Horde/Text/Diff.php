@@ -1,4 +1,7 @@
 <?php
+
+namespace Horde\Text;
+
 /**
  * General API for generating and formatting diffs - the differences between
  * two sequences of strings.
@@ -15,7 +18,7 @@
  * @package Text_Diff
  * @author  Geoffrey T. Dairiki <dairiki@dairiki.org>
  */
-class Horde_Text_Diff
+class Diff
 {
     /**
      * Array of changes.

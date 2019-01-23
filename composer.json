@@ -39,8 +39,8 @@
         "pear-horde/Horde_Text_Diff": "2.*"
     },
     "autoload": {
-        "psr-0": {
-            "Horde_Text_Diff": "lib/"
+        "psr-4": {
+            "Horde": "lib/Horde/"
         }
     }
 }

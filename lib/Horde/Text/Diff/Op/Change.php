@@ -1,4 +1,7 @@
 <?php
+
+namespace Horde\Text\Diff\Op;
+
 /**
  * The original PHP version of this code was written by Geoffrey T. Dairiki
  * <dairiki@dairiki.org>, and is used/adapted with his permission.
@@ -12,7 +15,7 @@
  * @package Text_Diff
  * @author  Geoffrey T. Dairiki <dairiki@dairiki.org>
  */
-class Horde_Text_Diff_Op_Change extends Horde_Text_Diff_Op_Base
+class Change extends Base
 {
     public function __construct($orig, $final)
     {
@@ -22,6 +25,6 @@ class Horde_Text_Diff_Op_Change extends Horde_Text_Diff_Op_Base
 
     public function reverse()
     {
-        return new Horde_Text_Diff_Op_Change($this->final, $this->orig);
+        return new Change($this->final, $this->orig);
     }
 }

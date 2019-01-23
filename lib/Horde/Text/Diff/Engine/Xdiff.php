@@ -1,4 +1,9 @@
 <?php
+
+namespace Horde\Text\Diff\Engine;
+
+use Horde\Text\Diff\Exception;
+
 /**
  * Class used internally by Diff to actually compute the diffs.
  *
@@ -13,14 +18,14 @@
  * @author  Jon Parise <jon@horde.org>
  * @package Text_Diff
  */
-class Horde_Text_Diff_Engine_Xdiff
+class Xdiff
 {
     /**
      */
     public function diff($from_lines, $to_lines)
     {
         if (!extension_loaded('xdiff')) {
-            throw new Horde_Text_Diff_Exception('The xdiff extension is required for this diff engine');
+            throw new Exception('The xdiff extension is required for this diff engine');
         }
 
         array_walk($from_lines, array('Horde_Text_Diff', 'trimNewlines'));
