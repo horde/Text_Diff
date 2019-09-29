@@ -8,7 +8,9 @@
   license:
     identifier: LGPL-2.1
     uri: http://www.horde.org/licenses/lgpl21
-  notes:
+  notes: |+
+    [mjr] Fix incorrect class name (PR #2, FGIKCM).
+    
 2.2.0:
   api: 1.2.0
   state:
