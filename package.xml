@@ -4,7 +4,7 @@
  <channel>pear.horde.org</channel>
  <extends>Text_Diff</extends>
  <summary>Text diff generation and rendering library</summary>
- <description>A text-based diff engine and renderers for multiple diff output formats.</description>
+ <description>A library that provides a text-based diff engine and renderers for multiple diff output formats.</description>
  <lead>
   <name>Jan Schneider</name>
   <user>jan</user>
@@ -17,7 +17,7 @@
   <email>chuck@horde.org</email>
   <active>no</active>
  </lead>
- <date>2017-11-14</date>
+ <date>2019-09-29</date>
  <version>
   <release>2.2.1</release>
   <api>1.2.0</api>
@@ -478,7 +478,7 @@
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2017-10-20</date>
+   <date>2019-09-29</date>
    <license uri="http://www.horde.org/licenses/lgpl21">LGPL-2.1</license>
    <notes>
 * [mjr] Fix incorrect class name (PR #2, FGIKCM).
