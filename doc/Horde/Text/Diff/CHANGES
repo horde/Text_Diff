@@ -1,6 +1,9 @@
-----------
-v2.2.1-git
-----------
+------------
+v3.0.0alpha1
+------------
+
+[mjr] Fix incorrect class name (PR #2, FGIKCM).
+
 
 
 ------
