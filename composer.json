@@ -38,9 +38,6 @@
     "autoload": {
         "psr-0": {
             "Horde_Text_Diff": "lib/"
-        },
-        "psr-4": {
-            "Horde\\Text\\Diff\\": "src/"
         }
     }
 }
