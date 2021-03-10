@@ -6,11 +6,16 @@
  * @package    Text_Diff
  * @subpackage UnitTests
  */
-class Horde_Text_Diff_ThreeWayTest extends Horde_Test_Case
+namespace Horde\Text;
+use \Diff;
+use Horde_Test_Case as TestCase;
+use \Horde_Text_Diff_ThreeWay;
+
+class ThreeWayTest extends TestCase
 {
     protected $_lines = array();
 
-    public function setUp()
+    public function setUp(): void
     {
         for ($i = 1; $i <= 4; $i++) {
             $this->_lines[$i] = file(__DIR__ . '/fixtures/' . $i . '.txt');

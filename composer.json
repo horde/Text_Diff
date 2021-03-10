@@ -4,7 +4,7 @@
     "description": "Text diff generation and rendering library",
     "type": "library",
     "homepage": "https://www.horde.org/libraries/Horde_Text_Diff",
-    "license": "LGPL-2.1",
+    "license": "LGPL-2.1-only",
     "authors": [
         {
             "name": "Jan Schneider",
@@ -25,7 +25,7 @@
         }
     ],
     "require": {
-        "php": "^7",
+        "php": "^7.4 || ^8",
         "horde/exception": "^3 || dev-FRAMEWORK_6_0",
         "horde/util": "^3 || dev-FRAMEWORK_6_0"
     },

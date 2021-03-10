@@ -6,11 +6,16 @@
  * @package    Text_Diff
  * @subpackage UnitTests
  */
-class Horde_Text_Diff_EngineTest extends PHPUnit_Framework_TestCase
+namespace Horde\Text;
+use \Diff;
+use PHPUnit\Framework\TestCase;
+use Horde_Text_Diff;
+
+class EngineTest extends TestCase
 {
     protected $_lines = array();
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->_lines = array(
             1 => file(__DIR__ . '/fixtures/1.txt'),
@@ -54,11 +59,8 @@ class Horde_Text_Diff_EngineTest extends PHPUnit_Framework_TestCase
         $this->_testDiff($diff);
 
         $patch = file_get_contents(__DIR__ . '/fixtures/unified2.patch');
-        try {
-            $diff = new Horde_Text_Diff('String', array($patch));
-            $this->fail('Horde_Text_Diff_Exception expected');
-        } catch (Horde_Text_Diff_Exception $e) {
-        }
+        $this->expectException('Horde_Text_Diff_Exception');
+        $diff = new Horde_Text_Diff('String', array($patch));
         $diff = new Horde_Text_Diff('String', array($patch, 'unified'));
         $edits = $diff->getDiff();
         $this->assertEquals(1, count($edits));
@@ -73,13 +75,8 @@ class Horde_Text_Diff_EngineTest extends PHPUnit_Framework_TestCase
 
     public function testXdiffEngine()
     {
-        try {
-            $diff = new Horde_Text_Diff('Xdiff', array($this->_lines[1], $this->_lines[2]));
-            $this->_testDiff($diff);
-        } catch (Horde_Text_Diff_Exception $e) {
-            if (extension_loaded('xdiff')) {
-                throw $e;
-            }
-        }
+        $this->expectException('Horde_Text_Diff_Exception');
+        $diff = new Horde_Text_Diff('Xdiff', array($this->_lines[1], $this->_lines[2]));
+        $this->_testDiff($diff);
     }
 }
