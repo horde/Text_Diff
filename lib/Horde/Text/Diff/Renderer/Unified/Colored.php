@@ -30,12 +30,12 @@ extends Horde_Text_Diff_Renderer_Unified
      *
      * @var Horde_Cli
      */
-    protected $_cli;
+    protected mixed $_cli;
 
     /**
      * Constructor.
      */
-    public function __construct($params = array())
+    public function __construct($params = [])
     {
         if (!isset($params['cli'])) {
             throw new BadMethodCallException('CLI handler is missing');
@@ -44,21 +44,21 @@ extends Horde_Text_Diff_Renderer_Unified
         $this->_cli = $params['cli'];
     }
 
-    protected function _blockHeader($xbeg, $xlen, $ybeg, $ylen)
+    protected function _blockHeader($xbeg, $xlen, $ybeg, $ylen): string
     {
         return $this->_cli->color(
             'lightmagenta', parent::_blockHeader($xbeg, $xlen, $ybeg, $ylen)
         );
     }
 
-    protected function _added($lines)
+    protected function _added($lines): string
     {
         return $this->_cli->color(
             'lightgreen', parent::_added($lines)
         );
     }
 
-    protected function _deleted($lines)
+    protected function _deleted($lines): string
     {
         return $this->_cli->color(
             'lightred', parent::_deleted($lines)

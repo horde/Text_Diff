@@ -17,14 +17,14 @@ class Horde_Text_Diff_Renderer_Unified extends Horde_Text_Diff_Renderer
     /**
      * Number of leading context "lines" to preserve.
      */
-    protected $_leading_context_lines = 4;
+    protected int $_leading_context_lines = 4;
 
     /**
      * Number of trailing context "lines" to preserve.
      */
-    protected $_trailing_context_lines = 4;
+    protected int $_trailing_context_lines = 4;
 
-    protected function _blockHeader($xbeg, $xlen, $ybeg, $ylen)
+    protected function _blockHeader($xbeg, $xlen, $ybeg, $ylen): string
     {
         if ($xlen != 1) {
             $xbeg .= ',' . $xlen;
@@ -35,22 +35,22 @@ class Horde_Text_Diff_Renderer_Unified extends Horde_Text_Diff_Renderer
         return "@@ -$xbeg +$ybeg @@";
     }
 
-    protected function _context($lines)
+    protected function _context($lines): string
     {
-        return $this->_lines($lines, ' ');
+        return $this->_lines($lines);
     }
 
-    protected function _added($lines)
+    protected function _added($lines): string
     {
         return $this->_lines($lines, '+');
     }
 
-    protected function _deleted($lines)
+    protected function _deleted($lines): string
     {
         return $this->_lines($lines, '-');
     }
 
-    protected function _changed($orig, $final)
+    protected function _changed($orig, $final): string
     {
         return $this->_deleted($orig) . $this->_added($final);
     }

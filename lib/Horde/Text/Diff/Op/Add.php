@@ -20,7 +20,7 @@ class Horde_Text_Diff_Op_Add extends Horde_Text_Diff_Op_Base
         $this->orig = false;
     }
 
-    public function reverse()
+    public function reverse(): Horde_Text_Diff_Op_Delete
     {
         return new Horde_Text_Diff_Op_Delete($this->final);
     }

@@ -15,33 +15,33 @@ class Horde_Text_Diff_ThreeWay_BlockBuilder
         $this->_init();
     }
 
-    public function input($lines)
+    public function input($lines): void
     {
         if ($lines) {
             $this->_append($this->orig, $lines);
         }
     }
 
-    public function out1($lines)
+    public function out1($lines): void
     {
         if ($lines) {
             $this->_append($this->final1, $lines);
         }
     }
 
-    public function out2($lines)
+    public function out2($lines): void
     {
         if ($lines) {
             $this->_append($this->final2, $lines);
         }
     }
 
-    public function isEmpty()
+    public function isEmpty(): bool
     {
         return !$this->orig && !$this->final1 && !$this->final2;
     }
 
-    public function finish()
+    public function finish(): bool|Horde_Text_Diff_ThreeWay_Op_Base
     {
         if ($this->isEmpty()) {
             return false;
@@ -52,12 +52,12 @@ class Horde_Text_Diff_ThreeWay_BlockBuilder
         }
     }
 
-    protected function _init()
+    protected function _init(): void
     {
-        $this->orig = $this->final1 = $this->final2 = array();
+        $this->orig = $this->final1 = $this->final2 = [];
     }
 
-    protected function _append(&$array, $lines)
+    protected function _append(&$array, $lines): void
     {
         array_splice($array, count($array), 0, $lines);
     }

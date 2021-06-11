@@ -35,23 +35,23 @@ class Horde_Text_Diff_Mapped extends Horde_Text_Diff
      *                          parameters. The elements are what is actually
      *                          compared when computing the diff.
      */
-    public function __construct($engine, $params)
+    public function __construct(string $engine, array $params)
     {
         [$from_lines, $to_lines, $mapped_from_lines, $mapped_to_lines] = $params;
         assert(count($from_lines) == count($mapped_from_lines));
         assert(count($to_lines) == count($mapped_to_lines));
 
-        parent::__construct($engine, array($mapped_from_lines, $mapped_to_lines));
+        parent::__construct($engine, [$mapped_from_lines, $mapped_to_lines]);
 
         $xi = $yi = 0;
-        for ($i = 0; $i < count($this->_edits); $i++) {
-            $orig = &$this->_edits[$i]->orig;
+        foreach ($this->_edits as $iValue) {
+            $orig = &$iValue->orig;
             if (is_array($orig)) {
                 $orig = array_slice($from_lines, $xi, count($orig));
                 $xi += count($orig);
             }
 
-            $final = &$this->_edits[$i]->final;
+            $final = &$iValue->final;
             if (is_array($final)) {
                 $final = array_slice($to_lines, $yi, count($final));
                 $yi += count($final);

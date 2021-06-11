@@ -16,16 +16,19 @@ class Horde_Text_Diff_Renderer_Context extends Horde_Text_Diff_Renderer
     /**
      * Number of leading context "lines" to preserve.
      */
-    protected $_leading_context_lines = 4;
+    protected int $_leading_context_lines = 4;
 
     /**
      * Number of trailing context "lines" to preserve.
      */
-    protected $_trailing_context_lines = 4;
+    protected int $_trailing_context_lines = 4;
 
-    protected $_second_block = '';
+    /**
+     * @var string
+     */
+    protected string $_second_block = '';
 
-    protected function _blockHeader($xbeg, $xlen, $ybeg, $ylen)
+    protected function _blockHeader($xbeg, $xlen, $ybeg, $ylen): string
     {
         if ($xlen != 1) {
             $xbeg .= ',' . $xlen;
@@ -37,29 +40,29 @@ class Horde_Text_Diff_Renderer_Context extends Horde_Text_Diff_Renderer
         return "***************\n*** $xbeg ****";
     }
 
-    protected function _endBlock()
+    protected function _endBlock(): string
     {
         return $this->_second_block;
     }
 
-    protected function _context($lines)
+    protected function _context($lines): string
     {
         $this->_second_block .= $this->_lines($lines, '  ');
         return $this->_lines($lines, '  ');
     }
 
-    protected function _added($lines)
+    protected function _added($lines): string
     {
         $this->_second_block .= $this->_lines($lines, '+ ');
         return '';
     }
 
-    protected function _deleted($lines)
+    protected function _deleted($lines): string
     {
         return $this->_lines($lines, '- ');
     }
 
-    protected function _changed($orig, $final)
+    protected function _changed($orig, $final): string
     {
         $this->_second_block .= $this->_lines($final, '! ');
         return $this->_lines($orig, '! ');

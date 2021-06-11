@@ -14,8 +14,8 @@
  */
 abstract class Horde_Text_Diff_Op_Base
 {
-    public $orig;
-    public $final;
+    public mixed $orig;
+    public mixed $final;
 
     abstract public function reverse();
 

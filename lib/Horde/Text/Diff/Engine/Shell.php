@@ -20,7 +20,7 @@ class Horde_Text_Diff_Engine_Shell
      *
      * @var string
      */
-    protected $_diffCommand = 'diff';
+    protected string $_diffCommand = 'diff';
 
     /**
      * Returns the array of differences.
@@ -30,10 +30,10 @@ class Horde_Text_Diff_Engine_Shell
      *
      * @return array all changes made (array with Horde_Text_Diff_Op_* objects)
      */
-    public function diff($from_lines, $to_lines)
+    public function diff(array $from_lines, array $to_lines): array
     {
-        array_walk($from_lines, array('Horde_Text_Diff', 'trimNewlines'));
-        array_walk($to_lines, array('Horde_Text_Diff', 'trimNewlines'));
+        array_walk($from_lines, ['Horde_Text_Diff', 'trimNewlines']);
+        array_walk($to_lines, ['Horde_Text_Diff', 'trimNewlines']);
 
         // Execute gnu diff or similar to get a standard diff file.
         $from_file = Horde_Util::getTempFile('Horde_Text_Diff');
@@ -50,12 +50,12 @@ class Horde_Text_Diff_Engine_Shell
 
         if (is_null($diff)) {
             // No changes were made
-            return array(new Horde_Text_Diff_Op_Copy($from_lines));
+            return [new Horde_Text_Diff_Op_Copy($from_lines)];
         }
 
         $from_line_no = 1;
         $to_line_no = 1;
-        $edits = array();
+        $edits = [];
 
         // Get changed lines by parsing something like:
         // 0a1,2
@@ -70,11 +70,11 @@ class Horde_Text_Diff_Engine_Shell
                 $match[5] = false;
             }
 
-            if ($match[3] == 'a') {
+            if ($match[3] === 'a') {
                 $from_line_no--;
             }
 
-            if ($match[3] == 'd') {
+            if ($match[3] === 'd') {
                 $to_line_no--;
             }
 
@@ -134,22 +134,22 @@ class Horde_Text_Diff_Engine_Shell
      *
      * @param array &$text_lines Either $from_lines or $to_lines
      * @param int   &$line_no    Current line number
-     * @param int   $end         Optional end line, when we want to chop more
+     * @param bool|int $end         Optional end line, when we want to chop more
      *                           than one line.
      *
      * @return array The chopped lines
      */
-    protected function _getLines(&$text_lines, &$line_no, $end = false)
+    protected function _getLines(array &$text_lines, int &$line_no, bool|int $end = false): array
     {
         if (!empty($end)) {
-            $lines = array();
+            $lines = [];
             // We can shift even more
             while ($line_no <= $end) {
                 $lines[] = array_shift($text_lines);
                 $line_no++;
             }
         } else {
-            $lines = array(array_shift($text_lines));
+            $lines = [array_shift($text_lines)];
             $line_no++;
         }
 

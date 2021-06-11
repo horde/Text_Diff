@@ -17,58 +17,58 @@ class Horde_Text_Diff_Renderer_Inline extends Horde_Text_Diff_Renderer
     /**
      * Number of leading context "lines" to preserve.
      *
-     * @var integer
+     * @var int
      */
-    protected $_leading_context_lines = 10000;
+    protected int $_leading_context_lines = 10000;
 
     /**
      * Number of trailing context "lines" to preserve.
      *
-     * @var integer
+     * @var int
      */
-    protected $_trailing_context_lines = 10000;
+    protected int $_trailing_context_lines = 10000;
 
     /**
      * Prefix for inserted text.
      *
      * @var string
      */
-    protected $_ins_prefix = '<ins>';
+    protected string $_ins_prefix = '<ins>';
 
     /**
      * Suffix for inserted text.
      *
      * @var string
      */
-    protected $_ins_suffix = '</ins>';
+    protected string $_ins_suffix = '</ins>';
 
     /**
      * Prefix for deleted text.
      *
      * @var string
      */
-    protected $_del_prefix = '<del>';
+    protected string $_del_prefix = '<del>';
 
     /**
      * Suffix for deleted text.
      *
      * @var string
      */
-    protected $_del_suffix = '</del>';
+    protected string $_del_suffix = '</del>';
 
     /**
      * Header for each change block.
      *
      * @var string
      */
-    protected $_block_header = '';
+    protected string $_block_header = '';
 
     /**
      * Whether to split down to character-level.
      *
-     * @var boolean
+     * @var bool
      */
-    protected $_split_characters = false;
+    protected bool $_split_characters = false;
 
     /**
      * What are we currently splitting on? Used to recurse to show word-level
@@ -76,61 +76,61 @@ class Horde_Text_Diff_Renderer_Inline extends Horde_Text_Diff_Renderer
      *
      * @var string
      */
-    protected $_split_level = 'lines';
+    protected string $_split_level = 'lines';
 
-    protected function _blockHeader($xbeg, $xlen, $ybeg, $ylen)
+    protected function _blockHeader($xbeg, $xlen, $ybeg, $ylen): string
     {
         return $this->_block_header;
     }
 
-    protected function _startBlock($header)
+    protected function _startBlock($header): string
     {
         return $header;
     }
 
-    protected function _lines($lines, $prefix = ' ', $encode = true)
+    protected function _lines($lines, $prefix = ' ', $encode = true): string
     {
         if ($encode) {
-            array_walk($lines, array(&$this, '_encode'));
+            array_walk($lines, [&$this, '_encode']);
         }
 
-        if ($this->_split_level == 'lines') {
+        if ($this->_split_level === 'lines') {
             return implode("\n", $lines) . "\n";
         } else {
             return implode('', $lines);
         }
     }
 
-    protected function _added($lines)
+    protected function _added($lines): string
     {
-        array_walk($lines, array(&$this, '_encode'));
+        array_walk($lines, [&$this, '_encode']);
         $lines[0] = $this->_ins_prefix . $lines[0];
         $lines[count($lines) - 1] .= $this->_ins_suffix;
         return $this->_lines($lines, ' ', false);
     }
 
-    protected function _deleted($lines, $words = false)
+    protected function _deleted($lines, $words = false): string
     {
-        array_walk($lines, array(&$this, '_encode'));
+        array_walk($lines, [&$this, '_encode']);
         $lines[0] = $this->_del_prefix . $lines[0];
         $lines[count($lines) - 1] .= $this->_del_suffix;
         return $this->_lines($lines, ' ', false);
     }
 
-    protected function _changed($orig, $final)
+    protected function _changed($orig, $final): string
     {
         /* If we've already split on characters, just display. */
-        if ($this->_split_level == 'characters') {
+        if ($this->_split_level === 'characters') {
             return $this->_deleted($orig)
                 . $this->_added($final);
         }
 
         /* If we've already split on words, just display. */
-        if ($this->_split_level == 'words') {
+        if ($this->_split_level === 'words') {
             $prefix = '';
             while ($orig[0] !== false && $final[0] !== false &&
-                   substr($orig[0], 0, 1) == ' ' &&
-                   substr($final[0], 0, 1) == ' ') {
+                str_starts_with($orig[0], ' ') &&
+                str_starts_with($final[0], ' ')) {
                 $prefix .= substr($orig[0], 0, 1);
                 $orig[0] = substr($orig[0], 1);
                 $final[0] = substr($final[0], 1);
@@ -146,32 +146,32 @@ class Horde_Text_Diff_Renderer_Inline extends Horde_Text_Diff_Renderer
 
         if ($this->_split_characters) {
             $diff = new Horde_Text_Diff('native',
-                                  array(preg_split('//u', str_replace("\n", $nl, $text1)),
-                                        preg_split('//u', str_replace("\n", $nl, $text2))));
+                                  [preg_split('//u', str_replace("\n", $nl, $text1)),
+                                        preg_split('//u', str_replace("\n", $nl, $text2))]);
         } else {
             /* We want to split on word boundaries, but we need to preserve
              * whitespace as well. Therefore we split on words, but include
              * all blocks of whitespace in the wordlist. */
             $diff = new Horde_Text_Diff('native',
-                                  array($this->_splitOnWords($text1, $nl),
-                                        $this->_splitOnWords($text2, $nl)));
+                                  [$this->_splitOnWords($text1, $nl),
+                                        $this->_splitOnWords($text2, $nl)]);
         }
 
         /* Get the diff in inline format. */
         $renderer = new Horde_Text_Diff_Renderer_Inline
             (array_merge($this->getParams(),
-                         array('split_level' => $this->_split_characters ? 'characters' : 'words')));
+                         ['split_level' => $this->_split_characters ? 'characters' : 'words']));
 
         /* Run the diff and get the output. */
         return str_replace($nl, "\n", $renderer->render($diff)) . "\n";
     }
 
-    protected function _splitOnWords($string, $newlineEscape = "\n")
+    protected function _splitOnWords($string, $newlineEscape = "\n"): array
     {
         // Ignore \0; otherwise the while loop will never finish.
         $string = str_replace("\0", '', $string);
 
-        $words = array();
+        $words = [];
         $length = strlen($string);
         $pos = 0;
 
@@ -186,7 +186,7 @@ class Horde_Text_Diff_Renderer_Inline extends Horde_Text_Diff_Renderer
         return $words;
     }
 
-    protected function _encode(&$string)
+    protected function _encode(&$string): void
     {
         $string = htmlspecialchars($string);
     }

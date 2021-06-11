@@ -20,7 +20,7 @@ class Horde_Text_Diff_Renderer
      * This should be left at zero for this class, but subclasses may want to
      * set this to other values.
      */
-    protected $_leading_context_lines = 0;
+    protected int $_leading_context_lines = 0;
 
     /**
      * Number of trailing context "lines" to preserve.
@@ -28,17 +28,17 @@ class Horde_Text_Diff_Renderer
      * This should be left at zero for this class, but subclasses may want to
      * set this to other values.
      */
-    protected $_trailing_context_lines = 0;
+    protected int $_trailing_context_lines = 0;
 
     /**
      * Constructor.
      */
-    public function __construct($params = array())
+    public function __construct($params = [])
     {
         foreach ($params as $param => $value) {
             $v = '_' . $param;
-            if (isset($this->$v)) {
-                $this->$v = $value;
+            if (isset($this->{$v})) {
+                $this->{$v} = $value;
             }
         }
     }
@@ -48,11 +48,11 @@ class Horde_Text_Diff_Renderer
      *
      * @return array  All parameters of this renderer object.
      */
-    public function getParams()
+    public function getParams(): array
     {
-        $params = array();
+        $params = [];
         foreach (get_object_vars($this) as $k => $v) {
-            if ($k[0] == '_') {
+            if ($k[0] === '_') {
                 $params[substr($k, 1)] = $v;
             }
         }
@@ -60,18 +60,11 @@ class Horde_Text_Diff_Renderer
         return $params;
     }
 
-    /**
-     * Renders a diff.
-     *
-     * @param Horde_Text_Diff $diff  A Horde_Text_Diff object.
-     *
-     * @return string  The formatted output.
-     */
-    public function render($diff)
+    public function render(Horde_Text_Diff $diff): string
     {
         $xi = $yi = 1;
         $block = false;
-        $context = array();
+        $context = [];
 
         $nlead = $this->_leading_context_lines;
         $ntrail = $this->_trailing_context_lines;
@@ -116,7 +109,7 @@ class Horde_Text_Diff_Renderer
                     $context = array_slice($context, count($context) - $nlead);
                     $x0 = $xi - count($context);
                     $y0 = $yi - count($context);
-                    $block = array();
+                    $block = [];
                     if ($context) {
                         $block[] = new Horde_Text_Diff_Op_Copy($context);
                     }
@@ -141,44 +134,33 @@ class Horde_Text_Diff_Renderer
         return $output . $this->_endDiff();
     }
 
-    protected function _block($xbeg, $xlen, $ybeg, $ylen, &$edits)
+    protected function _block($xbeg, $xlen, $ybeg, $ylen, $edits): string
     {
         $output = $this->_startBlock($this->_blockHeader($xbeg, $xlen, $ybeg, $ylen));
 
         foreach ($edits as $edit) {
-            switch (get_class($edit)) {
-            case 'Horde_Text_Diff_Op_Copy':
-                $output .= $this->_context($edit->orig);
-                break;
-
-            case 'Horde_Text_Diff_Op_Add':
-                $output .= $this->_added($edit->final);
-                break;
-
-            case 'Horde_Text_Diff_Op_Delete':
-                $output .= $this->_deleted($edit->orig);
-                break;
-
-            case 'Horde_Text_Diff_Op_Change':
-                $output .= $this->_changed($edit->orig, $edit->final);
-                break;
-            }
+            $output .= match (get_class($edit)) {
+                'Horde_Text_Diff_Op_Copy' => $this->_context($edit->orig),
+                'Horde_Text_Diff_Op_Add' => $this->_added($edit->final),
+                'Horde_Text_Diff_Op_Delete' => $this->_deleted($edit->orig),
+                'Horde_Text_Diff_Op_Change' => $this->_changed($edit->orig, $edit->final),
+            };
         }
 
         return $output . $this->_endBlock();
     }
 
-    protected function _startDiff()
+    protected function _startDiff(): string
     {
         return '';
     }
 
-    protected function _endDiff()
+    protected function _endDiff(): string
     {
         return '';
     }
 
-    protected function _blockHeader($xbeg, $xlen, $ybeg, $ylen)
+    protected function _blockHeader($xbeg, $xlen, $ybeg, $ylen): string
     {
         if ($xlen > 1) {
             $xbeg .= ',' . ($xbeg + $xlen - 1);
@@ -197,37 +179,37 @@ class Horde_Text_Diff_Renderer
         return $xbeg . ($xlen ? ($ylen ? 'c' : 'd') : 'a') . $ybeg;
     }
 
-    protected function _startBlock($header)
+    protected function _startBlock($header): string
     {
         return $header . "\n";
     }
 
-    protected function _endBlock()
+    protected function _endBlock(): string
     {
         return '';
     }
 
-    protected function _lines($lines, $prefix = ' ')
+    protected function _lines($lines, $prefix = ' '): string
     {
         return $prefix . implode("\n$prefix", $lines) . "\n";
     }
 
-    protected function _context($lines)
+    protected function _context($lines): string
     {
         return $this->_lines($lines, '  ');
     }
 
-    protected function _added($lines)
+    protected function _added($lines): string
     {
         return $this->_lines($lines, '> ');
     }
 
-    protected function _deleted($lines)
+    protected function _deleted($lines): string
     {
         return $this->_lines($lines, '< ');
     }
 
-    protected function _changed($orig, $final)
+    protected function _changed($orig, $final): string
     {
         return $this->_deleted($orig) . "---\n" . $this->_added($final);
     }
