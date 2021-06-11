@@ -4,6 +4,7 @@
 .project
 .settings
 nbproject/
+.idea/
 *~
 .#*
 *.bak
