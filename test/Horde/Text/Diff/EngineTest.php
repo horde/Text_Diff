@@ -49,15 +49,6 @@ class EngineTest extends TestCase
         $this->_testDiff($diff);
     }
 
-    public function testShellEngine(): void
-    {
-        if (!exec('which diff')) {
-            self::markTestSkipped('diff executable not found');
-        }
-        $diff = new Horde_Text_Diff('Shell', [$this->_lines[1], $this->_lines[2]]);
-        $this->_testDiff($diff);
-    }
-
     public function testStringEngine(): void
     {
         $patch = file_get_contents(__DIR__ . '/fixtures/unified.patch');
