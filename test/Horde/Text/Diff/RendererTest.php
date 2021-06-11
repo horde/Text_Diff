@@ -10,7 +10,7 @@ class Horde_Text_Diff_RendererTest extends Horde_Test_Case
 {
     protected $_lines = array();
 
-    public function setUp()
+    public function setUp(): void
     {
         for ($i = 1; $i <= 8; $i++) {
             $this->_lines[$i] = file(__DIR__ . '/fixtures/' . $i . '.txt');
@@ -266,6 +266,8 @@ END_OF_PATCH;
 
     public function testPearBug12710()
     {
+        $this->expectNotToPerformAssertions();
+
         /* failed assertion */
         $a = <<<QQ
 <li>The tax credit amounts to 30% of the cost of the system, with a

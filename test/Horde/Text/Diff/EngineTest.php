@@ -6,11 +6,11 @@
  * @package    Text_Diff
  * @subpackage UnitTests
  */
-class Horde_Text_Diff_EngineTest extends PHPUnit_Framework_TestCase
+class Horde_Text_Diff_EngineTest extends Horde_Test_Case
 {
     protected $_lines = array();
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->_lines = array(
             1 => file(__DIR__ . '/fixtures/1.txt'),
@@ -73,6 +73,8 @@ class Horde_Text_Diff_EngineTest extends PHPUnit_Framework_TestCase
 
     public function testXdiffEngine()
     {
+        $this->expectNotToPerformAssertions();
+
         try {
             $diff = new Horde_Text_Diff('Xdiff', array($this->_lines[1], $this->_lines[2]));
             $this->_testDiff($diff);
