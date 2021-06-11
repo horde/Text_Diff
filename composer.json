@@ -41,7 +41,11 @@
     },
     "replace": {
         "pear-pear.horde.org/Horde_Text_Diff": "2.*",
-        "pear-horde/Horde_Text_Diff": "2.*"
+        "pear-horde/Horde_Text_Diff": "2.*",
+        "horde/text-diff": "2.*"
+    },
+    "provide": {
+        "horde/text-diff": "self.version"
     },
     "autoload": {
         "psr-0": {
