@@ -1,8 +1,9 @@
 version: "3.7"
 
 services:
-  backend:
+  composer:
     image: composer:1.10.22
-    container_name: php
+    command: install
+    restart: 'no'
     volumes:
-      - .:/var/www
+      - .:/app

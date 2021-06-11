@@ -20,7 +20,7 @@ class Horde_Text_Diff_EngineTest extends PHPUnit_Framework_TestCase
     protected function _testDiff($diff)
     {
         $edits = $diff->getDiff();
-        $this->assertEquals(3, count($edits));
+        $this->assertCount(3, $edits);
         $this->assertInstanceof('Horde_Text_Diff_Op_Copy', $edits[0]);
         $this->assertInstanceof('Horde_Text_Diff_Op_Change', $edits[1]);
         $this->assertInstanceof('Horde_Text_Diff_Op_Copy', $edits[2]);
@@ -61,7 +61,7 @@ class Horde_Text_Diff_EngineTest extends PHPUnit_Framework_TestCase
         }
         $diff = new Horde_Text_Diff('String', array($patch, 'unified'));
         $edits = $diff->getDiff();
-        $this->assertEquals(1, count($edits));
+        $this->assertCount(1, $edits);
         $this->assertInstanceof('Horde_Text_Diff_Op_Change', $edits[0]);
         $this->assertEquals('For the first time in U.S. history number of private contractors and troops are equal', $edits[0]->orig[0]);
         $this->assertEquals('Number of private contractors and troops are equal for first time in U.S. history', $edits[0]->final[0]);

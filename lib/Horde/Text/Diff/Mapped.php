@@ -37,7 +37,7 @@ class Horde_Text_Diff_Mapped extends Horde_Text_Diff
      */
     public function __construct($engine, $params)
     {
-        list($from_lines, $to_lines, $mapped_from_lines, $mapped_to_lines) = $params;
+        [$from_lines, $to_lines, $mapped_from_lines, $mapped_to_lines] = $params;
         assert(count($from_lines) == count($mapped_from_lines));
         assert(count($to_lines) == count($mapped_to_lines));
 

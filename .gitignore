@@ -13,6 +13,7 @@ nbproject/
 *.swp
 *.kdev4
 .kdev4/*
+vendor/
 
 # Ignore ALL config files
 conf.php

@@ -39,9 +39,9 @@ class Horde_Text_Diff_Engine_String
     {
         // Detect line breaks.
         $lnbr = "\n";
-        if (strpos($diff, "\r\n") !== false) {
+        if (str_contains($diff, "\r\n")) {
             $lnbr = "\r\n";
-        } elseif (strpos($diff, "\r") !== false) {
+        } elseif (str_contains($diff, "\r")) {
             $lnbr = "\r";
         }
 
@@ -68,8 +68,8 @@ class Horde_Text_Diff_Engine_String
 
         // Split by new line and remove the diff header, if there is one.
         $diff = explode($lnbr, $diff);
-        if (($mode == 'context' && strpos($diff[0], '***') === 0) ||
-            ($mode == 'unified' && strpos($diff[0], '---') === 0)) {
+        if (($mode == 'context' && str_starts_with($diff[0], '***')) ||
+            ($mode == 'unified' && str_starts_with($diff[0], '---'))) {
             array_shift($diff);
             array_shift($diff);
         }
