@@ -11,6 +11,7 @@ nbproject/
 *.orig
 *.rej
 *.swp
+*.cache
 *.kdev4
 .kdev4/*
 vendor/
