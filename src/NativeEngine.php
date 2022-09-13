@@ -78,8 +78,27 @@ class NativeEngine
     */
     protected ?int $lcs;
 
-    public function diff(array $from_lines, array $to_lines)
+    /**
+     * Constructor.
+     *
+     * @param array<string> $fromLines lines of text from old file
+     * @param array<string> $toLines   lines of text from new file
+     */
+    public function __construct(        
+        private array $fromLines,
+        private array $toLines,
+    )
+    {        
+    }
+    /**
+     * Returns the array of differences.
+     *
+     * @return OperationList all changes made
+     */
+    public function diff(): OperationList
     {
+        $from_lines = $this->fromLines;
+        $to_lines = $this->toLines;        
         array_walk($from_lines, [Diff::class, 'trimNewlines']);
         array_walk($to_lines, [Diff::class, 'trimNewlines']);
 
@@ -178,7 +197,7 @@ class NativeEngine
             }
         }
 
-        return $edits;
+        return new OperationList(...$edits);
     }
 
     /**

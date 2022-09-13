@@ -35,21 +35,14 @@ class ThreeWay
     /**
      * Computes diff between 3 sequences of strings.
      *
-     * @param array $orig    The original lines to use.
-     * @param array $final1  The first version to compare to.
-     * @param array $final2  The second version to compare to.
+     * @param OperationList $final1  The first version to compare to.
+     * @param OperationList $final2  The second version to compare to.
      */
-    public function __construct($orig, $final1, $final2)
+    public function __construct(OperationList $origFinal1, OperationList $origFinal2)
     {
-        if (extension_loaded('xdiff')) {
-            $engine = new XdiffEngine();
-        } else {
-            $engine = new NativeEngine();
-        }
-
         $this->_edits = $this->_diff3(
-            $engine->diff($orig, $final1),
-            $engine->diff($orig, $final2)
+            $origFinal1->toArray(),
+            $origFinal2->toArray(),
         );
     }
 

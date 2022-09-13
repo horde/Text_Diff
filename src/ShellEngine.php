@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 namespace Horde\Text\Diff;
-use Horde_Util;
+use Horde\Util\Util;
 
 /**
  * Class used internally by Diff to actually compute the diffs.
@@ -19,31 +19,44 @@ use Horde_Util;
  * @author  Milian Wolff <mail@milianw.de>
  * @package Text_Diff
  */
-class ShellEngine
+class ShellEngine implements DiffEngineInterface
 {
     /**
-     * Path to the diff executable
+     * Constructor.
      *
-     * @var string
+     * @param array $fromLines lines of text from old file
+     * @param array $toLines   lines of text from new file
+     * @param string $diffCommand The external diff tool to call
+     *
      */
-    protected $diffCommand = 'diff';
+    public function __construct(
+        private array $fromLines,
+        private array $toLines,
+        /**
+         * Path to the diff executable
+         *
+         * @var string
+         */
+        protected string $diffCommand = 'diff'
+    )
+    {        
+    }
 
     /**
      * Returns the array of differences.
      *
-     * @param array $from_lines lines of text from old file
-     * @param array $to_lines   lines of text from new file
-     *
-     * @return array all changes made (array with Horde_Text_Diff_Op_* objects)
+     * @return OperationList all changes made
      */
-    public function diff(array $from_lines, array $to_lines)
+    public function diff(): OperationList
     {
-        array_walk($from_lines, ['Horde_Text_Diff', 'trimNewlines']);
-        array_walk($to_lines, ['Horde_Text_Diff', 'trimNewlines']);
+        $from_lines = $this->fromLines;
+        $to_lines = $this->toLines;        
+        array_walk($from_lines, [Diff::class, 'trimNewlines']);
+        array_walk($to_lines, [Diff::class, 'trimNewlines']);
 
         // Execute gnu diff or similar to get a standard diff file.
-        $from_file = Horde_Util::getTempFile('Horde_Text_Diff');
-        $to_file = Horde_Util::getTempFile('Horde_Text_Diff');
+        $from_file = Util::getTempFile('Horde_Text_Diff');
+        $to_file = Util::getTempFile('Horde_Text_Diff');
         $fp = fopen($from_file, 'w');
         fwrite($fp, implode("\n", $from_lines));
         fclose($fp);
@@ -56,7 +69,7 @@ class ShellEngine
 
         if (is_null($diff)) {
             // No changes were made
-            return [new CopyOperation($from_lines)];
+            return new OperationList(new CopyOperation($from_lines));
         }
 
         $from_line_no = 1;
@@ -145,7 +158,7 @@ class ShellEngine
                 );
         }
 
-        return $edits;
+        return new OperationList(...$edits);
     }
 
     /**

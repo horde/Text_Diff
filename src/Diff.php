@@ -3,8 +3,6 @@
 declare(strict_types=1);
 
 namespace Horde\Text\Diff;
-use Horde_String;
-
 /**
  * General API for generating and formatting diffs - the differences between
  * two sequences of strings.
@@ -24,33 +22,12 @@ use Horde_String;
 class Diff
 {
     /**
-     * Array of changes.
-     *
-     * @var array
-     */
-    protected array $edits;
-
-    /**
      * Computes diffs between sequences of strings.
      *
-     * @param string $engine     Name of the diffing engine to use.  'auto'
-     *                           will automatically select the best.
-     * @param array $params      Parameters to pass to the diffing engine.
-     *                           Normally an array of two arrays, each
-     *                           containing the lines from a file.
+     * @param OperationList $edits
      */
-    public function __construct($engine, $params)
+    public function __construct(protected OperationList $edits)
     {
-        if ($engine == 'auto') {
-            $engine = extension_loaded('xdiff') ? 'Xdiff' : 'Native';
-        } else {
-            $engine = Horde_String::ucfirst(basename($engine));
-        }
-
-        $class = 'Horde\\Text\\Diff\\' . $engine . 'Engine';
-        $diff_engine = new $class();
-
-        $this->edits = call_user_func_array([$diff_engine, 'diff'], $params);
     }
 
     /**
@@ -109,26 +86,21 @@ class Diff
      *                    reference here, since this essentially is a clone()
      *                    method.
      */
-    public function reverse()
+    public function reverse(): Diff
     {
-        if (version_compare(zend_version(), '2', '>')) {
-            $rev = clone($this);
-        } else {
-            $rev = $this;
-        }
-        $rev->edits = [];
+        $revEdits = [];
         foreach ($this->edits as $edit) {
-            $rev->edits[] = $edit->reverse();
+            $revEdits[] = $edit->reverse();
         }
-        return $rev;
+        return new Diff(new OperationList(...$revEdits));
     }
 
     /**
      * Checks for an empty diff.
      *
-     * @return boolean  True if two sequences were identical.
+     * @return bool  True if two sequences were identical.
      */
-    public function isEmpty()
+    public function isEmpty(): bool
     {
         foreach ($this->edits as $edit) {
             if (!($edit instanceof CopyOperation)) {
@@ -143,9 +115,9 @@ class Diff
      *
      * This is mostly for diagnostic purposes.
      *
-     * @return integer  The length of the LCS.
+     * @return int  The length of the LCS.
      */
-    public function lcs()
+    public function lcs(): int
     {
         $lcs = 0;
         foreach ($this->edits as $edit) {
@@ -163,7 +135,7 @@ class Diff
      *
      * @return array  The original sequence of strings.
      */
-    public function getOriginal()
+    public function getOriginal(): array
     {
         $lines = [];
         foreach ($this->edits as $edit) {
@@ -181,7 +153,7 @@ class Diff
      *
      * @return array  The sequence of strings.
      */
-    public function getFinal()
+    public function getFinal(): array
     {
         $lines = [];
         foreach ($this->edits as $edit) {
@@ -199,7 +171,7 @@ class Diff
      * @param string $line  The line to trim.
      * @param integer $key  The index of the line in the array. Not used.
      */
-    public static function trimNewlines(&$line, $key)
+    public static function trimNewlines(&$line, int $key)
     {
         $line = str_replace(["\n", "\r"], '', $line);
     }

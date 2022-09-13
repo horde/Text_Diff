@@ -18,18 +18,24 @@ use function xdiff_string_diff;
  * @author  Jon Parise <jon@horde.org>
  * @package Text_Diff
  */
-class XdiffEngine
+class XdiffEngine implements DiffEngineInterface
 {
-    /**
-     */
-    public function diff(array $from_lines, array $to_lines)
+    public function __construct(private array $fromLines, private array $toLines)
     {
+    }
+    /**
+     * @return OperationList all changes made
+     */
+    public function diff(): OperationList
+    {
+        $from_lines = $this->fromLines;
+        $to_lines = $this->toLines;
         if (!extension_loaded('xdiff')) {
             throw new Exception('The xdiff extension is required for this diff engine');
         }
 
-        array_walk($from_lines, ['Horde_Text_Diff', 'trimNewlines']);
-        array_walk($to_lines, ['Horde_Text_Diff', 'trimNewlines']);
+        array_walk($from_lines, [Diff::class, 'trimNewlines']);
+        array_walk($to_lines, [Diff::class, 'trimNewlines']);
 
         /* Convert the two input arrays into strings for xdiff processing. */
         $from_string = implode("\n", $from_lines);
@@ -67,6 +73,6 @@ class XdiffEngine
             }
         }
 
-        return $edits;
+        return new OperationList(...$edits);
     }
 }

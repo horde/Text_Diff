@@ -30,22 +30,28 @@ class MappedDiff extends Diff
     /**
      * Computes a diff between sequences of strings.
      *
-     * @param string $engine  Name of the diffing engine to use.  'auto' will
-     *                        automatically select the best.
-     * @param array $params   Parameters to pass to the diffing engine:
+     * Parameters to pass to the diffing engine:
      *                        - Two arrays, each containing the lines from a
      *                          file.
      *                        - Two arrays with the same size as the first
      *                          parameters. The elements are what is actually
      *                          compared when computing the diff.
+     *
+     * @param OperationList $edits from the mapped set
+     * @param array $from_lines
+     * @param array $to_lines
      */
-    public function __construct($engine, $params)
+    public function __construct(
+        OperationList $edits, 
+        array $from_lines,
+        array $to_lines,
+    )
     {
-        [$from_lines, $to_lines, $mapped_from_lines, $mapped_to_lines] = $params;
-        assert(count($from_lines) == count($mapped_from_lines));
-        assert(count($to_lines) == count($mapped_to_lines));
+        // TODO: Fix the assertion to count against the operations list
+//        assert(count($from_lines) == count($mapped_from_lines));
+//        assert(count($to_lines) == count($mapped_to_lines));
 
-        parent::__construct($engine, [$mapped_from_lines, $mapped_to_lines]);
+        parent::__construct($edits);
 
         $xi = $yi = 0;
         for ($i = 0; $i < count($this->edits); $i++) {

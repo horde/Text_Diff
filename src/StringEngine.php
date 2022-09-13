@@ -10,8 +10,8 @@ namespace Horde\Text\Diff;
  * Example:
  * <code>
  * $patch = file_get_contents('example.patch');
- * $diff = new Horde_Text_Diff('string', array($patch));
- * $renderer = new Horde_Text_Diff_Renderer_inline();
+ * $diff = new Diff(new StringEngine($patch));
+ * $renderer = new InlineRenderer;
  * echo $renderer->render($diff);
  * </code>
  *
@@ -26,6 +26,9 @@ namespace Horde\Text\Diff;
  */
 class StringEngine
 {
+    public function __construct(private string $diff, private string $mode = 'autodetect')
+    {        
+    }
     /**
      * Parses a unified or context diff.
      *
@@ -37,11 +40,13 @@ class StringEngine
      * @param string $mode  The diff mode of the content in $diff. One of
      *                      'context', 'unified', or 'autodetect'.
      *
-     * @return array  List of all diff operations.
+     * @return array<OperationInterface> all changes made
      * @throws Exception
      */
-    public function diff($diff, $mode = 'autodetect')
+    public function diff(): array
     {
+        $mode = $this->mode;
+        $diff = $this->diff;
         // Detect line breaks.
         $lnbr = "\n";
         if (strpos($diff, "\r\n") !== false) {
