@@ -25,7 +25,7 @@ jobs:
         export WORK_DIR=~
         export BIN_DIR="${WORK_DIR}/bin"
         mkdir -p $BIN_DIR
-        git config --global user.name "PHPDOC CI Job"
+        git config --global user.name "Satis Repository CI Job"
         git config --global user.email "ci-job@maintaina.com"
     - name: Checkout
       uses: actions/checkout@v2
@@ -52,6 +52,7 @@ jobs:
         export WORK_DIR=/home/runner/
         export BIN_DIR="${WORK_DIR}/bin"
         composer create-project composer/satis:dev-main
+        composer global config --no-plugins allow-plugins true
         php satis/bin/satis build -vvv  maintaina-com.github.io/satis.json maintaina-com.github.io/ horde/${REPO,,}
         cd maintaina-com.github.io
         git add include/ index.html p2/ packages.json

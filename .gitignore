@@ -27,3 +27,10 @@ run-tests.log
 /test/*/*/*/*.log
 /test/*/*/*/*.out
 
+# Ignore test harness / quality tools output
+.php-cs-fixer.cache
+.phpunit.cache/
+
+# ignore composer artifacts
+composer.lock
+vendor/

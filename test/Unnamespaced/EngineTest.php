@@ -6,8 +6,7 @@
  * @package    Text_Diff
  * @subpackage UnitTests
  */
-namespace Horde\Text;
-use \Diff;
+namespace Horde\Text\Diff\Test;
 use PHPUnit\Framework\TestCase;
 use Horde_Text_Diff;
 

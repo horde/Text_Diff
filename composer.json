@@ -1,5 +1,4 @@
 {
-    "minimum-stability": "dev",
     "name": "horde/text_diff",
     "description": "Text diff generation and rendering library",
     "type": "library",
@@ -17,11 +16,11 @@
             "role": "lead"
         }
     ],
-    "time": "2021-03-13",
+    "time": "2022-09-13",
     "repositories": [
         {
             "type": "composer",
-            "url": "https://horde-satis.maintaina.com/"
+            "url": "https://horde-satis.maintaina.com"
         }
     ],
     "require": {
@@ -29,14 +28,32 @@
         "horde/exception": "^3 || dev-FRAMEWORK_6_0",
         "horde/util": "^3 || dev-FRAMEWORK_6_0"
     },
-    "suggest": {
+    "require-dev": {
         "horde/cli": "^3 || dev-FRAMEWORK_6_0",
         "horde/test": "^3 || dev-FRAMEWORK_6_0",
+        "phpunit/phpunit": "^9.5"
+    },
+    "suggest": {
+        "horde/cli": "^3 || dev-FRAMEWORK_6_0",
         "ext-xdiff": "*"
     },
     "autoload": {
         "psr-0": {
             "Horde_Text_Diff": "lib/"
+        },
+        "psr-4": {
+            "Horde\\Text\\Diff\\": "src/"
         }
-    }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Horde\\Text\\Diff\\Test\\": "test/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "horde/horde-installer-plugin": true
+        }
+    },
+    "minimum-stability": "dev"
 }

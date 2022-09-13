@@ -39,6 +39,9 @@ dependencies:
   optional:
     composer:
       horde/cli: ^3
-      horde/test: ^3
     ext:
       xdiff: '*'
+  dev:
+    composer:
+      horde/cli: ^3
+      horde/test: ^3

@@ -8,8 +8,10 @@
   license:
     identifier: LGPL-2.1
     uri: http://www.horde.org/licenses/lgpl21
-  notes: |+
-    
+  notes: |
+    [rla] Incomplete draft conversion to PSR-4.
+    [rla] Unit tests are ready for PHPUnit 9.5.
+    |+
 3.0.0alpha3:
   api: 3.0.0alpha1
   state:

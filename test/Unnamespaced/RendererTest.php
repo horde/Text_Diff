@@ -6,9 +6,8 @@
  * @package    Text_Diff
  * @subpackage UnitTests
  */
-namespace Horde\Text;
-use \Diff;
-use Horde_Test_Case as TestCase;
+namespace Horde\Text\Diff\Test;
+use Horde\Test\TestCase as TestCase;
 use \Horde_Text_Diff;
 use \Horde_Text_Diff_Renderer_Context;
 use \Horde_Text_Diff_Renderer_Inline;
