@@ -55,9 +55,9 @@ class Horde_Text_Diff_ThreeWay
                 /* FIXME: this should probably be moved somewhere else. */
                 $lines = array_merge($lines,
                                      array('<<<<<<<' . ($label1 ? ' ' . $label1 : '')),
-                                     $edit->final1,
+                                     $edit->getFinal1(),
                                      array("======="),
-                                     $edit->final2,
+                                     $edit->getFinal2(),
                                      array('>>>>>>>' . ($label2 ? ' ' . $label2 : '')));
                 $this->_conflictingBlocks++;
             } else {

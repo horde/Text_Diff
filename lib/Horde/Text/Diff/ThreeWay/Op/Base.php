@@ -10,11 +10,41 @@
  */
 class Horde_Text_Diff_ThreeWay_Op_Base
 {
+    /**
+     * @var array
+     */
+	protected $orig;
+
+    /**
+     * @var array
+     */
+	protected $final1;
+
+    /**
+     * @var array
+     */
+	protected $final2;
+
+    /**
+     * @var array
+     */
+	protected $_merged;
+
     public function __construct($orig = false, $final1 = false, $final2 = false)
     {
         $this->orig = $orig ? $orig : array();
         $this->final1 = $final1 ? $final1 : array();
         $this->final2 = $final2 ? $final2 : array();
+    }
+
+    public function getFinal1()
+    {
+        return $this->final1;
+    }
+
+    public function getFinal2()
+    {
+        return $this->final2;
     }
 
     public function merged()

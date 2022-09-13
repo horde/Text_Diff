@@ -28,6 +28,51 @@
  */
 class Horde_Text_Diff_Engine_Native
 {
+    /**
+     * @var array
+     */
+	protected $xchanged;
+
+    /**
+     * @var array
+     */
+	protected $ychanged;
+
+    /**
+     * @var array
+     */
+	protected $xv;
+
+    /**
+     * @var array
+     */
+	protected $yv;
+
+    /**
+     * @var array
+     */
+	protected $xind;
+
+    /**
+     * @var array
+     */
+	protected $yind;
+
+    /**
+     * @var array
+     */
+	protected $seq;
+
+    /**
+     * @var array
+     */
+	protected $in_seq;
+
+    /**
+     * @var int
+     */
+	protected $lcs;
+
     public function diff($from_lines, $to_lines)
     {
         array_walk($from_lines, array('Horde_Text_Diff', 'trimNewlines'));

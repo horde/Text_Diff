@@ -10,6 +10,21 @@
  */
 class Horde_Text_Diff_ThreeWay_BlockBuilder
 {
+    /**
+     * @var array
+     */
+	protected $orig;
+
+    /**
+     * @var array
+     */
+	protected $final1;
+
+    /**
+     * @var array
+     */
+	protected $final2;
+
     public function __construct()
     {
         $this->_init();
