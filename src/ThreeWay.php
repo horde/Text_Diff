@@ -4,11 +4,6 @@ declare(strict_types=1);
 
 namespace Horde\Text\Diff;
 
-use Horde\Text\Diff\Engine\Native;
-use Horde\Text\Diff\Engine\XDiff;
-use Horde\Text\Diff\Op\Copy;
-use Horde\Text\Diff\ThreeWay\BlockBuilder;
-use Horde\Text\Diff\ThreeWay\Op\Copy as ThreeWayOpCopy;
 
 /**
  * A class for computing three way merges.
@@ -47,9 +42,9 @@ class ThreeWay
     public function __construct($orig, $final1, $final2)
     {
         if (extension_loaded('xdiff')) {
-            $engine = new Xdiff();
+            $engine = new XdiffEngine();
         } else {
-            $engine = new Native();
+            $engine = new NativeEngine();
         }
 
         $this->_edits = $this->_diff3(
@@ -88,14 +83,22 @@ class ThreeWay
     protected function _diff3($edits1, $edits2)
     {
         $edits = [];
-        $bb = new BlockBuilder();
+        $bb = new ThreeWayBlockBuilder();
+        $norig = 0;
 
+        /**
+         * @var OperationInterface
+         */
         $e1 = current($edits1);
+        /**
+         * @var OperationInterface
+         */
         $e2 = current($edits2);
+        // Compare two sets of edits pair-wise
         while ($e1 || $e2) {
             if ($e1 && $e2 &&
-                $e1 instanceof Copy &&
-                $e2 instanceof Copy) {
+                $e1 instanceof CopyOperation &&
+                $e2 instanceof CopyOperation) {
                 /* We have copy blocks from both diffs. This is the (only)
                  * time we want to emit a diff3 copy block.  Flush current
                  * diff3 diff block, if any. */
@@ -105,10 +108,10 @@ class ThreeWay
 
                 $ncopy = min($e1->norig(), $e2->norig());
                 assert($ncopy > 0);
-                $edits[] = new ThreeWayOpCopy(array_slice($e1->orig, 0, $ncopy));
+                $edits[] = new ThreeWayCopyOperation(array_slice($e1->getOrig(), 0, $ncopy));
 
                 if ($e1->norig() > $ncopy) {
-                    array_splice($e1->orig, 0, $ncopy);
+                    array_splice($e1->getOrig(), 0, $ncopy);
                     array_splice($e1->final, 0, $ncopy);
                 } else {
                     $e1 = next($edits1);
@@ -129,11 +132,11 @@ class ThreeWay
                         $bb->input($orig);
                     }
 
-                    if ($e1 instanceof Copy) {
+                    if ($e1 instanceof CopyOperation) {
                         $bb->out1(array_splice($e1->final, 0, $norig));
                     }
 
-                    if ($e2 instanceof Copy) {
+                    if ($e2 instanceof CopyOperation) {
                         $bb->out2(array_splice($e2->final, 0, $norig));
                     }
                 }

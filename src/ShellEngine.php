@@ -2,14 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Horde\Text\Diff\Engine;
-
-use Horde\Text\Diff\Exception;
-use Horde\Text\Diff\Op\Add;
-use Horde\Text\Diff\Op\Change;
-use Horde\Text\Diff\Op\Copy;
-use Horde\Text\Diff\Op\Delete;
-use Horde\Text\Diff\Op\Edit;
+namespace Horde\Text\Diff;
 use Horde_Util;
 
 /**
@@ -26,14 +19,14 @@ use Horde_Util;
  * @author  Milian Wolff <mail@milianw.de>
  * @package Text_Diff
  */
-class Shell
+class ShellEngine
 {
     /**
      * Path to the diff executable
      *
      * @var string
      */
-    protected $_diffCommand = 'diff';
+    protected $diffCommand = 'diff';
 
     /**
      * Returns the array of differences.
@@ -43,7 +36,7 @@ class Shell
      *
      * @return array all changes made (array with Horde_Text_Diff_Op_* objects)
      */
-    public function diff($from_lines, $to_lines)
+    public function diff(array $from_lines, array $to_lines)
     {
         array_walk($from_lines, ['Horde_Text_Diff', 'trimNewlines']);
         array_walk($to_lines, ['Horde_Text_Diff', 'trimNewlines']);
@@ -57,13 +50,13 @@ class Shell
         $fp = fopen($to_file, 'w');
         fwrite($fp, implode("\n", $to_lines));
         fclose($fp);
-        $diff = shell_exec($this->_diffCommand . ' ' . $from_file . ' ' . $to_file);
+        $diff = shell_exec($this->diffCommand . ' ' . $from_file . ' ' . $to_file);
         unlink($from_file);
         unlink($to_file);
 
         if (is_null($diff)) {
             // No changes were made
-            return [new Copy($from_lines)];
+            return [new CopyOperation($from_lines)];
         }
 
         $from_line_no = 1;
@@ -99,7 +92,7 @@ class Shell
                 // copied lines
                 assert($match[1] - $from_line_no == $match[4] - $to_line_no);
                 $edits[] =
-                    new Copy(
+                    new CopyOperation(
                         $this->_getLines($from_lines, $from_line_no, $match[1] - 1),
                         $this->_getLines($to_lines, $to_line_no, $match[4] - 1)
                     );
@@ -109,8 +102,8 @@ class Shell
                 case 'd':
                     // deleted lines
                     $edits[] =
-                        new Delete(
-                            $this->_getLines($from_lines, $from_line_no, $match[2])
+                        new DeleteOperation(
+                            $this->_getLines($from_lines, $from_line_no, (int) $match[2])
                         );
                     $to_line_no++;
                     break;
@@ -118,17 +111,17 @@ class Shell
                 case 'c':
                     // changed lines
                     $edits[] =
-                        new Change(
-                            $this->_getLines($from_lines, $from_line_no, $match[2]),
-                            $this->_getLines($to_lines, $to_line_no, $match[5])
+                        new ChangeOperation(
+                            $this->_getLines($from_lines, $from_line_no, (int) $match[2]),
+                            $this->_getLines($to_lines, $to_line_no, (int) $match[5])
                         );
                     break;
 
                 case 'a':
                     // added lines
                     $edits[] =
-                        new Add(
-                            $this->_getLines($to_lines, $to_line_no, $match[5])
+                        new AddOperation(
+                            $this->_getLines($to_lines, $to_line_no, (int) $match[5])
                         );
                     $from_line_no++;
                     break;
@@ -138,7 +131,7 @@ class Shell
         if (!empty($from_lines)) {
             // Some lines might still be pending. Add them as copied
             $edits[] =
-                new Copy(
+                new CopyOperation(
                     $this->_getLines(
                         $from_lines,
                         $from_line_no,
@@ -167,7 +160,7 @@ class Shell
      *
      * @return array The chopped lines
      */
-    protected function _getLines(&$text_lines, &$line_no, $end = false)
+    protected function _getLines(&$text_lines, &$line_no, int $end = 0)
     {
         if (!empty($end)) {
             $lines = [];

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Horde\Text\Diff\Op;
+namespace Horde\Text\Diff;
 
 /**
  * The original PHP version of this code was written by Geoffrey T. Dairiki
@@ -17,19 +17,16 @@ namespace Horde\Text\Diff\Op;
  * @package Text_Diff
  * @author  Geoffrey T. Dairiki <dairiki@dairiki.org>
  */
-class Copy extends Base
+class ChangeOperation extends BaseOperation
 {
-    public function __construct($orig, $final = false)
+    public function __construct($orig, $final)
     {
-        if (!is_array($final)) {
-            $final = $orig;
-        }
         $this->orig = $orig;
         $this->final = $final;
     }
 
-    public function reverse()
+    public function reverse(): OperationInterface
     {
-        return new Copy($this->final, $this->orig);
+        return new ChangeOperation($this->final, $this->orig);
     }
 }

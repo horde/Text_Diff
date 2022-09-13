@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Horde\Text\Diff\Op;
+namespace Horde\Text\Diff;
 
 /**
  * The original PHP version of this code was written by Geoffrey T. Dairiki
@@ -17,16 +17,22 @@ namespace Horde\Text\Diff\Op;
  * @package Text_Diff
  * @author  Geoffrey T. Dairiki <dairiki@dairiki.org>
  */
-class Change extends Base
+class AddOperation extends BaseOperation
 {
-    public function __construct($orig, $final)
+    /**
+     * Constructor
+     * 
+     * @param array<string> $lines 
+     * @return void 
+     */
+    public function __construct(array $lines)
     {
-        $this->orig = $orig;
-        $this->final = $final;
+        $this->final = $lines;
+        $this->orig = false;
     }
 
-    public function reverse()
+    public function reverse(): OperationInterface
     {
-        return new Change($this->final, $this->orig);
+        return new DeleteOperation($this->final);
     }
 }

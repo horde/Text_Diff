@@ -25,7 +25,7 @@ namespace Horde\Text\Diff;
  * @license   http://www.horde.org/licenses/lgpl21 LGPL-2.1
  * @package   Text_Diff
  */
-class Mapped extends Diff
+class MappedDiff extends Diff
 {
     /**
      * Computes a diff between sequences of strings.
@@ -48,14 +48,14 @@ class Mapped extends Diff
         parent::__construct($engine, [$mapped_from_lines, $mapped_to_lines]);
 
         $xi = $yi = 0;
-        for ($i = 0; $i < count($this->_edits); $i++) {
-            $orig = &$this->_edits[$i]->orig;
+        for ($i = 0; $i < count($this->edits); $i++) {
+            $orig = &$this->edits[$i]->orig;
             if (is_array($orig)) {
                 $orig = array_slice($from_lines, $xi, count($orig));
                 $xi += count($orig);
             }
 
-            $final = &$this->_edits[$i]->final;
+            $final = &$this->edits[$i]->final;
             if (is_array($final)) {
                 $final = array_slice($to_lines, $yi, count($final));
                 $yi += count($final);

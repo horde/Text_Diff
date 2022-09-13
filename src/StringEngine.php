@@ -2,14 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Horde\Text\Diff\Engine;
-
-use Horde\Text\Diff\Exception;
-use Horde\Text\Diff\Op\Add;
-use Horde\Text\Diff\Op\Change;
-use Horde\Text\Diff\Op\Copy;
-use Horde\Text\Diff\Op\Delete;
-use Horde\Text\Diff\Op\Edit;
+namespace Horde\Text\Diff;
 
 /**
  * Parses unified or context diffs output from eg. the diff utility.
@@ -111,7 +104,7 @@ class StringEngine
                     do {
                         $diff1[] = substr($diff[$i], 1);
                     } while (++$i < $end && substr($diff[$i], 0, 1) == ' ');
-                    $edits[] = new Copy($diff1);
+                    $edits[] = new CopyOperation($diff1);
                     break;
 
                 case '+':
@@ -119,7 +112,7 @@ class StringEngine
                     do {
                         $diff1[] = substr($diff[$i], 1);
                     } while (++$i < $end && substr($diff[$i], 0, 1) == '+');
-                    $edits[] = new Add($diff1);
+                    $edits[] = new AddOperation($diff1);
                     break;
 
                 case '-':
@@ -133,9 +126,9 @@ class StringEngine
                         $diff2[] = substr($diff[$i++], 1);
                     }
                     if (count($diff2) == 0) {
-                        $edits[] = new Delete($diff1);
+                        $edits[] = new DeleteOperation($diff1);
                     } else {
-                        $edits[] = new Change($diff1, $diff2);
+                        $edits[] = new ChangeOperation($diff1, $diff2);
                     }
                     break;
 
@@ -201,7 +194,7 @@ class StringEngine
                 $array[] = substr($diff[$j++], 2);
             }
             if (count($array) > 0) {
-                $edits[] = new Copy($array);
+                $edits[] = new CopyOperation($array);
             }
 
             if ($i < $max_i) {
@@ -215,21 +208,21 @@ class StringEngine
                                 $diff2[] = substr($diff[$j++], 2);
                             }
                         } while (++$i < $max_i && substr($diff[$i], 0, 1) == '!');
-                        $edits[] = new Change($diff1, $diff2);
+                        $edits[] = new ChangeOperation($diff1, $diff2);
                         break;
 
                     case '+':
                         do {
                             $diff1[] = substr($diff[$i], 2);
                         } while (++$i < $max_i && substr($diff[$i], 0, 1) == '+');
-                        $edits[] = new Add($diff1);
+                        $edits[] = new AddOperation($diff1);
                         break;
 
                     case '-':
                         do {
                             $diff1[] = substr($diff[$i], 2);
                         } while (++$i < $max_i && substr($diff[$i], 0, 1) == '-');
-                        $edits[] = new Delete($diff1);
+                        $edits[] = new DeleteOperation($diff1);
                         break;
                 }
             }
@@ -241,14 +234,14 @@ class StringEngine
                         do {
                             $diff2[] = substr($diff[$j++], 2);
                         } while ($j < $max_j && substr($diff[$j], 0, 1) == '+');
-                        $edits[] = new Add($diff2);
+                        $edits[] = new AddOperation($diff2);
                         break;
 
                     case '-':
                         do {
                             $diff2[] = substr($diff[$j++], 2);
                         } while ($j < $max_j && substr($diff[$j], 0, 1) == '-');
-                        $edits[] = new Delete($diff2);
+                        $edits[] = new DeleteOperation($diff2);
                         break;
                 }
             }

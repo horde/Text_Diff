@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Horde\Text\Diff\Op;
+namespace Horde\Text\Diff;
 
 /**
  * The original PHP version of this code was written by Geoffrey T. Dairiki
@@ -17,19 +17,34 @@ namespace Horde\Text\Diff\Op;
  * @package Text_Diff
  * @author  Geoffrey T. Dairiki <dairiki@dairiki.org>
  */
-abstract class Base
+abstract class BaseOperation implements OperationInterface
 {
+    /**
+     * These will turn non-public at some point
+     * 
+     * @var mixed
+     */
     public $orig;
     public $final;
 
-    abstract public function reverse();
+    abstract public function reverse(): OperationInterface;
 
-    public function norig()
+    public function norig(): int
     {
         return $this->orig ? count($this->orig) : 0;
     }
 
-    public function nfinal()
+    public function getOrig()
+    {
+        return $this->orig;
+    }
+
+    public function getFinal()
+    {
+        return $this->final;
+    }
+
+    public function nfinal(): int
     {
         return $this->final ? count($this->final) : 0;
     }

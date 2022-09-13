@@ -2,14 +2,8 @@
 
 declare(strict_types=1);
 
-namespace Horde\Text\Diff\Engine;
-
-use Horde\Text\Diff\Exception;
-use Horde\Text\Diff\Op\Add;
-use Horde\Text\Diff\Op\Copy;
-use Horde\Text\Diff\Op\Delete;
-use Horde\Text\Diff\Op\Edit;
-
+namespace Horde\Text\Diff;
+use function xdiff_string_diff;
 /**
  * Class used internally by Diff to actually compute the diffs.
  *
@@ -24,11 +18,11 @@ use Horde\Text\Diff\Op\Edit;
  * @author  Jon Parise <jon@horde.org>
  * @package Text_Diff
  */
-class Xdiff
+class XdiffEngine
 {
     /**
      */
-    public function diff($from_lines, $to_lines)
+    public function diff(array $from_lines, array $to_lines)
     {
         if (!extension_loaded('xdiff')) {
             throw new Exception('The xdiff extension is required for this diff engine');
@@ -60,15 +54,15 @@ class Xdiff
             }
             switch ($line[0]) {
                 case ' ':
-                    $edits[] = new Copy([substr($line, 1)]);
+                    $edits[] = new CopyOperation([substr($line, 1)]);
                     break;
 
                 case '+':
-                    $edits[] = new Add([substr($line, 1)]);
+                    $edits[] = new AddOperation([substr($line, 1)]);
                     break;
 
                 case '-':
-                    $edits[] = new Delete([substr($line, 1)]);
+                    $edits[] = new DeleteOperation([substr($line, 1)]);
                     break;
             }
         }

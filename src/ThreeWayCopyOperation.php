@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Horde\Text\Diff\ThreeWay\Op;
+namespace Horde\Text\Diff;
 
 /**
  * Copyright 2007-2017 Horde LLC (http://www.horde.org/)
@@ -13,9 +13,9 @@ namespace Horde\Text\Diff\ThreeWay\Op;
  * @package Text_Diff
  * @author  Geoffrey T. Dairiki <dairiki@dairiki.org>
  */
-class Copy extends Base
+class ThreeWayCopyOperation extends ThreeWayBaseOperation
 {
-    public function __construct($lines = false)
+    public function __construct(array $lines = [])
     {
         $this->orig = $lines ? $lines : [];
         $this->final1 = &$this->orig;

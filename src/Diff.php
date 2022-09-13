@@ -3,11 +3,6 @@
 declare(strict_types=1);
 
 namespace Horde\Text\Diff;
-
-use Horde\Text\Diff\Op\Add;
-use Horde\Text\Diff\Op\Change;
-use Horde\Text\Diff\Op\Copy;
-use Horde\Text\Diff\Op\Delete;
 use Horde_String;
 
 /**
@@ -33,7 +28,7 @@ class Diff
      *
      * @var array
      */
-    protected $_edits;
+    protected array $edits;
 
     /**
      * Computes diffs between sequences of strings.
@@ -52,10 +47,10 @@ class Diff
             $engine = Horde_String::ucfirst(basename($engine));
         }
 
-        $class = 'Horde_Text_Diff_Engine_' . $engine;
+        $class = 'Horde\\Text\\Diff\\' . $engine . 'Engine';
         $diff_engine = new $class();
 
-        $this->_edits = call_user_func_array([$diff_engine, 'diff'], $params);
+        $this->edits = call_user_func_array([$diff_engine, 'diff'], $params);
     }
 
     /**
@@ -63,7 +58,7 @@ class Diff
      */
     public function getDiff()
     {
-        return $this->_edits;
+        return $this->edits;
     }
 
     /**
@@ -74,9 +69,9 @@ class Diff
     public function countAddedLines()
     {
         $count = 0;
-        foreach ($this->_edits as $edit) {
-            if ($edit instanceof Add ||
-                $edit instanceof Change) {
+        foreach ($this->edits as $edit) {
+            if ($edit instanceof AddOperation ||
+                $edit instanceof ChangeOperation) {
                 $count += $edit->nfinal();
             }
         }
@@ -91,9 +86,9 @@ class Diff
     public function countDeletedLines()
     {
         $count = 0;
-        foreach ($this->_edits as $edit) {
-            if ($edit instanceof Delete ||
-                $edit instanceof Change) {
+        foreach ($this->edits as $edit) {
+            if ($edit instanceof DeleteOperation ||
+                $edit instanceof ChangeOperation) {
                 $count += $edit->norig();
             }
         }
@@ -109,7 +104,7 @@ class Diff
      * $rev = $diff->reverse();
      * </code>
      *
-     * @return Horde_Text_Diff  A Diff object representing the inverse of the
+     * @return Diff  A Diff object representing the inverse of the
      *                    original diff.  Note that we purposely don't return a
      *                    reference here, since this essentially is a clone()
      *                    method.
@@ -121,9 +116,9 @@ class Diff
         } else {
             $rev = $this;
         }
-        $rev->_edits = [];
-        foreach ($this->_edits as $edit) {
-            $rev->_edits[] = $edit->reverse();
+        $rev->edits = [];
+        foreach ($this->edits as $edit) {
+            $rev->edits[] = $edit->reverse();
         }
         return $rev;
     }
@@ -135,8 +130,8 @@ class Diff
      */
     public function isEmpty()
     {
-        foreach ($this->_edits as $edit) {
-            if (!($edit instanceof Copy)) {
+        foreach ($this->edits as $edit) {
+            if (!($edit instanceof CopyOperation)) {
                 return false;
             }
         }
@@ -153,8 +148,8 @@ class Diff
     public function lcs()
     {
         $lcs = 0;
-        foreach ($this->_edits as $edit) {
-            if ($edit instanceof Copy) {
+        foreach ($this->edits as $edit) {
+            if ($edit instanceof CopyOperation) {
                 $lcs += count($edit->orig);
             }
         }
@@ -171,7 +166,7 @@ class Diff
     public function getOriginal()
     {
         $lines = [];
-        foreach ($this->_edits as $edit) {
+        foreach ($this->edits as $edit) {
             if ($edit->orig) {
                 array_splice($lines, count($lines), 0, $edit->orig);
             }
@@ -189,7 +184,7 @@ class Diff
     public function getFinal()
     {
         $lines = [];
-        foreach ($this->_edits as $edit) {
+        foreach ($this->edits as $edit) {
             if ($edit->final) {
                 array_splice($lines, count($lines), 0, $edit->final);
             }
@@ -232,7 +227,7 @@ class Diff
         }
 
         $prevtype = null;
-        foreach ($this->_edits as $edit) {
+        foreach ($this->edits as $edit) {
             if ($prevtype == get_class($edit)) {
                 trigger_error("Edit sequence is non-optimal", E_USER_ERROR);
             }

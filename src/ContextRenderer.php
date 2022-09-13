@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Horde\Text\Diff\Renderer;
-
-use Horde\Text\Diff\Renderer;
+namespace Horde\Text\Diff;
 
 /**
  * "Context" diff renderer.
@@ -18,7 +16,7 @@ use Horde\Text\Diff\Renderer;
  *
  * @package Text_Diff
  */
-class Context extends Renderer
+class ContextRenderer extends Renderer
 {
     /**
      * Number of leading context "lines" to preserve.
@@ -32,7 +30,7 @@ class Context extends Renderer
 
     protected $_second_block = '';
 
-    protected function _blockHeader($xbeg, $xlen, $ybeg, $ylen)
+    protected function _blockHeader(int $xbeg, int $xlen, int $ybeg, int $ylen): string
     {
         if ($xlen != 1) {
             $xbeg .= ',' . $xlen;
@@ -44,29 +42,29 @@ class Context extends Renderer
         return "***************\n*** $xbeg ****";
     }
 
-    protected function _endBlock()
+    protected function _endBlock(): string
     {
         return $this->_second_block;
     }
 
-    protected function _context($lines)
+    protected function _context(array $lines = []): string
     {
         $this->_second_block .= $this->_lines($lines, '  ');
         return $this->_lines($lines, '  ');
     }
 
-    protected function _added($lines)
+    protected function _added(array $lines = []): string
     {
         $this->_second_block .= $this->_lines($lines, '+ ');
         return '';
     }
 
-    protected function _deleted($lines)
+    protected function _deleted(array $lines = []): string
     {
         return $this->_lines($lines, '- ');
     }
 
-    protected function _changed($orig, $final)
+    protected function _changed(array $orig = [], array $final = []): string
     {
         $this->_second_block .= $this->_lines($final, '! ');
         return $this->_lines($orig, '! ');

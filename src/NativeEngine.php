@@ -2,15 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Horde\Text\Diff\Engine;
-
-use Horde\Text\Diff\Diff;
-use Horde\Text\Diff\Exception;
-use Horde\Text\Diff\Op\Add;
-use Horde\Text\Diff\Op\Change;
-use Horde\Text\Diff\Op\Copy;
-use Horde\Text\Diff\Op\Delete;
-use Horde\Text\Diff\Op\Edit;
+namespace Horde\Text\Diff;
 
 /**
  * Class used internally by Horde_Text_Diff to actually compute the diffs.
@@ -39,54 +31,54 @@ use Horde\Text\Diff\Op\Edit;
  * @author  Geoffrey T. Dairiki <dairiki@dairiki.org>
  * @package Text_Diff
  */
-class Native
+class NativeEngine
 {
-   /*
-    * @var array
-    */
-   protected $xchanged;
+    /*
+     * @var array
+     */
+    protected array $xchanged = [];
 
-   /**
-    * @var array
-    */
-   protected $ychanged;
+    /**
+     * @var array
+     */
+    protected array $ychanged = [];
 
-   /**
-    * @var array
-    */
-   protected $xv;
+    /**
+     * @var array
+     */
+    protected array $xv = [];
 
-   /**
-    * @var array
-    */
-   protected $yv;
+    /**
+     * @var array
+     */
+    protected array $yv = [];
 
-   /**
-    * @var array
-    */
-   protected $xind;
+    /**
+     * @var array
+     */
+    protected array $xind = [];
 
-   /**
-    * @var array
-    */
-   protected $yind;
+    /**
+     * @var array
+     */
+    protected array $yind = [];
 
-   /**
-    * @var array
-    */
-   protected $seq;
+    /**
+     * @var array
+     */
+    protected ?array $seq;
 
-   /**
-    * @var array
-    */
-   protected $in_seq;
+    /**
+     * @var array
+     */
+    protected ?array $in_seq;
 
-   /**
+    /**
     * @var int
     */
-   protected $lcs;
+    protected ?int $lcs;
 
-    public function diff($from_lines, $to_lines)
+    public function diff(array $from_lines, array $to_lines)
     {
         array_walk($from_lines, [Diff::class, 'trimNewlines']);
         array_walk($to_lines, [Diff::class, 'trimNewlines']);
@@ -163,7 +155,7 @@ class Native
                 ++$yi;
             }
             if ($copy) {
-                $edits[] = new Copy($copy);
+                $edits[] = new CopyOperation($copy);
             }
 
             // Find deletes & adds.
@@ -178,11 +170,11 @@ class Native
             }
 
             if ($delete && $add) {
-                $edits[] = new Change($delete, $add);
+                $edits[] = new ChangeOperation($delete, $add);
             } elseif ($delete) {
-                $edits[] = new Delete($delete);
+                $edits[] = new DeleteOperation($delete);
             } elseif ($add) {
-                $edits[] = new Add($add);
+                $edits[] = new AddOperation($add);
             }
         }
 
@@ -249,8 +241,8 @@ class Native
                 }
                 $matches = $ymatches[$line];
                 foreach ($matches as $y) {
+                    $k = $this->_lcsPos($y);
                     if (empty($this->in_seq[$y])) {
-                        $k = $this->_lcsPos($y);
                         assert($k > 0);
                         $ymids[$k] = $ymids[$k - 1];
                         break;
@@ -317,6 +309,7 @@ class Native
      */
     protected function _compareseq($xoff, $xlim, $yoff, $ylim)
     {
+        $seps = [];
         /* Slide down the bottom initial diagonal. */
         while ($xoff < $xlim && $yoff < $ylim
                && $this->xv[$xoff] == $this->yv[$yoff]) {

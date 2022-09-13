@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Horde\Text\Diff;
 
-use Horde\Text\Diff\Op\Copy;
-
 /**
  * A class to render Diffs in different formats.
  *
@@ -74,7 +72,7 @@ class Renderer
      *
      * @return string  The formatted output.
      */
-    public function render($diff)
+    public function render(Diff $diff)
     {
         $xi = $yi = 1;
         $block = false;
@@ -90,7 +88,7 @@ class Renderer
             /* If these are unchanged (copied) lines, and we want to keep
              * leading or trailing context lines, extract them from the copy
              * block. */
-            if ($edit instanceof Copy) {
+            if ($edit instanceof CopyOperation) {
                 /* Do we have any diff blocks yet? */
                 if (is_array($block)) {
                     /* How many lines to keep as context from the copy
@@ -105,14 +103,16 @@ class Renderer
                             /* Create a new block with as many lines as we need
                              * for the trailing context. */
                             $context = array_slice($edit->orig, 0, $ntrail);
-                            $block[] = new Copy($context);
+                            $block[] = new CopyOperation($context);
                         }
                         /* @todo */
+                        $x0 ??= 0;
+                        $y0 ??= 0;
                         $output .= $this->_block(
-                            $x0,
-                            $ntrail + $xi - $x0,
-                            $y0,
-                            $ntrail + $yi - $y0,
+                            (int) $x0,
+                            (int) $ntrail + $xi - $x0,
+                            (int) $y0,
+                            (int) $ntrail + $yi - $y0,
                             $block
                         );
                         $block = false;
@@ -129,7 +129,7 @@ class Renderer
                     $y0 = $yi - count($context);
                     $block = [];
                     if ($context) {
-                        $block[] = new Copy($context);
+                        $block[] = new CopyOperation($context);
                     }
                 }
                 $block[] = $edit;
@@ -144,11 +144,13 @@ class Renderer
         }
 
         if (is_array($block)) {
+            $x0 ??= 0;
+            $y0 ??= 0;
             $output .= $this->_block(
-                $x0,
-                $xi - $x0,
-                $y0,
-                $yi - $y0,
+                (int) $x0,
+                (int) $xi - $x0,
+                (int) $y0,
+                (int) $yi - $y0,
                 $block
             );
         }
@@ -156,25 +158,35 @@ class Renderer
         return $output . $this->_endDiff();
     }
 
-    protected function _block($xbeg, $xlen, $ybeg, $ylen, &$edits)
+    /**
+     * Render a diff block
+     * 
+     * @param int $xbeg 
+     * @param int $xlen 
+     * @param int $ybeg 
+     * @param int $ylen 
+     * @param mixed $edits Should be a list object rather than a writeable array reference
+     * @return string 
+     */
+    protected function _block(int $xbeg, int $xlen, int $ybeg, int $ylen, &$edits): string
     {
         $output = $this->_startBlock($this->_blockHeader($xbeg, $xlen, $ybeg, $ylen));
 
         foreach ($edits as $edit) {
             switch (get_class($edit)) {
-                case Copy::class:
+                case CopyOperation::class:
                     $output .= $this->_context($edit->orig);
                     break;
 
-                case Add::class:
+                case AddOperation::class:
                     $output .= $this->_added($edit->final);
                     break;
 
-                case Delete::class:
+                case DeleteOperation::class:
                     $output .= $this->_deleted($edit->orig);
                     break;
 
-                case Change::class:
+                case ChangeOperation::class:
                     $output .= $this->_changed($edit->orig, $edit->final);
                     break;
             }
@@ -183,20 +195,31 @@ class Renderer
         return $output . $this->_endBlock();
     }
 
-    protected function _startDiff()
+    protected function _startDiff(): string
     {
         return '';
     }
 
-    protected function _endDiff()
+    protected function _endDiff(): string
     {
         return '';
     }
 
-    protected function _blockHeader($xbeg, $xlen, $ybeg, $ylen)
+    /**
+     * Render a Diff Block Header
+     * 
+     * Headers look like: 186,187c180,181 or 204c198
+     * 
+     * @param int $xbeg
+     * @param int $xlen 
+     * @param int $ybeg 
+     * @param int $ylen 
+     * @return string 
+     */
+    protected function _blockHeader(int $xbeg, int $xlen, int $ybeg, int $ylen): string
     {
         if ($xlen > 1) {
-            $xbeg .= ',' . ($xbeg + $xlen - 1);
+            $xbeg .= ',' . (string)($xbeg + $xlen - 1);
         }
         if ($ylen > 1) {
             $ybeg .= ',' . ($ybeg + $ylen - 1);
@@ -212,37 +235,69 @@ class Renderer
         return $xbeg . ($xlen ? ($ylen ? 'c' : 'd') : 'a') . $ybeg;
     }
 
-    protected function _startBlock($header)
+    protected function _startBlock(string $header): string
     {
         return $header . "\n";
     }
 
-    protected function _endBlock()
+    protected function _endBlock(): string
     {
         return '';
     }
 
-    protected function _lines($lines, $prefix = ' ')
+    /**
+     * Glue an array of lines to a string with prefixed lines
+     * 
+     * @param array $lines 
+     * @param string $prefix defaults to a single space
+     * @return string 
+     */
+    protected function _lines(array $lines, string $prefix = ' '): string
     {
         return $prefix . implode("\n$prefix", $lines) . "\n";
     }
 
-    protected function _context($lines)
+    /**
+     * Glues array of context lines to a space-prefixed string
+     * 
+     * @param array $lines
+     * @return string 
+     */
+    protected function _context(array $lines = []): string
     {
         return $this->_lines($lines, '  ');
     }
 
-    protected function _added($lines)
+    /**
+     * Glues array of added lines to a >-prefixed string
+     * 
+     * @param array $lines
+     * @return string 
+     */
+    protected function _added(array $lines = []): string
     {
         return $this->_lines($lines, '> ');
     }
 
-    protected function _deleted($lines)
+    /**
+     * Glues array of added lines to a >-prefixed string
+     * 
+     * @param array $lines
+     * @return string 
+     */
+    protected function _deleted(array $lines = []): string
     {
         return $this->_lines($lines, '< ');
     }
 
-    protected function _changed($orig, $final)
+    /**
+     * Produces a comparison string out of arrays of deleted and added lines
+     * 
+     * @param array $orig 
+     * @param array $final 
+     * @return string 
+     */
+    protected function _changed(array $orig = [], array $final = []): string
     {
         return $this->_deleted($orig) . "---\n" . $this->_added($final);
     }

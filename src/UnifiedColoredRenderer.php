@@ -13,10 +13,10 @@ declare(strict_types=1);
  * @package  Text_Diff
  */
 
-namespace Horde\Text\Diff\Renderer\Unified;
+namespace Horde\Text\Diff\Renderer;
 
 use BadMethodCallException;
-use Horde\Text\Diff\Renderer\Unified;
+use Horde\Text\Diff\Renderer\UnifiedRenderer;
 use Horde_Cli;
 
 /**
@@ -28,7 +28,7 @@ use Horde_Cli;
  * @license   http://www.horde.org/licenses/lgpl21 LGPL
  * @package   Text_Diff
  */
-class Colored extends Unified
+class UnifiedColoredRenderer extends UnifiedRenderer
 {
     /**
      * CLI handler.
@@ -51,7 +51,7 @@ class Colored extends Unified
         $this->_cli = $params['cli'];
     }
 
-    protected function _blockHeader($xbeg, $xlen, $ybeg, $ylen)
+    protected function _blockHeader(int $xbeg, int $xlen, int $ybeg, int $ylen): string
     {
         return $this->_cli->color(
             'lightmagenta',
@@ -59,7 +59,7 @@ class Colored extends Unified
         );
     }
 
-    protected function _added($lines)
+    protected function _added(array $lines = []): string
     {
         return $this->_cli->color(
             'lightgreen',
@@ -67,7 +67,7 @@ class Colored extends Unified
         );
     }
 
-    protected function _deleted($lines)
+    protected function _deleted(array $lines = []): string
     {
         return $this->_cli->color(
             'lightred',

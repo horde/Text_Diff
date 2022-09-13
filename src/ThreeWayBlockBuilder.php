@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Horde\Text\Diff\ThreeWay;
-
-use Horde\Text\Diff\ThreeWay\Op\Base;
+namespace Horde\Text\Diff;
 
 /**
  * Copyright 2007-2017 Horde LLC (http://www.horde.org/)
@@ -15,22 +13,22 @@ use Horde\Text\Diff\ThreeWay\Op\Base;
  * @package Text_Diff
  * @author  Geoffrey T. Dairiki <dairiki@dairiki.org>
  */
-class BlockBuilder
+class ThreeWayBlockBuilder
 {
     /**
      * @var array
      */
-	protected $orig;
+    protected $orig;
 
     /**
      * @var array
      */
-	protected $final1;
+    protected $final1;
 
     /**
      * @var array
      */
-	protected $final2;
+    protected $final2;
     public function __construct()
     {
         $this->_init();
@@ -67,7 +65,7 @@ class BlockBuilder
         if ($this->isEmpty()) {
             return false;
         } else {
-            $edit = new Base($this->orig, $this->final1, $this->final2);
+            $edit = new ThreeWayBaseOperation($this->orig, $this->final1, $this->final2);
             $this->_init();
             return $edit;
         }

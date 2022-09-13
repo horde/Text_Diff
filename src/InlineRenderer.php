@@ -20,7 +20,7 @@ use Horde\Text\Diff\Renderer;
  * @author  Ciprian Popovici
  * @package Text_Diff
  */
-class Inline extends Renderer
+class InlineRenderer extends Renderer
 {
     /**
      * Number of leading context "lines" to preserve.
@@ -86,17 +86,17 @@ class Inline extends Renderer
      */
     protected $_split_level = 'lines';
 
-    protected function _blockHeader($xbeg, $xlen, $ybeg, $ylen)
+    protected function _blockHeader(int $xbeg, int $xlen, int $ybeg, int $ylen): string
     {
         return $this->_block_header;
     }
 
-    protected function _startBlock($header)
+    protected function _startBlock(string $header): string
     {
         return $header;
     }
 
-    protected function _lines($lines, $prefix = ' ', $encode = true)
+    protected function _lines(array $lines = [], string $prefix = ' ', $encode = true): string
     {
         if ($encode) {
             array_walk($lines, [&$this, '_encode']);
@@ -109,7 +109,7 @@ class Inline extends Renderer
         }
     }
 
-    protected function _added($lines)
+    protected function _added(array $lines = []): string
     {
         array_walk($lines, [&$this, '_encode']);
         $lines[0] = $this->_ins_prefix . $lines[0];
@@ -117,7 +117,7 @@ class Inline extends Renderer
         return $this->_lines($lines, ' ', false);
     }
 
-    protected function _deleted($lines, $words = false)
+    protected function _deleted(array $lines = []): string
     {
         array_walk($lines, [&$this, '_encode']);
         $lines[0] = $this->_del_prefix . $lines[0];
@@ -125,7 +125,7 @@ class Inline extends Renderer
         return $this->_lines($lines, ' ', false);
     }
 
-    protected function _changed($orig, $final)
+    protected function _changed(array $orig = [], array $final = []): string
     {
         /* If we've already split on characters, just display. */
         if ($this->_split_level == 'characters') {
@@ -170,16 +170,16 @@ class Inline extends Renderer
         }
 
         /* Get the diff in inline format. */
-        $renderer = new Inline(array_merge(
-                $this->getParams(),
-                ['split_level' => $this->_split_characters ? 'characters' : 'words']
-            ));
+        $renderer = new InlineRenderer(array_merge(
+            $this->getParams(),
+            ['split_level' => $this->_split_characters ? 'characters' : 'words']
+        ));
 
         /* Run the diff and get the output. */
         return str_replace($nl, "\n", $renderer->render($diff)) . "\n";
     }
 
-    protected function _splitOnWords($string, $newlineEscape = "\n")
+    protected function _splitOnWords(string $string, string $newlineEscape = "\n")
     {
         // Ignore \0; otherwise the while loop will never finish.
         $string = str_replace("\0", '', $string);
@@ -199,7 +199,7 @@ class Inline extends Renderer
         return $words;
     }
 
-    protected function _encode(&$string)
+    protected function _encode(string &$string)
     {
         $string = htmlspecialchars($string);
     }

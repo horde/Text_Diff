@@ -19,7 +19,7 @@ use Horde\Text\Diff\Renderer;
  * @author  Ciprian Popovici
  * @package Text_Diff
  */
-class Unified extends Renderer
+class UnifiedRenderer extends Renderer
 {
     /**
      * Number of leading context "lines" to preserve.
@@ -31,7 +31,7 @@ class Unified extends Renderer
      */
     protected $_trailing_context_lines = 4;
 
-    protected function _blockHeader($xbeg, $xlen, $ybeg, $ylen)
+    protected function _blockHeader(int $xbeg, int $xlen, int $ybeg, int $ylen): string
     {
         if ($xlen != 1) {
             $xbeg .= ',' . $xlen;
@@ -42,22 +42,22 @@ class Unified extends Renderer
         return "@@ -$xbeg +$ybeg @@";
     }
 
-    protected function _context($lines)
+    protected function _context(array $lines = []): string
     {
         return $this->_lines($lines, ' ');
     }
 
-    protected function _added($lines)
+    protected function _added(array $lines = []): string
     {
         return $this->_lines($lines, '+');
     }
 
-    protected function _deleted($lines)
+    protected function _deleted(array $lines = []): string
     {
         return $this->_lines($lines, '-');
     }
 
-    protected function _changed($orig, $final)
+    protected function _changed(array $orig = [], array $final = []): string
     {
         return $this->_deleted($orig) . $this->_added($final);
     }

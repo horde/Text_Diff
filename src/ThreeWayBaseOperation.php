@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Horde\Text\Diff\ThreeWay\Op;
+namespace Horde\Text\Diff;
 
 /**
  * Copyright 2007-2017 Horde LLC (http://www.horde.org/)
@@ -13,27 +13,27 @@ namespace Horde\Text\Diff\ThreeWay\Op;
  * @package Text_Diff
  * @author  Geoffrey T. Dairiki <dairiki@dairiki.org>
  */
-class Base
+class ThreeWayBaseOperation
 {
     /**
      * @var array
      */
-	protected $orig;
+    protected $orig;
 
     /**
      * @var array
      */
-	protected $final1;
+    protected $final1;
 
     /**
      * @var array
      */
-	protected $final2;
+    protected $final2;
 
     /**
-     * @var array
+     * @var array|false
      */
-	protected $_merged;
+    protected $_merged;
 
 
     public function __construct($orig = false, $final1 = false, $final2 = false)
@@ -43,6 +43,10 @@ class Base
         $this->final2 = $final2 ? $final2 : [];
     }
 
+    public function getOrig()
+    {
+        return $this->orig;
+    }
     public function getFinal1()
     {
         return $this->final1;
@@ -51,6 +55,11 @@ class Base
     public function getFinal2()
     {
         return $this->final2;
+    }
+
+    public function norig(): int
+    {
+        return $this->orig ? count($this->orig) : 0;
     }
 
     public function merged()
