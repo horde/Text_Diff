@@ -12,6 +12,9 @@ nbproject/
 *.swp
 *.kdev4
 .kdev4/*
+/.phpunit.result.cache
+/composer.lock
+/vendor/
 
 # Ignore ALL config files
 conf.php
