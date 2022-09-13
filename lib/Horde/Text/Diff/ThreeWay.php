@@ -32,15 +32,21 @@ class Horde_Text_Diff_ThreeWay
      * @param array $orig    The original lines to use.
      * @param array $final1  The first version to compare to.
      * @param array $final2  The second version to compare to.
+     * @param string|Engine $engine Either 'auto' or a Fully Qualified Class Name, a shorthand or an object.
      */
-    public function __construct($orig, $final1, $final2)
+    public function __construct($orig = null, $final1 = null, $final2 = null, $engine = 'auto')
     {
-        if (extension_loaded('xdiff')) {
-            $engine = new Horde_Text_Diff_Engine_Xdiff();
-        } else {
-            $engine = new Horde_Text_Diff_Engine_Native();
+        if (!is_object($engine)) {
+            $class = 'Horde_Text_Diff_Engine_';
+            if ($engine == 'auto') {
+                $class .= extension_loaded('xdiff') ? 'Xdiff' : 'Native';
+            } elseif (strpos($engine, '_') === false && strpos($engine, '\\') === false) {
+                $class .= Horde_String::ucfirst(basename($engine));
+            } else {
+                $class = $engine;
+            }
+            $engine = new $class();
         }
-
         $this->_edits = $this->_diff3($engine->diff($orig, $final1),
                                       $engine->diff($orig, $final2));
     }

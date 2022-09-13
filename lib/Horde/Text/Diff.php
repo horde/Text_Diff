@@ -35,16 +35,18 @@ class Horde_Text_Diff
      */
     public function __construct($engine, $params)
     {
-        if ($engine == 'auto') {
-            $engine = extension_loaded('xdiff') ? 'Xdiff' : 'Native';
-        } else {
-            $engine = Horde_String::ucfirst(basename($engine));
+        if (!is_object($engine)) {
+            $class = 'Horde_Text_Diff_Engine_';
+            if ($engine == 'auto') {
+                $class .= extension_loaded('xdiff') ? 'Xdiff' : 'Native';
+            } elseif (strpos($engine, '_') === false && strpos($engine, '\\') === false) {
+                $class .= Horde_String::ucfirst(basename($engine));
+            } else {
+                $class = $engine;
+            }
+            $engine = new $class();
         }
-
-        $class = 'Horde_Text_Diff_Engine_' . $engine;
-        $diff_engine = new $class();
-
-        $this->_edits = call_user_func_array(array($diff_engine, 'diff'), $params);
+        $this->_edits = call_user_func_array(array($engine, 'diff'), $params);
     }
 
     /**
