@@ -15,11 +15,42 @@ namespace Horde\Text\Diff\ThreeWay\Op;
  */
 class Base
 {
+    /**
+     * @var array
+     */
+	protected $orig;
+
+    /**
+     * @var array
+     */
+	protected $final1;
+
+    /**
+     * @var array
+     */
+	protected $final2;
+
+    /**
+     * @var array
+     */
+	protected $_merged;
+
+
     public function __construct($orig = false, $final1 = false, $final2 = false)
     {
         $this->orig = $orig ? $orig : [];
         $this->final1 = $final1 ? $final1 : [];
         $this->final2 = $final2 ? $final2 : [];
+    }
+
+    public function getFinal1()
+    {
+        return $this->final1;
+    }
+
+    public function getFinal2()
+    {
+        return $this->final2;
     }
 
     public function merged()

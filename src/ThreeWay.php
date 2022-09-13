@@ -69,9 +69,9 @@ class ThreeWay
                 $lines = array_merge(
                     $lines,
                     ['<<<<<<<' . ($label1 ? ' ' . $label1 : '')],
-                    $edit->final1,
+                    $edit->getFinal1(),
                     ["======="],
-                    $edit->final2,
+                    $edit->getFinal2(),
                     ['>>>>>>>' . ($label2 ? ' ' . $label2 : '')]
                 );
                 $this->_conflictingBlocks++;
