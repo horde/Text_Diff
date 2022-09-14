@@ -46,11 +46,11 @@ class ThreeWay
         );
     }
 
-    public static function fromFileLineArrays(array $original, array $final1, array $final2): self
+    public static function fromFileLineArrays(array $original, array $final1, array $final2, string $engine = "auto"): self
     {
         return new self(
-            DiffEngineFactory::fromFileLineArrays($original, $final1)->diff(),
-            DiffEngineFactory::fromFileLineArrays($original, $final2)->diff()
+            DiffEngineFactory::fromFileLineArrays($original, $final1, $engine)->diff(),
+            DiffEngineFactory::fromFileLineArrays($original, $final2, $engine)->diff()
         );
     }
     /**
