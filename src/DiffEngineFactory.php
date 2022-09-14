@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 namespace Horde\Text\Diff;
+use Horde_String;
 
 /**
  * Load a Diff Engine.
@@ -28,14 +29,14 @@ class DiffEngineFactory
         array $fromLines = [],
         array $toLines = [],
         string $engineClass = 'auto',
-        array $engineParams = [];
+        array $engineParams = []
     ): DiffEngineInterface
     {
-        $class = 'Horde\Text\Diff\\';
+        $class = '\Horde\Text\Diff\\';
         if ($engineClass == 'auto') {
-            $class .= extension_loaded('xdiff') ? XdiffEngine::class : NativeEngine::class;
+            $class = extension_loaded('xdiff') ? XdiffEngine::class : NativeEngine::class;
         } elseif (strpos($engineClass, '_') === false && strpos($engineClass, '\\') === false) {
-            $class .= Horde_String::ucfirst(basename($engineClass));
+            $class .= Horde_String::ucfirst($engineClass);
         } else {
             $class = $engineClass;
         }

@@ -13,10 +13,9 @@ declare(strict_types=1);
  * @package  Text_Diff
  */
 
-namespace Horde\Text\Diff\Renderer;
+namespace Horde\Text\Diff;
 
 use BadMethodCallException;
-use Horde\Text\Diff\Renderer\UnifiedRenderer;
 use Horde_Cli;
 
 /**

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Horde\Text\Diff\Renderer;
+namespace Horde\Text\Diff;
 
 use Horde\Text\Diff\Diff;
 use Horde\Text\Diff\Renderer;
@@ -153,19 +153,19 @@ class InlineRenderer extends Renderer
         $nl = "\0";
 
         if ($this->_split_characters) {
-            $diff = new Diff(
-                'native',
-                [preg_split('//u', str_replace("\n", $nl, $text1)),
-                      preg_split('//u', str_replace("\n", $nl, $text2)), ]
+            $diff = Diff::fromFileLineArrays(
+                preg_split('//u', str_replace("\n", $nl, $text1)),
+                preg_split('//u', str_replace("\n", $nl, $text2)),
+                NativeEngine::class
             );
         } else {
             /* We want to split on word boundaries, but we need to preserve
              * whitespace as well. Therefore we split on words, but include
              * all blocks of whitespace in the wordlist. */
-            $diff = new Diff(
-                'native',
-                [$this->_splitOnWords($text1, $nl),
-                      $this->_splitOnWords($text2, $nl), ]
+            $diff = Diff::fromFileLineArrays(
+                $this->_splitOnWords($text1, $nl),
+                $this->_splitOnWords($text2, $nl),
+                NativeEngine::class
             );
         }
 

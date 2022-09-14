@@ -24,7 +24,7 @@ namespace Horde\Text\Diff;
  * @author  Örjan Persson <o@42mm.org>
  * @package Text_Diff
  */
-class StringEngine
+class StringEngine implements DiffEngineInterface
 {
     public function __construct(private string $diff, private string $mode = 'autodetect')
     {        
@@ -40,10 +40,10 @@ class StringEngine
      * @param string $mode  The diff mode of the content in $diff. One of
      *                      'context', 'unified', or 'autodetect'.
      *
-     * @return array<OperationInterface> all changes made
+     * @return OperationList all changes made
      * @throws Exception
      */
-    public function diff(): array
+    public function diff(): OperationList
     {
         $mode = $this->mode;
         $diff = $this->diff;
@@ -96,7 +96,7 @@ class StringEngine
      *
      * @param array $diff  Array of lines.
      *
-     * @return array  List of all diff operations.
+     * @return OperationList List of all diff operations.
      */
     public function parseUnifiedDiff($diff)
     {
@@ -142,8 +142,7 @@ class StringEngine
                     break;
             }
         }
-
-        return $edits;
+        return new OperationList(...$edits);
     }
 
     /**
@@ -251,7 +250,6 @@ class StringEngine
                 }
             }
         }
-
-        return $edits;
+        return new OperationList(...$edits);
     }
 }
