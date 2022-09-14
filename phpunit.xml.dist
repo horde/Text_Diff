@@ -10,7 +10,7 @@
          beStrictAboutTodoAnnotatedTests="true"
          failOnRisky="true"
          failOnWarning="true"
-         verbose="false">
+         verbose="true">
     <testsuites>
         <testsuite name="horde/text_diff">
             <directory>test</directory>

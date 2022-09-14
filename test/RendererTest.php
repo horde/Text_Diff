@@ -14,9 +14,9 @@ use Horde\Text\Diff\NativeEngine;
 use Horde\Text\Diff\Diff;
 use Horde\Text\Diff\InlineRenderer;
 use Horde\Text\Diff\UnifiedRenderer;
-use \Horde_Text_Diff_Renderer;
-use \Horde_Text_Diff_ThreeWay;
-
+/**
+ * @requires PHP >= 8.1
+ */
 class RendererTest extends TestCase
 {
     protected $_lines = array();

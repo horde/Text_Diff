@@ -17,7 +17,9 @@ use Horde\Text\Diff\StringEngine;
 use Horde\Text\Diff\XdiffEngine;
 use Horde\Text\Diff\NativeEngine;
 
-
+/**
+ * @requires PHP >= 8.1
+ */
 class EngineTest extends TestCase
 {
     protected $_lines = array();
