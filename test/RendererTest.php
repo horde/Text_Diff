@@ -6,12 +6,14 @@
  * @package    Text_Diff
  * @subpackage UnitTests
  */
-namespace Horde\Text\Diff\Test\Unnamespaced;
+namespace Horde\Text\Diff\Test;
 use Horde\Test\TestCase as TestCase;
-use \Horde_Text_Diff;
-use \Horde_Text_Diff_Renderer_Context;
-use \Horde_Text_Diff_Renderer_Inline;
-use \Horde_Text_Diff_Renderer_Unified;
+use Horde\Text\Diff\ContextRenderer;
+use Horde\Text\Diff\Renderer;
+use Horde\Text\Diff\NativeEngine;
+use Horde\Text\Diff\Diff;
+use Horde\Text\Diff\InlineRenderer;
+use Horde\Text\Diff\UnifiedRenderer;
 use \Horde_Text_Diff_Renderer;
 use \Horde_Text_Diff_ThreeWay;
 
@@ -22,7 +24,7 @@ class RendererTest extends TestCase
 
     public function setUp(): void
     {
-        $this->fixtureDir = dirname(__FILE__, 2) . '/fixtures/';
+        $this->fixtureDir = dirname(__FILE__, 1) . '/fixtures/';
         for ($i = 1; $i <= 8; $i++) {
             $this->_lines[$i] = file($this->fixtureDir . $i . '.txt');
         }
@@ -30,9 +32,9 @@ class RendererTest extends TestCase
 
     public function testContextRenderer()
     {
-        $renderer = new Horde_Text_Diff_Renderer_Context();
+        $renderer = new ContextRenderer();
 
-        $diff = new Horde_Text_Diff('Native', array($this->_lines[1], $this->_lines[2]));
+        $diff = Diff::fromFileLineArrays($this->_lines[1], $this->_lines[2], NativeEngine::class);
         $patch = <<<END_OF_PATCH
 ***************
 *** 1,3 ****
@@ -47,7 +49,7 @@ class RendererTest extends TestCase
 END_OF_PATCH;
         $this->assertEquals($patch, $renderer->render($diff));
 
-        $diff = new Horde_Text_Diff('Native', array($this->_lines[5], $this->_lines[6]));
+        $diff = Diff::fromFileLineArrays($this->_lines[5], $this->_lines[6], NativeEngine::class);
         $patch = <<<END_OF_PATCH
 ***************
 *** 1,5 ****
@@ -71,9 +73,9 @@ END_OF_PATCH;
 
     public function testInlineRenderer()
     {
-        $diff = new Horde_Text_Diff('Native', array($this->_lines[1], $this->_lines[2]));
+        $diff = Diff::fromFileLineArrays($this->_lines[1], $this->_lines[2], NativeEngine::class);
 
-        $renderer = new Horde_Text_Diff_Renderer_Inline(array('split_characters' => true));
+        $renderer = new InlineRenderer(array('split_characters' => true));
         $patch = <<<END_OF_PATCH
 This line is the same.
 This line is different in <del>1</del><ins>2</ins>.txt
@@ -82,7 +84,7 @@ This line is the same.
 END_OF_PATCH;
         $this->assertEquals($patch, $renderer->render($diff));
 
-        $renderer = new Horde_Text_Diff_Renderer_Inline();
+        $renderer = new InlineRenderer();
         $patch = <<<END_OF_PATCH
 This line is the same.
 This line is different in <del>1.txt</del><ins>2.txt</ins>
@@ -91,7 +93,7 @@ This line is the same.
 END_OF_PATCH;
         $this->assertEquals($patch, $renderer->render($diff));
 
-        $diff = new Horde_Text_Diff('Native', array($this->_lines[7], $this->_lines[8]));
+        $diff = Diff::fromFileLineArrays($this->_lines[7], $this->_lines[8], NativeEngine::class);
         $patch = <<<END_OF_PATCH
 This is a test.
 Adding random text to simulate files.
@@ -107,9 +109,9 @@ END_OF_PATCH;
 
     public function testUnifiedRenderer()
     {
-        $renderer = new Horde_Text_Diff_Renderer_Unified();
+        $renderer = new UnifiedRenderer();
 
-        $diff = new Horde_Text_Diff('Native', array($this->_lines[1], $this->_lines[2]));
+        $diff = Diff::fromFileLineArrays($this->_lines[1], $this->_lines[2], NativeEngine::class);
         $patch = <<<END_OF_PATCH
 @@ -1,3 +1,3 @@
  This line is the same.
@@ -120,7 +122,7 @@ END_OF_PATCH;
 END_OF_PATCH;
         $this->assertEquals($patch, $renderer->render($diff));
 
-        $diff = new Horde_Text_Diff('Native', array($this->_lines[5], $this->_lines[6]));
+        $diff = Diff::fromFileLineArrays($this->_lines[5], $this->_lines[6], NativeEngine::class);
         $patch = <<<END_OF_PATCH
 @@ -1,5 +1,7 @@
  This is a test.
@@ -153,8 +155,8 @@ Bon appetit!
 
 END_OF_PATCH;
 
-        $diff = new Horde_Text_Diff('Native', $test);
-        $renderer = new Horde_Text_Diff_Renderer_Inline();
+        $diff = Diff::fromFileLineArrays($test[0], $test[1], NativeEngine::class);
+        $renderer = new InlineRenderer();
         $this->assertEquals($patch, $renderer->render($diff));
     }
 
@@ -171,8 +173,8 @@ This line is different in <del>1.txt</del><ins>2.txt</ins>
 
 END_OF_PATCH;
 
-        $diff = new Horde_Text_Diff('Native', $test);
-        $renderer = new Horde_Text_Diff_Renderer_Inline();
+        $diff = Diff::fromFileLineArrays($test[0], $test[1], NativeEngine::class);
+        $renderer = new InlineRenderer();
         $this->assertEquals($patch, $renderer->render($diff));
     }
 
@@ -202,8 +204,8 @@ EOT;
         $patch = "@@ -1,5 +1,5 @@\n \n-Original Text\n+Modified Text\n \n \n \n";
 
         $test = array(explode("\n", $oldtext), explode("\n", $newtext));
-        $diff = new Horde_Text_Diff('Native', $test);
-        $renderer = new Horde_Text_Diff_Renderer_Unified(array('leading_context_lines' => 3, 'trailing_context_lines' => 3));
+        $diff = Diff::fromFileLineArrays($test[0], $test[1], NativeEngine::class);
+        $renderer = new UnifiedRenderer(array('leading_context_lines' => 3, 'trailing_context_lines' => 3));
         $this->assertEquals($patch, $renderer->render($diff));
     }
 
@@ -218,8 +220,8 @@ Another line
 
 END_OF_PATCH;
 
-        $diff = new Horde_Text_Diff('Native', $test);
-        $renderer = new Horde_Text_Diff_Renderer_Inline();
+        $diff = Diff::fromFileLineArrays($test[0], $test[1], NativeEngine::class);
+        $renderer = new InlineRenderer();
         $this->assertEquals($patch, $renderer->render($diff));
     }
 
@@ -270,13 +272,15 @@ EOT;
 END_OF_PATCH;
 
         $test = array(explode("\n", $oldtext), explode("\n", $newtext));
-        $diff = new Horde_Text_Diff('Native', $test);
-        $renderer = new Horde_Text_Diff_Renderer();
+        $diff = Diff::fromFileLineArrays($test[0], $test[1], NativeEngine::class);
+        $renderer = new Renderer();
         $this->assertEquals($patch, $renderer->render($diff));
     }
 
     public function testPearBug12710()
     {
+        $this->markTestIncomplete();
+
         /* failed assertion */
         $a = <<<QQ
 <li>The tax credit amounts to 30% of the cost of the system, with a
@@ -294,11 +298,9 @@ QQ;
 <li>Increase access to mass transit systems</li>
 QQ;
 
-        $diff = new Horde_Text_Diff('Native', array(explode("\n", $b), explode("\n", $a)));
-        $renderer = new Horde_Text_Diff_Renderer_Inline();
+        $diff = Diff::fromFileLineArrays(explode("\n", $a), explode("\n", $b), NativeEngine::class);
+        $renderer = new InlineRenderer();
         $renderer->render($diff);
-
-        $this->markTestIncomplete();
     }
     
     public function testGithubPullRequest86() 
@@ -318,8 +320,8 @@ Two<ins>s</ins>
 
 EOPATCH;
     
-        $diff = new Horde_Text_Diff('Native', array(explode("\n", $a), explode("\n", $b)));
-        $renderer = new Horde_Text_Diff_Renderer_Inline(array('split_characters' => true));
+        $diff = Diff::fromFileLineArrays(explode("\n", $a), explode("\n", $b), NativeEngine::class);
+        $renderer = new InlineRenderer(array('split_characters' => true));
         $this->assertEquals($patch, $renderer->render($diff));
     }
 }

@@ -6,9 +6,9 @@
  * @package    Text_Diff
  * @subpackage UnitTests
  */
-namespace Horde\Text\Diff\Test\Unnamespaced;
+namespace Horde\Text\Diff\Test;
 use Horde\Test\TestCase as TestCase;
-use \Horde_Text_Diff_ThreeWay;
+use Horde\Text\Diff\ThreeWay;
 
 class ThreeWayTest extends TestCase
 {
@@ -17,7 +17,7 @@ class ThreeWayTest extends TestCase
 
     public function setUp(): void
     {
-        $this->fixtureDir =  dirname(__FILE__, 2) . '/fixtures/';
+        $this->fixtureDir =  dirname(__FILE__, 1) . '/fixtures/';
         for ($i = 1; $i <= 4; $i++) {
             $this->_lines[$i] = file($this->fixtureDir . $i . '.txt');
         }
@@ -25,7 +25,7 @@ class ThreeWayTest extends TestCase
 
     public function testChangesAddingUp()
     {
-        $diff = new Horde_Text_Diff_ThreeWay($this->_lines[1], $this->_lines[2], $this->_lines[3]);
+        $diff = ThreeWay::fromFileLineArrays($this->_lines[1], $this->_lines[2], $this->_lines[3]);
         $merge = <<<END_OF_MERGE
 This line is the same.
 This line is different in 2.txt
@@ -37,7 +37,7 @@ END_OF_MERGE;
 
     public function testConflictingChanges()
     {
-        $diff = new Horde_Text_Diff_ThreeWay($this->_lines[1], $this->_lines[2], $this->_lines[4]);
+        $diff = ThreeWay::fromFileLineArrays($this->_lines[1], $this->_lines[2], $this->_lines[4]);
         $merge = <<<END_OF_MERGE
 This line is the same.
 <<<<<<< 2.txt
