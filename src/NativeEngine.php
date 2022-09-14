@@ -31,7 +31,7 @@ namespace Horde\Text\Diff;
  * @author  Geoffrey T. Dairiki <dairiki@dairiki.org>
  * @package Text_Diff
  */
-class NativeEngine
+class NativeEngine implements DiffEngineInterface
 {
     /*
      * @var array

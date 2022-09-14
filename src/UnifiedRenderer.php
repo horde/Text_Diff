@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Horde\Text\Diff\Renderer;
+namespace Horde\Text\Diff;
 
-use Horde\Text\Diff\Renderer;
+use Horde\Text\Diff;
 
 /**
  * "Unified" diff renderer.

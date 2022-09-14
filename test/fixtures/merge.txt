@@ -1,0 +1,7 @@
+This line is the same.
+<<<<<<< 2.txt
+This line is different in 2.txt
+=======
+This line is different in 4.txt
+>>>>>>> 4.txt
+This line is the same.
