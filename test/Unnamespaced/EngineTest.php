@@ -16,6 +16,8 @@ class EngineTest extends TestCase
 
     public function setUp(): void
     {
+        parent::setUp();
+
         $this->_lines = array(
             1 => file(__DIR__ . '/fixtures/1.txt'),
             2 => file(__DIR__ . '/fixtures/2.txt'));

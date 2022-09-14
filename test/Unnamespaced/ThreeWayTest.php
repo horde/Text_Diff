@@ -16,6 +16,8 @@ class ThreeWayTest extends TestCase
 
     public function setUp(): void
     {
+        parent::setUp();
+
         for ($i = 1; $i <= 4; $i++) {
             $this->_lines[$i] = file(__DIR__ . '/fixtures/' . $i . '.txt');
         }

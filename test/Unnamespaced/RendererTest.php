@@ -21,6 +21,8 @@ class RendererTest extends TestCase
 
     public function setUp(): void
     {
+        parent::setUp();
+
         for ($i = 1; $i <= 8; $i++) {
             $this->_lines[$i] = file(__DIR__ . '/fixtures/' . $i . '.txt');
         }
