@@ -38,15 +38,7 @@ END_OF_MERGE;
     public function testConflictingChanges()
     {
         $diff = new Horde_Text_Diff_ThreeWay($this->_lines[1], $this->_lines[2], $this->_lines[4]);
-        $merge = <<<END_OF_MERGE
-This line is the same.
-<<<<<<< 2.txt
-This line is different in 2.txt
-=======
-This line is different in 4.txt
->>>>>>> 4.txt
-This line is the same.
-END_OF_MERGE;
+        $merge = file_get_contents($this->fixtureDir . 'merge.txt');
         $this->assertEquals($merge, implode("\n", $diff->mergedOutput('2.txt', '4.txt')));
     }
 }
