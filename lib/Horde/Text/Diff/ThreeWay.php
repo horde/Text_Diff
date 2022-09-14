@@ -29,13 +29,32 @@ class Horde_Text_Diff_ThreeWay
     /**
      * Computes diff between 3 sequences of strings.
      *
-     * @param array $orig    The original lines to use.
-     * @param array $final1  The first version to compare to.
-     * @param array $final2  The second version to compare to.
-     * @param string|Engine $engine Either 'auto' or a Fully Qualified Class Name, a shorthand or an object.
+     * @param array|string|object|string $orig array: The original lines to use.
+     *                                         OR: string denoting the engine to use
+     *                                         OR: an Engine object
+     * @param array $final1  The first version to compare to OR if $orig was an engine string or object, the original array of lines.
+     * @param array $final2  The second version to compare to OR if $orig was an engine string or object, the first version to compare to as array of lines.
+     * @param string|object|string $engine Either 'auto' or a Fully Qualified Class Name, a shorthand or an object OR if the first argument was the engine, the second version to compare to as array of lines.
      */
     public function __construct($orig = null, $final1 = null, $final2 = null, $engine = 'auto')
     {
+        if (is_string($orig) || is_object($orig)) {
+            $tmp = $orig;
+            $orig = $final1;
+            $final1 = $final2;
+            $final2 = $engine;
+            $engine = $tmp;
+        }
+        if (!(is_array($orig) && is_array($final2) && (is_string($engine) || is_object($engine)))) {
+            throw new InvalidArgumentException(
+                sprintf('ThreeWay must be initialized with three arrays of strings and optionally an engine object or class string. Found: __construct(%s, %s, %s, %s)',
+                    gettype($orig),
+                    gettype($final1),
+                    gettype($final2),
+                    gettype($engine)
+                )
+            );
+        }
         if (!is_object($engine)) {
             $class = 'Horde_Text_Diff_Engine_';
             if ($engine == 'auto') {
