@@ -26,7 +26,7 @@ class ThreeWayTest extends TestCase
 
     public function testChangesAddingUp()
     {
-        $diff = new Horde_Text_Diff_ThreeWay($this->_lines[1], $this->_lines[2], $this->_lines[3]);
+        $diff = new Horde_Text_Diff_ThreeWay('Native', $this->_lines[1], $this->_lines[2], $this->_lines[3]);
         $merge = <<<END_OF_MERGE
 This line is the same.
 This line is different in 2.txt
@@ -38,7 +38,7 @@ END_OF_MERGE;
 
     public function testConflictingChanges()
     {
-        $diff = new Horde_Text_Diff_ThreeWay($this->_lines[1], $this->_lines[2], $this->_lines[4]);
+        $diff = new Horde_Text_Diff_ThreeWay('Native', $this->_lines[1], $this->_lines[2], $this->_lines[4]);
         $merge = file_get_contents($this->fixtureDir . 'merge.txt');
         $this->assertEquals($merge, implode("\n", $diff->mergedOutput('2.txt', '4.txt')));
     }
