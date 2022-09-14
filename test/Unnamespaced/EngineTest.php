@@ -77,6 +77,7 @@ class EngineTest extends TestCase
 
     public function testXdiffEngine()
     {
+        $this->markTestIncomplete("This test is incomplete because Op_Change is not implemented with Xdiff");
         $this->expectException('Horde_Text_Diff_Exception');
         $diff = new Horde_Text_Diff('Xdiff', array($this->_lines[1], $this->_lines[2]));
         $this->_testDiff($diff);
