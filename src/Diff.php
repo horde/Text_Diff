@@ -31,6 +31,53 @@ class Diff
     }
 
     /**
+     * Shortcut constructor, internally creating the Engine instance.
+     *
+     * Default is Auto, meaning it will use XDiffEngine if available, otherwise resort to NativeEngine 
+     * If you really care about what engine provides the OperationList, implement your own 
+     * 
+     * Use this to create
+     * - NativeEngine
+     * - XDiffEngine
+     * - ShellEngine
+     * - "Auto": The most appropriate engine to deal with two arrays of file lines
+     * - Explicitly any other engine that initializes from two arrays of lines
+     * 
+     * @return Diff
+     */
+    public static function fromFileLineArrays(
+        array $fromLines = [],
+        array $toLines = [],
+        string $engineClass = 'auto',
+        array $engineParams = [];
+    ): Diff
+    {
+        $engine = DiffEngineFactory::fromFileLineArrays($fromLines, $toLines, $engineClass, $engineParams);
+        return new self($engine->diff());
+    }
+   /**
+    * Shortcut constructor, internally creating the Engine instance.
+    *
+    * Default is Auto, meaning it will use XDiffEngine if available, otherwise resort to NativeEngine 
+    * If you really care about what engine provides the OperationList, implement your own 
+    * 
+    * Use this to create
+    * - StringEngine
+    * - "Auto": The most appropriate engine to deal with a single string diff source
+    * - Explicitly any other engine that initializes from a single string diff source
+    * 
+    * @return Diff 
+    */
+    public static function fromString(
+        string $diff,
+        string $engineClass = 'auto',
+        $engineParams = ['mode' => 'autodetect']
+    ): DiffEngineInterface
+    {
+        $engine = DiffEngineFactory::fromFileLineArrays($fromLines, $toLines, $engineClass, $engineParams);
+        return new self($engine->diff());
+    }
+    /**
      * Returns the array of differences.
      */
     public function getDiff()
