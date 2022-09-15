@@ -86,6 +86,7 @@ class EngineTest extends TestCase
 
     public function testXdiffEngine()
     {
+        $this->markTestIncomplete("This test is incomplete because Op_Change is not implemented with Xdiff");
         $this->expectException(Exception::class);
         $diff = Diff::fromFileLineArrays($this->_lines[1], $this->_lines[2], XdiffEngine::class);
         $this->_testDiff($diff);
