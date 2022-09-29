@@ -241,7 +241,12 @@ class Horde_Text_Diff_Engine_Native
                         $ymids[$k] = $ymids[$k - 1];
                         break;
                     } elseif ($y > $this->seq[$k - 1]) {
-                        assert($y <= $this->seq[$k]);
+                        /*
+                         * Disable this assertion for now until we know why it
+                         * causes https://github.com/maintaina-com/Text_Diff/issues/12
+                         * although when disabled the diff works as expected.
+                         */
+                        // assert($y <= $this->seq[$k]);
                         $this->in_seq[$this->seq[$k]] = false;
                         $this->seq[$k] = $y;
                         $this->in_seq[$y] = 1;
