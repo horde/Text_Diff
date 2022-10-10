@@ -17,7 +17,7 @@
   <email>chuck@horde.org</email>
   <active>no</active>
  </lead>
- <date>2021-03-13</date>
+ <date>2022-10-10</date>
  <version>
   <release>3.0.0alpha4</release>
   <api>3.0.0alpha1</api>
@@ -26,12 +26,25 @@
   <release>alpha</release>
   <api>alpha</api>
  </stability>
- <license uri="http://www.horde.org/licenses/lgpl21">LGPL-2.1</license>
+ <license uri="http://www.horde.org/licenses/lgpl21">LGPL-2.1-only</license>
  <notes>
-* 
+* [rla] Deactivated an assertion silently failing since PHP 5.4 or earlier.
+* [rla] Compatibility with PHP 8.2.
+* [rla] Incomplete draft conversion to PSR-4.
+* [rla] Unit tests are ready for PHPUnit 9.5.
+* |+
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
+   <dir name=".github">
+    <dir name="workflows">
+     <file name="ci.yml" role="php" />
+     <file name="phpdoc.yml" role="php" />
+     <file name="release.yml" role="php" />
+     <file name="update-composer-json.yml" role="php" />
+     <file name="update-satis.yml" role="php" />
+    </dir> <!-- /.github/workflows -->
+   </dir> <!-- /.github -->
    <dir name="doc">
     <dir name="Horde">
      <dir name="Text">
@@ -88,41 +101,69 @@
      </dir> <!-- /lib/Horde/Text -->
     </dir> <!-- /lib/Horde -->
    </dir> <!-- /lib -->
+   <dir name="src">
+    <file name="AddOperation.php" role="php" />
+    <file name="BaseOperation.php" role="php" />
+    <file name="ChangeOperation.php" role="php" />
+    <file name="ContextRenderer.php" role="php" />
+    <file name="CopyOperation.php" role="php" />
+    <file name="DeleteOperation.php" role="php" />
+    <file name="Diff.php" role="php" />
+    <file name="DiffEngineFactory.php" role="php" />
+    <file name="DiffEngineInterface.php" role="php" />
+    <file name="Exception.php" role="php" />
+    <file name="InlineRenderer.php" role="php" />
+    <file name="MappedDiff.php" role="php" />
+    <file name="NativeEngine.php" role="php" />
+    <file name="OperationInterface.php" role="php" />
+    <file name="OperationList.php" role="php" />
+    <file name="Renderer.php" role="php" />
+    <file name="ShellEngine.php" role="php" />
+    <file name="StringEngine.php" role="php" />
+    <file name="ThreeWay.php" role="php" />
+    <file name="ThreeWayBaseOperation.php" role="php" />
+    <file name="ThreeWayBlockBuilder.php" role="php" />
+    <file name="ThreeWayCopyOperation.php" role="php" />
+    <file name="UnifiedColoredRenderer.php" role="php" />
+    <file name="UnifiedRenderer.php" role="php" />
+    <file name="XdiffEngine.php" role="php" />
+   </dir> <!-- /src -->
    <dir name="test">
-    <dir name="Horde">
-     <dir name="Text">
-      <dir name="Diff">
-       <dir name="fixtures">
-        <file name="1.txt" role="test" />
-        <file name="2.txt" role="test" />
-        <file name="3.txt" role="test" />
-        <file name="4.txt" role="test" />
-        <file name="5.txt" role="test" />
-        <file name="6.txt" role="test" />
-        <file name="7.txt" role="test" />
-        <file name="8.txt" role="test" />
-        <file name="context.patch" role="test" />
-        <file name="unified.patch" role="test" />
-        <file name="unified2.patch" role="test" />
-       </dir> <!-- /test/Horde/Text/Diff/fixtures -->
-       <file name="AllTests.php" role="test" />
-       <file name="bootstrap.php" role="test" />
-       <file name="EngineTest.php" role="test" />
-       <file name="RendererTest.php" role="test" />
-       <file name="ThreeWayTest.php" role="test" />
-      </dir> <!-- /test/Horde/Text/Diff -->
-     </dir> <!-- /test/Horde/Text -->
-    </dir> <!-- /test/Horde -->
+    <dir name="fixtures">
+     <file name="1.txt" role="test" />
+     <file name="2.txt" role="test" />
+     <file name="3.txt" role="test" />
+     <file name="4.txt" role="test" />
+     <file name="5.txt" role="test" />
+     <file name="6.txt" role="test" />
+     <file name="7.txt" role="test" />
+     <file name="8.txt" role="test" />
+     <file name="context.patch" role="test" />
+     <file name="merge.txt" role="test" />
+     <file name="unified.patch" role="test" />
+     <file name="unified2.patch" role="test" />
+    </dir> <!-- /test/fixtures -->
+    <dir name="Unnamespaced">
+     <file name="EngineTest.php" role="test" />
+     <file name="RendererTest.php" role="test" />
+     <file name="ThreeWayTest.php" role="test" />
+    </dir> <!-- /test/Unnamespaced -->
+    <file name="AllTests.php" role="test" />
+    <file name="bootstrap.php" role="test" />
+    <file name="EngineTest.php" role="test" />
+    <file name="RendererTest.php" role="test" />
+    <file name="ThreeWayTest.php" role="test" />
    </dir> <!-- /test -->
+   <file name=".php-cs-fixer.dist.php" role="php" />
    <file name="LICENSE" role="doc" />
   </dir> <!-- / -->
  </contents>
  <dependencies>
   <required>
    <php>
-    <min>7.0.0</min>
-    <max>8.0.0alpha1</max>
-    <exclude>8.0.0alpha1</exclude>
+    <min>7.4.0</min>
+    <max>9.0.0alpha1</max>
+    <exclude>9.0.0alpha1</exclude>
    </php>
    <pearinstaller>
     <min>1.7.0</min>
@@ -136,6 +177,12 @@
  </dependencies>
  <phprelease>
   <filelist>
+   <install as="workflows/ci.yml" name=".github/workflows/ci.yml" />
+   <install as="workflows/phpdoc.yml" name=".github/workflows/phpdoc.yml" />
+   <install as="workflows/release.yml" name=".github/workflows/release.yml" />
+   <install as="workflows/update-composer-json.yml" name=".github/workflows/update-composer-json.yml" />
+   <install as="workflows/update-satis.yml" name=".github/workflows/update-satis.yml" />
+   <install as="" name=".php-cs-fixer.dist.php" />
    <install as="CHANGES" name="doc/Horde/Text/Diff/CHANGES" />
    <install as="examples/1.txt" name="doc/Horde/Text/Diff/examples/1.txt" />
    <install as="examples/2.txt" name="doc/Horde/Text/Diff/examples/2.txt" />
@@ -163,45 +210,54 @@
    <install as="Horde/Text/Diff/ThreeWay/Op/Base.php" name="lib/Horde/Text/Diff/ThreeWay/Op/Base.php" />
    <install as="Horde/Text/Diff/ThreeWay/Op/Copy.php" name="lib/Horde/Text/Diff/ThreeWay/Op/Copy.php" />
    <install as="LICENSE" name="LICENSE" />
-   <install as="Horde/Text/Diff/AllTests.php" name="test/Horde/Text/Diff/AllTests.php" />
-   <install as="Horde/Text/Diff/bootstrap.php" name="test/Horde/Text/Diff/bootstrap.php" />
-   <install as="Horde/Text/Diff/EngineTest.php" name="test/Horde/Text/Diff/EngineTest.php" />
-   <install as="Horde/Text/Diff/fixtures/1.txt" name="test/Horde/Text/Diff/fixtures/1.txt" />
-   <install as="Horde/Text/Diff/fixtures/2.txt" name="test/Horde/Text/Diff/fixtures/2.txt" />
-   <install as="Horde/Text/Diff/fixtures/3.txt" name="test/Horde/Text/Diff/fixtures/3.txt" />
-   <install as="Horde/Text/Diff/fixtures/4.txt" name="test/Horde/Text/Diff/fixtures/4.txt" />
-   <install as="Horde/Text/Diff/fixtures/5.txt" name="test/Horde/Text/Diff/fixtures/5.txt" />
-   <install as="Horde/Text/Diff/fixtures/6.txt" name="test/Horde/Text/Diff/fixtures/6.txt" />
-   <install as="Horde/Text/Diff/fixtures/7.txt" name="test/Horde/Text/Diff/fixtures/7.txt" />
-   <install as="Horde/Text/Diff/fixtures/8.txt" name="test/Horde/Text/Diff/fixtures/8.txt" />
-   <install as="Horde/Text/Diff/fixtures/context.patch" name="test/Horde/Text/Diff/fixtures/context.patch" />
-   <install as="Horde/Text/Diff/fixtures/unified.patch" name="test/Horde/Text/Diff/fixtures/unified.patch" />
-   <install as="Horde/Text/Diff/fixtures/unified2.patch" name="test/Horde/Text/Diff/fixtures/unified2.patch" />
-   <install as="Horde/Text/Diff/RendererTest.php" name="test/Horde/Text/Diff/RendererTest.php" />
-   <install as="Horde/Text/Diff/ThreeWayTest.php" name="test/Horde/Text/Diff/ThreeWayTest.php" />
+   <install as="AddOperation.php" name="src/AddOperation.php" />
+   <install as="BaseOperation.php" name="src/BaseOperation.php" />
+   <install as="ChangeOperation.php" name="src/ChangeOperation.php" />
+   <install as="ContextRenderer.php" name="src/ContextRenderer.php" />
+   <install as="CopyOperation.php" name="src/CopyOperation.php" />
+   <install as="DeleteOperation.php" name="src/DeleteOperation.php" />
+   <install as="Diff.php" name="src/Diff.php" />
+   <install as="DiffEngineFactory.php" name="src/DiffEngineFactory.php" />
+   <install as="DiffEngineInterface.php" name="src/DiffEngineInterface.php" />
+   <install as="Exception.php" name="src/Exception.php" />
+   <install as="InlineRenderer.php" name="src/InlineRenderer.php" />
+   <install as="MappedDiff.php" name="src/MappedDiff.php" />
+   <install as="NativeEngine.php" name="src/NativeEngine.php" />
+   <install as="OperationInterface.php" name="src/OperationInterface.php" />
+   <install as="OperationList.php" name="src/OperationList.php" />
+   <install as="Renderer.php" name="src/Renderer.php" />
+   <install as="ShellEngine.php" name="src/ShellEngine.php" />
+   <install as="StringEngine.php" name="src/StringEngine.php" />
+   <install as="ThreeWay.php" name="src/ThreeWay.php" />
+   <install as="ThreeWayBaseOperation.php" name="src/ThreeWayBaseOperation.php" />
+   <install as="ThreeWayBlockBuilder.php" name="src/ThreeWayBlockBuilder.php" />
+   <install as="ThreeWayCopyOperation.php" name="src/ThreeWayCopyOperation.php" />
+   <install as="UnifiedColoredRenderer.php" name="src/UnifiedColoredRenderer.php" />
+   <install as="UnifiedRenderer.php" name="src/UnifiedRenderer.php" />
+   <install as="XdiffEngine.php" name="src/XdiffEngine.php" />
+   <install as="AllTests.php" name="test/AllTests.php" />
+   <install as="bootstrap.php" name="test/bootstrap.php" />
+   <install as="EngineTest.php" name="test/EngineTest.php" />
+   <install as="fixtures/1.txt" name="test/fixtures/1.txt" />
+   <install as="fixtures/2.txt" name="test/fixtures/2.txt" />
+   <install as="fixtures/3.txt" name="test/fixtures/3.txt" />
+   <install as="fixtures/4.txt" name="test/fixtures/4.txt" />
+   <install as="fixtures/5.txt" name="test/fixtures/5.txt" />
+   <install as="fixtures/6.txt" name="test/fixtures/6.txt" />
+   <install as="fixtures/7.txt" name="test/fixtures/7.txt" />
+   <install as="fixtures/8.txt" name="test/fixtures/8.txt" />
+   <install as="fixtures/context.patch" name="test/fixtures/context.patch" />
+   <install as="fixtures/merge.txt" name="test/fixtures/merge.txt" />
+   <install as="fixtures/unified.patch" name="test/fixtures/unified.patch" />
+   <install as="fixtures/unified2.patch" name="test/fixtures/unified2.patch" />
+   <install as="RendererTest.php" name="test/RendererTest.php" />
+   <install as="ThreeWayTest.php" name="test/ThreeWayTest.php" />
+   <install as="Unnamespaced/EngineTest.php" name="test/Unnamespaced/EngineTest.php" />
+   <install as="Unnamespaced/RendererTest.php" name="test/Unnamespaced/RendererTest.php" />
+   <install as="Unnamespaced/ThreeWayTest.php" name="test/Unnamespaced/ThreeWayTest.php" />
   </filelist>
  </phprelease>
  <changelog>
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
   <release>
    <version>
     <release>1.0.0alpha1</release>
@@ -514,9 +570,13 @@
     <api>alpha</api>
    </stability>
    <date>2021-03-13</date>
-   <license uri="http://www.horde.org/licenses/lgpl21">LGPL-2.1</license>
+   <license uri="http://www.horde.org/licenses/lgpl21">LGPL-2.1-only</license>
    <notes>
-* 
+* [rla] Deactivated an assertion silently failing since PHP 5.4 or earlier.
+* [rla] Compatibility with PHP 8.2.
+* [rla] Incomplete draft conversion to PSR-4.
+* [rla] Unit tests are ready for PHPUnit 9.5.
+* |+
    </notes>
   </release>
  </changelog>

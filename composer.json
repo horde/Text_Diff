@@ -16,7 +16,7 @@
             "role": "lead"
         }
     ],
-    "time": "2022-09-13",
+    "time": "2022-10-10",
     "repositories": [
         {
             "type": "composer",
@@ -30,8 +30,7 @@
     },
     "require-dev": {
         "horde/cli": "^3 || dev-FRAMEWORK_6_0",
-        "horde/test": "^3 || dev-FRAMEWORK_6_0",
-        "phpunit/phpunit": "^9.5"
+        "horde/test": "^3 || dev-FRAMEWORK_6_0"
     },
     "suggest": {
         "horde/cli": "^3 || dev-FRAMEWORK_6_0",
@@ -54,6 +53,5 @@
         "allow-plugins": {
             "horde/horde-installer-plugin": true
         }
-    },
-    "minimum-stability": "dev"
+    }
 }

@@ -4,11 +4,13 @@
   state:
     release: alpha
     api: alpha
-  date: 2021-03-13
+  date: 2022-10-10
   license:
     identifier: LGPL-2.1
     uri: http://www.horde.org/licenses/lgpl21
   notes: |
+    [rla] Deactivated an assertion silently failing since PHP 5.4 or earlier.
+    [rla] Compatibility with PHP 8.2.
     [rla] Incomplete draft conversion to PSR-4.
     [rla] Unit tests are ready for PHPUnit 9.5.
     |+
