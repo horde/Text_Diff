@@ -8,7 +8,6 @@
  * @package Text_Diff
  * @author  Geoffrey T. Dairiki <dairiki@dairiki.org>
  */
-#[\AllowDynamicProperties]
 class Horde_Text_Diff_ThreeWay_Op_Base
 {
     public function __construct($orig = false, $final1 = false, $final2 = false)

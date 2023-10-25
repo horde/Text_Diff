@@ -8,7 +8,6 @@
  * @package Text_Diff
  * @author  Geoffrey T. Dairiki <dairiki@dairiki.org>
  */
-#[\AllowDynamicProperties]
 class Horde_Text_Diff_ThreeWay_BlockBuilder
 {
     public function __construct()
