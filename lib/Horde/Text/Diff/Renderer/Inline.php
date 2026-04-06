@@ -104,17 +104,37 @@ class Horde_Text_Diff_Renderer_Inline extends Horde_Text_Diff_Renderer
     protected function _added($lines)
     {
         array_walk($lines, array(&$this, '_encode'));
-        $lines[0] = $this->_ins_prefix . $lines[0];
-        $lines[count($lines) - 1] .= $this->_ins_suffix;
-        return $this->_lines($lines, ' ', false);
+
+        // If the last element is a newline marker, move it outside the tags
+        $trailing_newline = '';
+        if (!empty($lines) && $lines[count($lines) - 1] === "\0") {
+            $trailing_newline = array_pop($lines);
+        }
+
+        if (!empty($lines)) {
+            $lines[0] = $this->_ins_prefix . $lines[0];
+            $lines[count($lines) - 1] .= $this->_ins_suffix;
+        }
+
+        return $this->_lines($lines, ' ', false) . $trailing_newline;
     }
 
     protected function _deleted($lines, $words = false)
     {
         array_walk($lines, array(&$this, '_encode'));
-        $lines[0] = $this->_del_prefix . $lines[0];
-        $lines[count($lines) - 1] .= $this->_del_suffix;
-        return $this->_lines($lines, ' ', false);
+
+        // If the last element is a newline marker, move it outside the tags
+        $trailing_newline = '';
+        if (!empty($lines) && $lines[count($lines) - 1] === "\0") {
+            $trailing_newline = array_pop($lines);
+        }
+
+        if (!empty($lines)) {
+            $lines[0] = $this->_del_prefix . $lines[0];
+            $lines[count($lines) - 1] .= $this->_del_suffix;
+        }
+
+        return $this->_lines($lines, ' ', false) . $trailing_newline;
     }
 
     protected function _changed($orig, $final)
@@ -176,10 +196,17 @@ class Horde_Text_Diff_Renderer_Inline extends Horde_Text_Diff_Renderer
         $pos = 0;
 
         while ($pos < $length) {
-            // Eat a word with any preceding whitespace.
-            $spaces = strspn(substr($string, $pos), " \n");
+            // Check if we're at a newline - treat it as a separate token
+            if ($string[$pos] === "\n") {
+                $words[] = $newlineEscape;
+                $pos++;
+                continue;
+            }
+
+            // Eat a word with any preceding whitespace (but not newlines).
+            $spaces = strspn(substr($string, $pos), " ");
             $nextpos = strcspn(substr($string, $pos + $spaces), " \n");
-            $words[] = str_replace("\n", $newlineEscape, substr($string, $pos, $spaces + $nextpos));
+            $words[] = substr($string, $pos, $spaces + $nextpos);
             $pos += $spaces + $nextpos;
         }
 

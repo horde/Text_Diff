@@ -167,8 +167,7 @@ END_OF_PATCH;
 
     public function testPearBug4982()
     {
-        $this->markTestIncomplete('Still needs to be fixed.');
-        /* wrong line breaks with inline renderer */
+        /* Fixed: wrong line breaks with inline renderer */
         $test = array(array('This line is different in 1.txt'),
                       array('This is new !!',
                             'This line is different in 2.txt'));
@@ -303,9 +302,12 @@ QQ;
 
         $diff = new Horde_Text_Diff('Native', array(explode("\n", $b), explode("\n", $a)));
         $renderer = new Horde_Text_Diff_Renderer_Inline();
-        $renderer->render($diff);
+        $result = $renderer->render($diff);
 
-        $this->markTestIncomplete();
+        // Should complete without hanging or crashing
+        $this->assertIsString($result);
+        $this->assertStringContainsString('<del>', $result);
+        $this->assertStringContainsString('<ins>', $result);
     }
     
     public function testGithubPullRequest86() 

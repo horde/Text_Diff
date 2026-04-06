@@ -260,8 +260,8 @@ class NativeEngine implements DiffEngineInterface
                 }
                 $matches = $ymatches[$line];
                 foreach ($matches as $y) {
-                    $k = $this->_lcsPos($y);
                     if (empty($this->in_seq[$y])) {
+                        $k = $this->_lcsPos($y);
                         assert($k > 0);
                         $ymids[$k] = $ymids[$k - 1];
                         break;

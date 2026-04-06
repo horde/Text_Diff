@@ -169,8 +169,7 @@ END_OF_PATCH;
 
     public function testPearBug4982()
     {
-        $this->markTestIncomplete('Still needs to be fixed.');
-        /* wrong line breaks with inline renderer */
+        /* Fixed: wrong line breaks with inline renderer */
         $test = array(array('This line is different in 1.txt'),
                       array('This is new !!',
                             'This line is different in 2.txt'));
@@ -286,9 +285,7 @@ END_OF_PATCH;
 
     public function testPearBug12710()
     {
-        $this->markTestIncomplete();
-
-        /* failed assertion */
+        /* Previously caused infinite recursion due to wrong order of operations in NativeEngine */
         $a = <<<QQ
 <li>The tax credit amounts to 30% of the cost of the system, with a
 maximum of 2,000. This credit is separate from the 500 home improvement
@@ -307,7 +304,12 @@ QQ;
 
         $diff = Diff::fromFileLineArrays(explode("\n", $a), explode("\n", $b), NativeEngine::class);
         $renderer = new InlineRenderer();
-        $renderer->render($diff);
+        $result = $renderer->render($diff);
+
+        // Should complete without hanging or crashing
+        $this->assertIsString($result);
+        $this->assertStringContainsString('<del>', $result);
+        $this->assertStringContainsString('<ins>', $result);
     }
     
     public function testGithubPullRequest86() 
