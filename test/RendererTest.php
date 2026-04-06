@@ -7,16 +7,23 @@
  * @subpackage UnitTests
  */
 namespace Horde\Text\Diff\Test;
-use Horde\Test\TestCase as TestCase;
+
 use Horde\Text\Diff\ContextRenderer;
-use Horde\Text\Diff\Renderer;
-use Horde\Text\Diff\NativeEngine;
 use Horde\Text\Diff\Diff;
 use Horde\Text\Diff\InlineRenderer;
+use Horde\Text\Diff\NativeEngine;
+use Horde\Text\Diff\Renderer;
 use Horde\Text\Diff\UnifiedRenderer;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\TestCase;
+
 /**
  * @requires PHP >= 8.1
  */
+#[CoversClass(ContextRenderer::class)]
+#[CoversClass(InlineRenderer::class)]
+#[CoversClass(Renderer::class)]
+#[CoversClass(UnifiedRenderer::class)]
 class RendererTest extends TestCase
 {
     protected $_lines = array();

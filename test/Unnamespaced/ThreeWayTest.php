@@ -7,9 +7,12 @@
  * @subpackage UnitTests
  */
 namespace Horde\Text\Diff\Test\Unnamespaced;
-use Horde\Test\TestCase as TestCase;
-use \Horde_Text_Diff_ThreeWay;
 
+use Horde_Text_Diff_ThreeWay;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\TestCase;
+
+#[CoversClass(Horde_Text_Diff_ThreeWay::class)]
 class ThreeWayTest extends TestCase
 {
     protected $_lines = array();

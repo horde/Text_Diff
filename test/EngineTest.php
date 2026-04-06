@@ -10,16 +10,21 @@ namespace Horde\Text\Diff\Test;
 
 use Horde\Text\Diff\ChangeOperation;
 use Horde\Text\Diff\CopyOperation;
-use PHPUnit\Framework\TestCase;
 use Horde\Text\Diff\Diff;
 use Horde\Text\Diff\Exception;
+use Horde\Text\Diff\NativeEngine;
 use Horde\Text\Diff\StringEngine;
 use Horde\Text\Diff\XdiffEngine;
-use Horde\Text\Diff\NativeEngine;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @requires PHP >= 8.1
  */
+#[CoversClass(Diff::class)]
+#[CoversClass(NativeEngine::class)]
+#[CoversClass(StringEngine::class)]
+#[CoversClass(XdiffEngine::class)]
 class EngineTest extends TestCase
 {
     protected $_lines = array();

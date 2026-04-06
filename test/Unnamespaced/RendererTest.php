@@ -7,14 +7,20 @@
  * @subpackage UnitTests
  */
 namespace Horde\Text\Diff\Test\Unnamespaced;
-use Horde\Test\TestCase as TestCase;
-use \Horde_Text_Diff;
-use \Horde_Text_Diff_Renderer_Context;
-use \Horde_Text_Diff_Renderer_Inline;
-use \Horde_Text_Diff_Renderer_Unified;
-use \Horde_Text_Diff_Renderer;
-use \Horde_Text_Diff_ThreeWay;
 
+use Horde_Text_Diff;
+use Horde_Text_Diff_Renderer;
+use Horde_Text_Diff_Renderer_Context;
+use Horde_Text_Diff_Renderer_Inline;
+use Horde_Text_Diff_Renderer_Unified;
+use Horde_Text_Diff_ThreeWay;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\TestCase;
+
+#[CoversClass(Horde_Text_Diff_Renderer::class)]
+#[CoversClass(Horde_Text_Diff_Renderer_Context::class)]
+#[CoversClass(Horde_Text_Diff_Renderer_Inline::class)]
+#[CoversClass(Horde_Text_Diff_Renderer_Unified::class)]
 class RendererTest extends TestCase
 {
     protected $_lines = array();
