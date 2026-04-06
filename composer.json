@@ -30,8 +30,7 @@
         "horde/util": "^3 || dev-FRAMEWORK_6_0"
     },
     "require-dev": {
-        "horde/cli": "^3 || dev-FRAMEWORK_6_0",
-        "horde/test": "^3 || dev-FRAMEWORK_6_0"
+        "horde/cli": "^3 || dev-FRAMEWORK_6_0"
     },
     "suggest": {
         "horde/cli": "^3 || dev-FRAMEWORK_6_0",
