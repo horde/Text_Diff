@@ -37,3 +37,19 @@ run-tests.log
 # ignore composer artifacts
 composer.lock
 vendor/
+
+# Added by horde-components QC --fix-qc-issues
+# Build artifacts directory
+/build/
+# PHPStorm IDE settings
+/.idea/
+# VSCode IDE settings
+/.vscode/
+# Claude Code CLI cache and state
+/.claude/
+# Cline extension data
+/.cline/
+# PHPStan local configuration
+/phpstan.neon
+# PHPStan cache directory
+/.phpstan.cache/
