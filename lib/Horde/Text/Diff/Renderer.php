@@ -1,11 +1,12 @@
 <?php
+
 /**
  * A class to render Diffs in different formats.
  *
  * This class renders the diff in classic diff format. It is intended that
  * this class be customized via inheritance, to obtain fancier outputs.
  *
- * Copyright 2004-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2004-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (LGPL). If you did
  * not receive this file, see http://www.horde.org/licenses/lgpl21.
@@ -33,7 +34,7 @@ class Horde_Text_Diff_Renderer
     /**
      * Constructor.
      */
-    public function __construct($params = array())
+    public function __construct($params = [])
     {
         foreach ($params as $param => $value) {
             $v = '_' . $param;
@@ -50,7 +51,7 @@ class Horde_Text_Diff_Renderer
      */
     public function getParams()
     {
-        $params = array();
+        $params = [];
         foreach (get_object_vars($this) as $k => $v) {
             if ($k[0] == '_') {
                 $params[substr($k, 1)] = $v;
@@ -71,7 +72,7 @@ class Horde_Text_Diff_Renderer
     {
         $xi = $yi = 1;
         $block = false;
-        $context = array();
+        $context = [];
 
         $nlead = $this->_leading_context_lines;
         $ntrail = $this->_trailing_context_lines;
@@ -101,9 +102,13 @@ class Horde_Text_Diff_Renderer
                             $block[] = new Horde_Text_Diff_Op_Copy($context);
                         }
                         /* @todo */
-                        $output .= $this->_block($x0, $ntrail + $xi - $x0,
-                                                 $y0, $ntrail + $yi - $y0,
-                                                 $block);
+                        $output .= $this->_block(
+                            $x0,
+                            $ntrail + $xi - $x0,
+                            $y0,
+                            $ntrail + $yi - $y0,
+                            $block
+                        );
                         $block = false;
                     }
                 }
@@ -116,7 +121,7 @@ class Horde_Text_Diff_Renderer
                     $context = array_slice($context, count($context) - $nlead);
                     $x0 = $xi - count($context);
                     $y0 = $yi - count($context);
-                    $block = array();
+                    $block = [];
                     if ($context) {
                         $block[] = new Horde_Text_Diff_Op_Copy($context);
                     }
@@ -133,9 +138,13 @@ class Horde_Text_Diff_Renderer
         }
 
         if (is_array($block)) {
-            $output .= $this->_block($x0, $xi - $x0,
-                                     $y0, $yi - $y0,
-                                     $block);
+            $output .= $this->_block(
+                $x0,
+                $xi - $x0,
+                $y0,
+                $yi - $y0,
+                $block
+            );
         }
 
         return $output . $this->_endDiff();
@@ -147,21 +156,21 @@ class Horde_Text_Diff_Renderer
 
         foreach ($edits as $edit) {
             switch (get_class($edit)) {
-            case 'Horde_Text_Diff_Op_Copy':
-                $output .= $this->_context($edit->orig);
-                break;
+                case 'Horde_Text_Diff_Op_Copy':
+                    $output .= $this->_context($edit->orig);
+                    break;
 
-            case 'Horde_Text_Diff_Op_Add':
-                $output .= $this->_added($edit->final);
-                break;
+                case 'Horde_Text_Diff_Op_Add':
+                    $output .= $this->_added($edit->final);
+                    break;
 
-            case 'Horde_Text_Diff_Op_Delete':
-                $output .= $this->_deleted($edit->orig);
-                break;
+                case 'Horde_Text_Diff_Op_Delete':
+                    $output .= $this->_deleted($edit->orig);
+                    break;
 
-            case 'Horde_Text_Diff_Op_Change':
-                $output .= $this->_changed($edit->orig, $edit->final);
-                break;
+                case 'Horde_Text_Diff_Op_Change':
+                    $output .= $this->_changed($edit->orig, $edit->final);
+                    break;
             }
         }
 

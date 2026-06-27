@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author     Jan Schneider <jan@horde.org>
  * @license    http://www.horde.org/licenses/gpl GPL
@@ -6,6 +7,7 @@
  * @package    Text_Diff
  * @subpackage UnitTests
  */
+
 namespace Horde\Text\Diff\Test;
 
 use Horde\Text\Diff\ThreeWay;
@@ -18,7 +20,7 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(ThreeWay::class)]
 class ThreeWayTest extends TestCase
 {
-    protected $_lines = array();
+    protected $_lines = [];
     protected $fixtureDir = '';
 
     public function setUp(): void
@@ -33,11 +35,11 @@ class ThreeWayTest extends TestCase
     {
         $diff = ThreeWay::fromFileLineArrays($this->_lines[1], $this->_lines[2], $this->_lines[3], 'NativeEngine');
         $merge = <<<END_OF_MERGE
-This line is the same.
-This line is different in 2.txt
-This line is the same.
-This line is new in 3.txt
-END_OF_MERGE;
+            This line is the same.
+            This line is different in 2.txt
+            This line is the same.
+            This line is new in 3.txt
+            END_OF_MERGE;
         $this->assertEquals($merge, implode("\n", $diff->mergedOutput('2.txt', '3.txt')));
     }
 

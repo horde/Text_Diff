@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Copyright 2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2017-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (LGPL). If you did
  * not receive this file, see http://www.horde.org/licenses/lgpl21.
@@ -20,8 +21,7 @@
  * @license   http://www.horde.org/licenses/lgpl21 LGPL
  * @package   Text_Diff
  */
-class Horde_Text_Diff_Renderer_Unified_Colored
-extends Horde_Text_Diff_Renderer_Unified
+class Horde_Text_Diff_Renderer_Unified_Colored extends Horde_Text_Diff_Renderer_Unified
 {
     /**
      * CLI handler.
@@ -35,7 +35,7 @@ extends Horde_Text_Diff_Renderer_Unified
     /**
      * Constructor.
      */
-    public function __construct($params = array())
+    public function __construct($params = [])
     {
         if (!isset($params['cli'])) {
             throw new BadMethodCallException('CLI handler is missing');
@@ -47,21 +47,24 @@ extends Horde_Text_Diff_Renderer_Unified
     protected function _blockHeader($xbeg, $xlen, $ybeg, $ylen)
     {
         return $this->_cli->color(
-            'lightmagenta', parent::_blockHeader($xbeg, $xlen, $ybeg, $ylen)
+            'lightmagenta',
+            parent::_blockHeader($xbeg, $xlen, $ybeg, $ylen)
         );
     }
 
     protected function _added($lines)
     {
         return $this->_cli->color(
-            'lightgreen', parent::_added($lines)
+            'lightgreen',
+            parent::_added($lines)
         );
     }
 
     protected function _deleted($lines)
     {
         return $this->_cli->color(
-            'lightred', parent::_deleted($lines)
+            'lightred',
+            parent::_deleted($lines)
         );
     }
 }

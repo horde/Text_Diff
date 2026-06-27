@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Copyright 2007-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2007-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (LGPL). If you did
  * not receive this file, see http://www.horde.org/licenses/lgpl21.
@@ -12,7 +13,7 @@ class Horde_Text_Diff_ThreeWay_Op_Copy extends Horde_Text_Diff_ThreeWay_Op_Base
 {
     public function __construct($lines = false)
     {
-        $this->orig = $lines ? $lines : array();
+        $this->orig = $lines ? $lines : [];
         $this->final1 = &$this->orig;
         $this->final2 = &$this->orig;
     }

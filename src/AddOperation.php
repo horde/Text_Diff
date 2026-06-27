@@ -8,8 +8,8 @@ namespace Horde\Text\Diff;
  * The original PHP version of this code was written by Geoffrey T. Dairiki
  * <dairiki@dairiki.org>, and is used/adapted with his permission.
  *
- * Copyright 2004 Geoffrey T. Dairiki <dairiki@dairiki.org>
- * Copyright 2004-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2004-2026 Geoffrey T. Dairiki <dairiki@dairiki.org>
+ * Copyright 2004-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (LGPL). If you did
  * not receive this file, see http://www.horde.org/licenses/lgpl21.
@@ -21,9 +21,9 @@ class AddOperation extends BaseOperation
 {
     /**
      * Constructor
-     * 
-     * @param array<string> $lines 
-     * @return void 
+     *
+     * @param array<string> $lines
+     * @return void
      */
     public function __construct(array $lines)
     {

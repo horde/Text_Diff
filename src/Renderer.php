@@ -10,7 +10,7 @@ namespace Horde\Text\Diff;
  * This class renders the diff in classic diff format. It is intended that
  * this class be customized via inheritance, to obtain fancier outputs.
  *
- * Copyright 2004-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2004-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (LGPL). If you did
  * not receive this file, see http://www.horde.org/licenses/lgpl21.
@@ -160,13 +160,13 @@ class Renderer
 
     /**
      * Render a diff block
-     * 
-     * @param int $xbeg 
-     * @param int $xlen 
-     * @param int $ybeg 
-     * @param int $ylen 
+     *
+     * @param int $xbeg
+     * @param int $xlen
+     * @param int $ybeg
+     * @param int $ylen
      * @param mixed $edits Should be a list object rather than a writeable array reference
-     * @return string 
+     * @return string
      */
     protected function _block(int $xbeg, int $xlen, int $ybeg, int $ylen, &$edits): string
     {
@@ -207,19 +207,19 @@ class Renderer
 
     /**
      * Render a Diff Block Header
-     * 
+     *
      * Headers look like: 186,187c180,181 or 204c198
-     * 
+     *
      * @param int $xbeg
-     * @param int $xlen 
-     * @param int $ybeg 
-     * @param int $ylen 
-     * @return string 
+     * @param int $xlen
+     * @param int $ybeg
+     * @param int $ylen
+     * @return string
      */
     protected function _blockHeader(int $xbeg, int $xlen, int $ybeg, int $ylen): string
     {
         if ($xlen > 1) {
-            $xbeg .= ',' . (string)($xbeg + $xlen - 1);
+            $xbeg .= ',' . (string) ($xbeg + $xlen - 1);
         }
         if ($ylen > 1) {
             $ybeg .= ',' . ($ybeg + $ylen - 1);
@@ -247,10 +247,10 @@ class Renderer
 
     /**
      * Glue an array of lines to a string with prefixed lines
-     * 
-     * @param array $lines 
+     *
+     * @param array $lines
      * @param string $prefix defaults to a single space
-     * @return string 
+     * @return string
      */
     protected function _lines(array $lines, string $prefix = ' '): string
     {
@@ -259,9 +259,9 @@ class Renderer
 
     /**
      * Glues array of context lines to a space-prefixed string
-     * 
+     *
      * @param array $lines
-     * @return string 
+     * @return string
      */
     protected function _context(array $lines = []): string
     {
@@ -270,9 +270,9 @@ class Renderer
 
     /**
      * Glues array of added lines to a >-prefixed string
-     * 
+     *
      * @param array $lines
-     * @return string 
+     * @return string
      */
     protected function _added(array $lines = []): string
     {
@@ -281,9 +281,9 @@ class Renderer
 
     /**
      * Glues array of added lines to a >-prefixed string
-     * 
+     *
      * @param array $lines
-     * @return string 
+     * @return string
      */
     protected function _deleted(array $lines = []): string
     {
@@ -292,10 +292,10 @@ class Renderer
 
     /**
      * Produces a comparison string out of arrays of deleted and added lines
-     * 
-     * @param array $orig 
-     * @param array $final 
-     * @return string 
+     *
+     * @param array $orig
+     * @param array $final
+     * @return string
      */
     protected function _changed(array $orig = [], array $final = []): string
     {

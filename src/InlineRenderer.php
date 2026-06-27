@@ -12,7 +12,7 @@ use Horde\Text\Diff\Renderer;
  *
  * This class renders diffs in the Wiki-style "inline" format.
  *
- * Copyright 2004-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2004-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (LGPL). If you did
  * not receive this file, see http://www.horde.org/licenses/lgpl21.
@@ -156,9 +156,9 @@ class InlineRenderer extends Renderer
         /* If we've already split on words, just display. */
         if ($this->_split_level == 'words') {
             $prefix = '';
-            while ($orig[0] !== false && $final[0] !== false &&
-                   substr($orig[0], 0, 1) == ' ' &&
-                   substr($final[0], 0, 1) == ' ') {
+            while ($orig[0] !== false && $final[0] !== false
+                   && substr($orig[0], 0, 1) == ' '
+                   && substr($final[0], 0, 1) == ' ') {
                 $prefix .= substr($orig[0], 0, 1);
                 $orig[0] = substr($orig[0], 1);
                 $final[0] = substr($final[0], 1);

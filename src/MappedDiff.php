@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 /**
- * Copyright 2007-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2007-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (LGPL). If you did
  * not receive this file, see http://www.horde.org/licenses/lgpl21.
@@ -42,14 +42,13 @@ class MappedDiff extends Diff
      * @param array $to_lines
      */
     public function __construct(
-        OperationList $edits, 
+        OperationList $edits,
         array $from_lines,
         array $to_lines,
-    )
-    {
+    ) {
         // TODO: Fix the assertion to count against the operations list
-//        assert(count($from_lines) == count($mapped_from_lines));
-//        assert(count($to_lines) == count($mapped_to_lines));
+        //        assert(count($from_lines) == count($mapped_from_lines));
+        //        assert(count($to_lines) == count($mapped_to_lines));
 
         parent::__construct($edits);
 

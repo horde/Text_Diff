@@ -15,8 +15,8 @@ namespace Horde\Text\Diff;
  * echo $renderer->render($diff);
  * </code>
  *
- * Copyright 2005 Örjan Persson <o@42mm.org>
- * Copyright 2005-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2005-2026 Örjan Persson <o@42mm.org>
+ * Copyright 2005-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (LGPL). If you did
  * not receive this file, see http://www.horde.org/licenses/lgpl21.
@@ -26,9 +26,7 @@ namespace Horde\Text\Diff;
  */
 class StringEngine implements DiffEngineInterface
 {
-    public function __construct(private string $diff, private string $mode = 'autodetect')
-    {        
-    }
+    public function __construct(private string $diff, private string $mode = 'autodetect') {}
     /**
      * Parses a unified or context diff.
      *
@@ -78,8 +76,8 @@ class StringEngine implements DiffEngineInterface
 
         // Split by new line and remove the diff header, if there is one.
         $diff = explode($lnbr, $diff);
-        if (($mode == 'context' && strpos($diff[0], '***') === 0) ||
-            ($mode == 'unified' && strpos($diff[0], '---') === 0)) {
+        if (($mode == 'context' && strpos($diff[0], '***') === 0)
+            || ($mode == 'unified' && strpos($diff[0], '---') === 0)) {
             array_shift($diff);
             array_shift($diff);
         }
@@ -176,22 +174,22 @@ class StringEngine implements DiffEngineInterface
 
             // find what hasn't been changed
             $array = [];
-            while ($i < $max_i &&
-                   $j < $max_j &&
-                   strcmp($diff[$i], $diff[$j]) == 0) {
+            while ($i < $max_i
+                   && $j < $max_j
+                   && strcmp($diff[$i], $diff[$j]) == 0) {
                 $array[] = substr($diff[$i], 2);
                 $i++;
                 $j++;
             }
 
-            while ($i < $max_i && ($max_j-$j) <= 1) {
+            while ($i < $max_i && ($max_j - $j) <= 1) {
                 if ($diff[$i] != '' && substr($diff[$i], 0, 1) != ' ') {
                     break;
                 }
                 $array[] = substr($diff[$i++], 2);
             }
 
-            while ($j < $max_j && ($max_i-$i) <= 1) {
+            while ($j < $max_j && ($max_i - $i) <= 1) {
                 if ($diff[$j] != '' && substr($diff[$j], 0, 1) != ' ') {
                     break;
                 }

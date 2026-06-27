@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 namespace Horde\Text\Diff;
+
 use Horde\Util\Util;
 
 /**
@@ -11,7 +12,7 @@ use Horde\Util\Util;
  * This class uses the Unix `diff` program via shell_exec to compute the
  * differences between the two input arrays.
  *
- * Copyright 2007-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2007-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (LGPL). If you did
  * not receive this file, see http://www.horde.org/licenses/lgpl21.
@@ -38,9 +39,7 @@ class ShellEngine implements DiffEngineInterface
          * @var string
          */
         protected string $diffCommand = 'diff'
-    )
-    {        
-    }
+    ) {}
 
     /**
      * Returns the array of differences.
@@ -50,7 +49,7 @@ class ShellEngine implements DiffEngineInterface
     public function diff(): OperationList
     {
         $from_lines = $this->fromLines;
-        $to_lines = $this->toLines;        
+        $to_lines = $this->toLines;
         array_walk($from_lines, [Diff::class, 'trimNewlines']);
         array_walk($to_lines, [Diff::class, 'trimNewlines']);
 
@@ -104,8 +103,8 @@ class ShellEngine implements DiffEngineInterface
             if ($from_line_no < $match[1] || $to_line_no < $match[4]) {
                 // copied lines
                 assert($match[1] - $from_line_no == $match[4] - $to_line_no);
-                $edits[] =
-                    new CopyOperation(
+                $edits[]
+                    = new CopyOperation(
                         $this->_getLines($from_lines, $from_line_no, $match[1] - 1),
                         $this->_getLines($to_lines, $to_line_no, $match[4] - 1)
                     );
@@ -114,8 +113,8 @@ class ShellEngine implements DiffEngineInterface
             switch ($match[3]) {
                 case 'd':
                     // deleted lines
-                    $edits[] =
-                        new DeleteOperation(
+                    $edits[]
+                        = new DeleteOperation(
                             $this->_getLines($from_lines, $from_line_no, (int) $match[2])
                         );
                     $to_line_no++;
@@ -123,8 +122,8 @@ class ShellEngine implements DiffEngineInterface
 
                 case 'c':
                     // changed lines
-                    $edits[] =
-                        new ChangeOperation(
+                    $edits[]
+                        = new ChangeOperation(
                             $this->_getLines($from_lines, $from_line_no, (int) $match[2]),
                             $this->_getLines($to_lines, $to_line_no, (int) $match[5])
                         );
@@ -132,8 +131,8 @@ class ShellEngine implements DiffEngineInterface
 
                 case 'a':
                     // added lines
-                    $edits[] =
-                        new AddOperation(
+                    $edits[]
+                        = new AddOperation(
                             $this->_getLines($to_lines, $to_line_no, (int) $match[5])
                         );
                     $from_line_no++;
@@ -143,8 +142,8 @@ class ShellEngine implements DiffEngineInterface
 
         if (!empty($from_lines)) {
             // Some lines might still be pending. Add them as copied
-            $edits[] =
-                new CopyOperation(
+            $edits[]
+                = new CopyOperation(
                     $this->_getLines(
                         $from_lines,
                         $from_line_no,

@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 namespace Horde\Text\Diff;
+
 /**
  * General API for generating and formatting diffs - the differences between
  * two sequences of strings.
@@ -10,8 +11,8 @@ namespace Horde\Text\Diff;
  * The original PHP version of this code was written by Geoffrey T. Dairiki
  * <dairiki@dairiki.org>, and is used/adapted with his permission.
  *
- * Copyright 2004 Geoffrey T. Dairiki <dairiki@dairiki.org>
- * Copyright 2004-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2004-2026 Geoffrey T. Dairiki <dairiki@dairiki.org>
+ * Copyright 2004-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (LGPL). If you did
  * not receive this file, see http://www.horde.org/licenses/lgpl21.
@@ -26,23 +27,21 @@ class Diff
      *
      * @param OperationList $edits
      */
-    public function __construct(protected OperationList $edits)
-    {
-    }
+    public function __construct(protected OperationList $edits) {}
 
     /**
      * Shortcut constructor, internally creating the Engine instance.
      *
-     * Default is Auto, meaning it will use XDiffEngine if available, otherwise resort to NativeEngine 
-     * If you really care about what engine provides the OperationList, implement your own 
-     * 
+     * Default is Auto, meaning it will use XDiffEngine if available, otherwise resort to NativeEngine
+     * If you really care about what engine provides the OperationList, implement your own
+     *
      * Use this to create
      * - NativeEngine
      * - XDiffEngine
      * - ShellEngine
      * - "Auto": The most appropriate engine to deal with two arrays of file lines
      * - Explicitly any other engine that initializes from two arrays of lines
-     * 
+     *
      * @return Diff
      */
     public static function fromFileLineArrays(
@@ -50,30 +49,28 @@ class Diff
         array $toLines = [],
         string $engineClass = 'auto',
         array $engineParams = []
-    ): Diff
-    {
+    ): Diff {
         $engine = DiffEngineFactory::fromFileLineArrays($fromLines, $toLines, $engineClass, $engineParams);
         return new self($engine->diff());
     }
-   /**
-    * Shortcut constructor, internally creating the Engine instance.
-    *
-    * Default is Auto, meaning it will use XDiffEngine if available, otherwise resort to NativeEngine 
-    * If you really care about what engine provides the OperationList, implement your own 
-    * 
-    * Use this to create
-    * - StringEngine
-    * - "Auto": The most appropriate engine to deal with a single string diff source
-    * - Explicitly any other engine that initializes from a single string diff source
-    * 
-    * @return Diff 
-    */
+    /**
+     * Shortcut constructor, internally creating the Engine instance.
+     *
+     * Default is Auto, meaning it will use XDiffEngine if available, otherwise resort to NativeEngine
+     * If you really care about what engine provides the OperationList, implement your own
+     *
+     * Use this to create
+     * - StringEngine
+     * - "Auto": The most appropriate engine to deal with a single string diff source
+     * - Explicitly any other engine that initializes from a single string diff source
+     *
+     * @return Diff
+     */
     public static function fromString(
         string $diff,
         string $engineClass = 'auto',
         $engineParams = ['mode' => 'autodetect']
-    ): Diff
-    {
+    ): Diff {
         $engine = DiffEngineFactory::fromString($diff, $engineClass, $engineParams);
         return new self($engine->diff());
     }
@@ -94,8 +91,8 @@ class Diff
     {
         $count = 0;
         foreach ($this->edits as $edit) {
-            if ($edit instanceof AddOperation ||
-                $edit instanceof ChangeOperation) {
+            if ($edit instanceof AddOperation
+                || $edit instanceof ChangeOperation) {
                 $count += $edit->nfinal();
             }
         }
@@ -111,8 +108,8 @@ class Diff
     {
         $count = 0;
         foreach ($this->edits as $edit) {
-            if ($edit instanceof DeleteOperation ||
-                $edit instanceof ChangeOperation) {
+            if ($edit instanceof DeleteOperation
+                || $edit instanceof ChangeOperation) {
                 $count += $edit->norig();
             }
         }

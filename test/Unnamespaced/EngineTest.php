@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author     Jan Schneider <jan@horde.org>
  * @license    http://www.horde.org/licenses/gpl GPL
@@ -6,22 +7,27 @@
  * @package    Text_Diff
  * @subpackage UnitTests
  */
+
 namespace Horde\Text\Diff\Test\Unnamespaced;
+
 use PHPUnit\Framework\TestCase;
 use Horde_Text_Diff;
 
+/**
+ * @coversNothing
+ */
 class EngineTest extends TestCase
 {
-    protected $_lines = array();
+    protected $_lines = [];
     protected $fixtureDir = '';
 
     public function setUp(): void
     {
         parent::setUp();
         $this->fixtureDir = dirname(__FILE__, 2) . '/fixtures/';
-        $this->_lines = array(
+        $this->_lines = [
             1 => file($this->fixtureDir . '1.txt'),
-            2 => file($this->fixtureDir . '2.txt'));
+            2 => file($this->fixtureDir . '2.txt')];
     }
 
     protected function _testDiff($diff)
@@ -41,7 +47,7 @@ class EngineTest extends TestCase
 
     public function testNativeEngine()
     {
-        $diff = new Horde_Text_Diff('Native', array($this->_lines[1], $this->_lines[2]));
+        $diff = new Horde_Text_Diff('Native', [$this->_lines[1], $this->_lines[2]]);
         $this->_testDiff($diff);
     }
 
@@ -50,20 +56,20 @@ class EngineTest extends TestCase
         if (!exec('which diff')) {
             $this->markTestSkipped('diff executable not found');
         }
-        $diff = new Horde_Text_Diff('Shell', array($this->_lines[1], $this->_lines[2]));
+        $diff = new Horde_Text_Diff('Shell', [$this->_lines[1], $this->_lines[2]]);
         $this->_testDiff($diff);
     }
 
     public function testStringEngine()
     {
         $patch = file_get_contents($this->fixtureDir . 'unified.patch');
-        $diff = new Horde_Text_Diff('String', array($patch));
+        $diff = new Horde_Text_Diff('String', [$patch]);
         $this->_testDiff($diff);
 
         $patch = file_get_contents($this->fixtureDir . 'unified2.patch');
         $this->expectException('Horde_Text_Diff_Exception');
-        $diff = new Horde_Text_Diff('String', array($patch));
-        $diff = new Horde_Text_Diff('String', array($patch, 'unified'));
+        $diff = new Horde_Text_Diff('String', [$patch]);
+        $diff = new Horde_Text_Diff('String', [$patch, 'unified']);
         $edits = $diff->getDiff();
         $this->assertEquals(1, count($edits));
         $this->assertInstanceof('Horde_Text_Diff_Op_Change', $edits[0]);
@@ -71,7 +77,7 @@ class EngineTest extends TestCase
         $this->assertEquals('Number of private contractors and troops are equal for first time in U.S. history', $edits[0]->final[0]);
 
         $patch = file_get_contents($this->fixtureDir . 'context.patch');
-        $diff = new Horde_Text_Diff('String', array($patch));
+        $diff = new Horde_Text_Diff('String', [$patch]);
         $this->_testDiff($diff);
     }
 
@@ -79,7 +85,7 @@ class EngineTest extends TestCase
     {
         $this->markTestIncomplete("This test is incomplete because Op_Change is not implemented with Xdiff");
         $this->expectException('Horde_Text_Diff_Exception');
-        $diff = new Horde_Text_Diff('Xdiff', array($this->_lines[1], $this->_lines[2]));
+        $diff = new Horde_Text_Diff('Xdiff', [$this->_lines[1], $this->_lines[2]]);
         $this->_testDiff($diff);
     }
 }

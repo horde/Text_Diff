@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author     Jan Schneider <jan@horde.org>
  * @license    http://www.horde.org/licenses/gpl GPL
@@ -6,6 +7,7 @@
  * @package    Text_Diff
  * @subpackage UnitTests
  */
+
 namespace Horde\Text\Diff\Test;
 
 use Horde\Text\Diff\ChangeOperation;
@@ -27,15 +29,15 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(XdiffEngine::class)]
 class EngineTest extends TestCase
 {
-    protected $_lines = array();
+    protected $_lines = [];
     protected $fixtureDir = '';
 
     public function setUp(): void
     {
         $this->fixtureDir = dirname(__FILE__, 1) . '/fixtures/';
-        $this->_lines = array(
+        $this->_lines = [
             1 => file($this->fixtureDir . '1.txt'),
-            2 => file($this->fixtureDir . '2.txt'));
+            2 => file($this->fixtureDir . '2.txt')];
     }
 
     protected function _testDiff($diff)

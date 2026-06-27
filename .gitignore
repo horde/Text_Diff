@@ -53,3 +53,9 @@ vendor/
 /phpstan.neon
 # PHPStan cache directory
 /.phpstan.cache/
+
+# Added by horde-components QC --fix-qc-issues
+# Horde installer plugin runtime data
+/var/
+# Horde installer plugin web-accessible directory
+/web/

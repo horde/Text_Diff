@@ -1,10 +1,11 @@
 <?php
+
 /**
  * "Inline" diff renderer.
  *
  * This class renders diffs in the Wiki-style "inline" format.
  *
- * Copyright 2004-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2004-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (LGPL). If you did
  * not receive this file, see http://www.horde.org/licenses/lgpl21.
@@ -91,7 +92,7 @@ class Horde_Text_Diff_Renderer_Inline extends Horde_Text_Diff_Renderer
     protected function _lines($lines, $prefix = ' ', $encode = true)
     {
         if ($encode) {
-            array_walk($lines, array(&$this, '_encode'));
+            array_walk($lines, [&$this, '_encode']);
         }
 
         if ($this->_split_level == 'lines') {
@@ -103,7 +104,7 @@ class Horde_Text_Diff_Renderer_Inline extends Horde_Text_Diff_Renderer
 
     protected function _added($lines)
     {
-        array_walk($lines, array(&$this, '_encode'));
+        array_walk($lines, [&$this, '_encode']);
 
         // If the last element is a newline marker, move it outside the tags
         $trailing_newline = '';
@@ -121,7 +122,7 @@ class Horde_Text_Diff_Renderer_Inline extends Horde_Text_Diff_Renderer
 
     protected function _deleted($lines, $words = false)
     {
-        array_walk($lines, array(&$this, '_encode'));
+        array_walk($lines, [&$this, '_encode']);
 
         // If the last element is a newline marker, move it outside the tags
         $trailing_newline = '';
@@ -148,9 +149,9 @@ class Horde_Text_Diff_Renderer_Inline extends Horde_Text_Diff_Renderer
         /* If we've already split on words, just display. */
         if ($this->_split_level == 'words') {
             $prefix = '';
-            while ($orig[0] !== false && $final[0] !== false &&
-                   substr($orig[0], 0, 1) == ' ' &&
-                   substr($final[0], 0, 1) == ' ') {
+            while ($orig[0] !== false && $final[0] !== false
+                   && substr($orig[0], 0, 1) == ' '
+                   && substr($final[0], 0, 1) == ' ') {
                 $prefix .= substr($orig[0], 0, 1);
                 $orig[0] = substr($orig[0], 1);
                 $final[0] = substr($final[0], 1);
@@ -165,22 +166,27 @@ class Horde_Text_Diff_Renderer_Inline extends Horde_Text_Diff_Renderer
         $nl = "\0";
 
         if ($this->_split_characters) {
-            $diff = new Horde_Text_Diff('native',
-                                  array(preg_split('//u', str_replace("\n", $nl, $text1)),
-                                        preg_split('//u', str_replace("\n", $nl, $text2))));
+            $diff = new Horde_Text_Diff(
+                'native',
+                [preg_split('//u', str_replace("\n", $nl, $text1)),
+                    preg_split('//u', str_replace("\n", $nl, $text2))]
+            );
         } else {
             /* We want to split on word boundaries, but we need to preserve
              * whitespace as well. Therefore we split on words, but include
              * all blocks of whitespace in the wordlist. */
-            $diff = new Horde_Text_Diff('native',
-                                  array($this->_splitOnWords($text1, $nl),
-                                        $this->_splitOnWords($text2, $nl)));
+            $diff = new Horde_Text_Diff(
+                'native',
+                [$this->_splitOnWords($text1, $nl),
+                    $this->_splitOnWords($text2, $nl)]
+            );
         }
 
         /* Get the diff in inline format. */
-        $renderer = new Horde_Text_Diff_Renderer_Inline
-            (array_merge($this->getParams(),
-                         array('split_level' => $this->_split_characters ? 'characters' : 'words')));
+        $renderer = new Horde_Text_Diff_Renderer_Inline(array_merge(
+            $this->getParams(),
+            ['split_level' => $this->_split_characters ? 'characters' : 'words']
+        ));
 
         /* Run the diff and get the output. */
         return str_replace($nl, "\n", $renderer->render($diff)) . "\n";
@@ -191,7 +197,7 @@ class Horde_Text_Diff_Renderer_Inline extends Horde_Text_Diff_Renderer
         // Ignore \0; otherwise the while loop will never finish.
         $string = str_replace("\0", '', $string);
 
-        $words = array();
+        $words = [];
         $length = strlen($string);
         $pos = 0;
 

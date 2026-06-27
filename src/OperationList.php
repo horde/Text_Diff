@@ -16,7 +16,7 @@ class OperationList implements IteratorAggregate, Countable
     private array $ops = [];
     public function __construct(OperationInterface ...$ops)
     {
-        $this->ops = $ops;        
+        $this->ops = $ops;
     }
 
     public function getIterator(): Iterator

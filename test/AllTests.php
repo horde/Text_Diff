@@ -1,4 +1,5 @@
 <?php
+
 use Horde\Tests\AllTests;
 
 if (class_exists(AllTests::class)) {

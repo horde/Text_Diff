@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace Horde\Text\Diff;
 
-
 /**
  * A class for computing three way merges.
  *
- * Copyright 2007-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2007-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (LGPL). If you did
  * not receive this file, see http://www.horde.org/licenses/lgpl21.
@@ -96,9 +95,9 @@ class ThreeWay
         $e2 = current($edits2);
         // Compare two sets of edits pair-wise
         while ($e1 || $e2) {
-            if ($e1 && $e2 &&
-                $e1 instanceof CopyOperation &&
-                $e2 instanceof CopyOperation) {
+            if ($e1 && $e2
+                && $e1 instanceof CopyOperation
+                && $e2 instanceof CopyOperation) {
                 /* We have copy blocks from both diffs. This is the (only)
                  * time we want to emit a diff3 copy block.  Flush current
                  * diff3 diff block, if any. */

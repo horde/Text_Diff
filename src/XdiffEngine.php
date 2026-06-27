@@ -3,14 +3,16 @@
 declare(strict_types=1);
 
 namespace Horde\Text\Diff;
+
 use function xdiff_string_diff;
+
 /**
  * Class used internally by Diff to actually compute the diffs.
  *
  * This class uses the xdiff PECL package (http://pecl.php.net/package/xdiff)
  * to compute the differences between the two input arrays.
  *
- * Copyright 2004-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2004-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (LGPL). If you did
  * not receive this file, see http://www.horde.org/licenses/lgpl21.
@@ -20,9 +22,7 @@ use function xdiff_string_diff;
  */
 class XdiffEngine implements DiffEngineInterface
 {
-    public function __construct(private array $fromLines, private array $toLines)
-    {
-    }
+    public function __construct(private array $fromLines, private array $toLines) {}
     /**
      * @return OperationList all changes made
      */

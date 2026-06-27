@@ -23,7 +23,7 @@ namespace Horde\Text\Diff;
  * Geoffrey T. Dairiki <dairiki@dairiki.org>. The original PHP version of this
  * code was written by him, and is used/adapted with his permission.
  *
- * Copyright 2004-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2004-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (LGPL). If you did
  * not receive this file, see http://www.horde.org/licenses/lgpl21.
@@ -84,12 +84,10 @@ class NativeEngine implements DiffEngineInterface
      * @param array<string> $fromLines lines of text from old file
      * @param array<string> $toLines   lines of text from new file
      */
-    public function __construct(        
+    public function __construct(
         private array $fromLines,
         private array $toLines,
-    )
-    {        
-    }
+    ) {}
     /**
      * Returns the array of differences.
      *
@@ -98,7 +96,7 @@ class NativeEngine implements DiffEngineInterface
     public function diff(): OperationList
     {
         $from_lines = $this->fromLines;
-        $to_lines = $this->toLines;        
+        $to_lines = $this->toLines;
         array_walk($from_lines, [Diff::class, 'trimNewlines']);
         array_walk($to_lines, [Diff::class, 'trimNewlines']);
 
@@ -239,7 +237,7 @@ class NativeEngine implements DiffEngineInterface
         }
 
         $this->lcs = 0;
-        $this->seq[0]= $yoff - 1;
+        $this->seq[0] = $yoff - 1;
         $this->in_seq = [];
         $ymids[0] = [];
 
@@ -252,7 +250,7 @@ class NativeEngine implements DiffEngineInterface
                 }
             }
 
-            $x1 = $xoff + (int)(($numer + ($xlim - $xoff) * $chunk) / $nchunks);
+            $x1 = $xoff + (int) (($numer + ($xlim - $xoff) * $chunk) / $nchunks);
             for (; $x < $x1; $x++) {
                 $line = $flip ? $this->yv[$x] : $this->xv[$x];
                 if (empty($ymatches[$line])) {
@@ -283,7 +281,7 @@ class NativeEngine implements DiffEngineInterface
         $seps[] = $flip ? [$yoff, $xoff] : [$xoff, $yoff];
         $ymid = $ymids[$this->lcs];
         for ($n = 0; $n < $nchunks - 1; $n++) {
-            $x1 = $xoff + (int)(($numer + ($xlim - $xoff) * $n) / $nchunks);
+            $x1 = $xoff + (int) (($numer + ($xlim - $xoff) * $n) / $nchunks);
             $y1 = $ymid[$n] + 1;
             $seps[] = $flip ? [$y1, $x1] : [$x1, $y1];
         }
@@ -303,7 +301,7 @@ class NativeEngine implements DiffEngineInterface
 
         $beg = 1;
         while ($beg < $end) {
-            $mid = (int)(($beg + $end) / 2);
+            $mid = (int) (($beg + $end) / 2);
             if ($ypos > $this->seq[$mid]) {
                 $beg = $mid + 1;
             } else {

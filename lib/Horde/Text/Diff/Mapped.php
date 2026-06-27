@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Copyright 2007-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2007-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (LGPL). If you did
  * not receive this file, see http://www.horde.org/licenses/lgpl21.
@@ -37,11 +38,11 @@ class Horde_Text_Diff_Mapped extends Horde_Text_Diff
      */
     public function __construct($engine, $params)
     {
-        list($from_lines, $to_lines, $mapped_from_lines, $mapped_to_lines) = $params;
+        [$from_lines, $to_lines, $mapped_from_lines, $mapped_to_lines] = $params;
         assert(count($from_lines) == count($mapped_from_lines));
         assert(count($to_lines) == count($mapped_to_lines));
 
-        parent::__construct($engine, array($mapped_from_lines, $mapped_to_lines));
+        parent::__construct($engine, [$mapped_from_lines, $mapped_to_lines]);
 
         $xi = $yi = 0;
         for ($i = 0; $i < count($this->_edits); $i++) {

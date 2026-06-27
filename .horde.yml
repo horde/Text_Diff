@@ -9,14 +9,12 @@ list: dev
 type: library
 homepage: https://www.horde.org/libraries/Horde_Text_Diff
 authors:
-  -
-    name: Jan Schneider
+  - name: Jan Schneider
     user: jan
     email: jan@horde.org
     active: true
     role: lead
-  -
-    name: Chuck Hagenbuch
+  - name: Chuck Hagenbuch
     user: chuck
     email: chuck@horde.org
     active: false
@@ -46,3 +44,25 @@ dependencies:
       horde/cli: ^3
       horde/test: ^3
 vendor: horde
+keywords: null
+ci-platform:
+  '8.1':
+    - php: ^7.4 || ^8
+    - ext-dom
+  '8.2':
+    - php: ^7.4 || ^8
+    - ext-dom
+  '8.3':
+    - php: ^7.4 || ^8
+    - ext-dom
+  '8.4':
+    - php: ^7.4 || ^8
+    - ext-dom
+  '8.5':
+    - php: ^7.4 || ^8
+    - ext-dom
+  '8.6':
+    - php: ^7.4 || ^8
+    - ext-dom
+ci-platform-flags:
+  needs_installer_plugin: false

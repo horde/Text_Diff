@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Copyright 2007-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2007-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (LGPL). If you did
  * not receive this file, see http://www.horde.org/licenses/lgpl21.
@@ -13,28 +14,28 @@ class Horde_Text_Diff_ThreeWay_Op_Base
     /**
      * @var array
      */
-	protected $orig;
+    protected $orig;
 
     /**
      * @var array
      */
-	protected $final1;
+    protected $final1;
 
     /**
      * @var array
      */
-	protected $final2;
+    protected $final2;
 
     /**
      * @var array
      */
-	protected $_merged;
+    protected $_merged;
 
     public function __construct($orig = false, $final1 = false, $final2 = false)
     {
-        $this->orig = $orig ? $orig : array();
-        $this->final1 = $final1 ? $final1 : array();
-        $this->final2 = $final2 ? $final2 : array();
+        $this->orig = $orig ? $orig : [];
+        $this->final1 = $final1 ? $final1 : [];
+        $this->final2 = $final2 ? $final2 : [];
     }
 
     public function getFinal1()

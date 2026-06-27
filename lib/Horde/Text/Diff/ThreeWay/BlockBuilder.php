@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Copyright 2007-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2007-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (LGPL). If you did
  * not receive this file, see http://www.horde.org/licenses/lgpl21.
@@ -13,17 +14,17 @@ class Horde_Text_Diff_ThreeWay_BlockBuilder
     /**
      * @var array
      */
-	protected $orig;
+    protected $orig;
 
     /**
      * @var array
      */
-	protected $final1;
+    protected $final1;
 
     /**
      * @var array
      */
-	protected $final2;
+    protected $final2;
 
     public function __construct()
     {
@@ -69,7 +70,7 @@ class Horde_Text_Diff_ThreeWay_BlockBuilder
 
     protected function _init()
     {
-        $this->orig = $this->final1 = $this->final2 = array();
+        $this->orig = $this->final1 = $this->final2 = [];
     }
 
     protected function _append(&$array, $lines)

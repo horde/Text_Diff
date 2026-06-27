@@ -11,7 +11,7 @@ interface DiffEngineInterface
 {
     /**
      * Create a list of differences
-     * 
+     *
      * @return OperationList
      */
     public function diff(): OperationList;
