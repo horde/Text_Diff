@@ -309,8 +309,6 @@ class NativeEngine implements DiffEngineInterface
             }
         }
 
-        assert($ypos != $this->seq[$end]);
-
         $this->in_seq[$this->seq[$end]] = false;
         $this->seq[$end] = $ypos;
         $this->in_seq[$ypos] = 1;
