@@ -44,7 +44,9 @@ dependencies:
       horde/cli: ^3
       horde/test: ^3
 vendor: horde
-keywords: null
+keywords:
+  - diff
+  - patch
 ci-platform:
   '8.1':
     - php: ^7.4 || ^8
