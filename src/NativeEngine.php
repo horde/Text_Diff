@@ -106,9 +106,10 @@ class NativeEngine implements DiffEngineInterface
         $this->xchanged = $this->ychanged = [];
         $this->xv = $this->yv = [];
         $this->xind = $this->yind = [];
-        unset($this->seq);
-        unset($this->in_seq);
-        unset($this->lcs);
+        // In modern PHP we cannot unset as NativeEngine may be subclassed and subclasses may have hooks
+        $this->seq = null;
+        $this->in_seq = null;
+        $this->lcs = null;
 
         // Skip leading common lines.
         for ($skip = 0; $skip < $n_from && $skip < $n_to; $skip++) {
@@ -243,6 +244,8 @@ class NativeEngine implements DiffEngineInterface
 
         $numer = $xlim - $xoff + $nchunks - 1;
         $x = $xoff;
+        // $k should be defined by the first iteration reaching an empty inseq(y)
+        $k = null;
         for ($chunk = 0; $chunk < $nchunks; $chunk++) {
             if ($chunk > 0) {
                 for ($i = 0; $i <= $this->lcs; $i++) {
@@ -263,7 +266,7 @@ class NativeEngine implements DiffEngineInterface
                         assert($k > 0);
                         $ymids[$k] = $ymids[$k - 1];
                         break;
-                    } elseif ($y > $this->seq[$k - 1]) {
+                    } elseif (is_int($k) && ($k > 0) && ($y > $this->seq[$k - 1])) {
                         /*
                          * Disable this assertion for now until we know why it
                          * causes https://github.com/maintaina-com/Text_Diff/issues/12
