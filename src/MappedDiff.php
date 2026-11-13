@@ -53,17 +53,15 @@ class MappedDiff extends Diff
         parent::__construct($edits);
 
         $xi = $yi = 0;
-        for ($i = 0; $i < count($this->edits); $i++) {
-            $orig = &$this->edits[$i]->orig;
-            if (is_array($orig)) {
-                $orig = array_slice($from_lines, $xi, count($orig));
-                $xi += count($orig);
+        foreach ($this->edits as $edit) {
+            if (is_array($edit->orig)) {
+                $edit->orig = array_slice($from_lines, $xi, count($edit->orig));
+                $xi += count($edit->orig);
             }
 
-            $final = &$this->edits[$i]->final;
-            if (is_array($final)) {
-                $final = array_slice($to_lines, $yi, count($final));
-                $yi += count($final);
+            if (is_array($edit->final)) {
+                $edit->final = array_slice($to_lines, $yi, count($edit->final));
+                $yi += count($edit->final);
             }
         }
     }

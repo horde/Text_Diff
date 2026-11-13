@@ -107,10 +107,10 @@ class ThreeWay
 
                 $ncopy = min($e1->norig(), $e2->norig());
                 assert($ncopy > 0);
-                $edits[] = new ThreeWayCopyOperation(array_slice($e1->getOrig(), 0, $ncopy));
+                $edits[] = new ThreeWayCopyOperation(array_slice($e1->orig, 0, $ncopy));
 
                 if ($e1->norig() > $ncopy) {
-                    array_splice($e1->getOrig(), 0, $ncopy);
+                    array_splice($e1->orig, 0, $ncopy);
                     array_splice($e1->final, 0, $ncopy);
                 } else {
                     $e1 = next($edits1);
