@@ -51,6 +51,23 @@ class EngineTest extends TestCase
         $this->_testDiff($diff);
     }
 
+    public function testNativeEngineWithRepeatedLines()
+    {
+        $diff = new Horde_Text_Diff('Native', [
+            ['B', 'C', 'C', 'C', 'C', 'D'],
+            ['C', 'D', 'C', 'D', 'B', 'C'],
+        ]);
+        $edits = $diff->getDiff();
+
+        $this->assertCount(3, $edits);
+        $this->assertInstanceOf('Horde_Text_Diff_Op_Delete', $edits[0]);
+        $this->assertSame(['B', 'C', 'C', 'C'], $edits[0]->orig);
+        $this->assertInstanceOf('Horde_Text_Diff_Op_Copy', $edits[1]);
+        $this->assertSame(['C', 'D'], $edits[1]->orig);
+        $this->assertInstanceOf('Horde_Text_Diff_Op_Add', $edits[2]);
+        $this->assertSame(['C', 'D', 'B', 'C'], $edits[2]->final);
+    }
+
     public function testShellEngine()
     {
         if (!exec('which diff')) {

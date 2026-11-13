@@ -10,8 +10,10 @@
 
 namespace Horde\Text\Diff\Test;
 
+use Horde\Text\Diff\AddOperation;
 use Horde\Text\Diff\ChangeOperation;
 use Horde\Text\Diff\CopyOperation;
+use Horde\Text\Diff\DeleteOperation;
 use Horde\Text\Diff\Diff;
 use Horde\Text\Diff\Exception;
 use Horde\Text\Diff\NativeEngine;
@@ -59,6 +61,24 @@ class EngineTest extends TestCase
     {
         $diff = Diff::fromFileLineArrays($this->_lines[1], $this->_lines[2], 'NativeEngine');
         $this->_testDiff($diff);
+    }
+
+    public function testNativeEngineWithRepeatedLines()
+    {
+        $diff = Diff::fromFileLineArrays(
+            ['B', 'C', 'C', 'C', 'C', 'D'],
+            ['C', 'D', 'C', 'D', 'B', 'C'],
+            NativeEngine::class
+        );
+        $edits = $diff->getDiff()->toArray();
+
+        $this->assertCount(3, $edits);
+        $this->assertInstanceOf(DeleteOperation::class, $edits[0]);
+        $this->assertSame(['B', 'C', 'C', 'C'], $edits[0]->orig);
+        $this->assertInstanceOf(CopyOperation::class, $edits[1]);
+        $this->assertSame(['C', 'D'], $edits[1]->orig);
+        $this->assertInstanceOf(AddOperation::class, $edits[2]);
+        $this->assertSame(['C', 'D', 'B', 'C'], $edits[2]->final);
     }
 
     public function testShellEngine()
